@@ -1,0 +1,67 @@
+{
+  "description": "尤得一物-小程序",
+  "packOptions": {
+    "ignore": ["node_modules", "miniprogram"],
+    "include": [
+      {
+        "type": "folder",
+        "value": "dist/miniprogram"
+      }
+    ]
+  },
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "projectname": "youdeyiwu-mp",
+  "setting": {
+    "condition": false,
+    "es6": false,
+    "enhance": false,
+    "postcss": false,
+    "minified": true,
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "uglifyFileName": false,
+    "ignoreDevUnusedFiles": false,
+    "ignoreUploadUnusedFiles": true,
+    "autoAudits": false,
+    "urlCheck": true,
+    "compileHotReLoad": false,
+    "preloadBackgroundData": false,
+    "lazyloadPlaceholderEnable": false,
+    "useStaticServer": false,
+    "bigPackageSizeSupport": false,
+    "lazyCodeLoading": "requiredComponents",
+    "useCompilerPlugins": ["typescript", "sass"],
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "disableUseStrict": false,
+    "uploadWithSourceMap": false,
+    "useIsolateContext": false,
+    "showES6CompileOption": false,
+    "packNpmManually": true,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "../package.json",
+        "miniprogramNpmDistDir": "./miniprogram"
+      }
+    ]
+  },
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {},
+  "srcMiniprogramRoot": "miniprogram/",
+  "appid": "appid",
+  "libVersion": "latest",
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "scripts": {
+    "beforeCompile": "yarn build",
+    "beforePreview": "yarn build",
+    "beforeUpload": "yarn build"
+  }
+}

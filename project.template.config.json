@@ -1,0 +1,9 @@
+{
+  "projectname": "youdeyiwu-mp",
+  "description": "项目模板配置文件（新建 project.private.config.json 文件，把当前内容拷贝到文件中去）",
+  "appid": "appid",
+  "setting": {
+    "compileHotReLoad": false,
+    "urlCheck": true
+  }
+}

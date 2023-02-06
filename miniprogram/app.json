@@ -1,0 +1,58 @@
+{
+  "entryPagePath": "pages/index/index",
+  "pages": [
+    "pages/index/index",
+    "pages/card/index",
+    "pages/bell/index",
+    "pages/user/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "尤得一物",
+    "backgroundTextStyle": "light",
+    "navigationStyle": "default"
+  },
+  "tabBar": {
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/tabbar/home.png",
+        "selectedIconPath": "assets/tabbar/home-selected.png"
+      },
+      {
+        "pagePath": "pages/card/index",
+        "text": "内容",
+        "iconPath": "assets/tabbar/card.png",
+        "selectedIconPath": "assets/tabbar/card-selected.png"
+      },
+      {
+        "pagePath": "pages/bell/index",
+        "text": "消息",
+        "iconPath": "assets/tabbar/bell.png",
+        "selectedIconPath": "assets/tabbar/bell-selected.png"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "我的",
+        "iconPath": "assets/tabbar/user.png",
+        "selectedIconPath": "assets/tabbar/user-selected.png"
+      }
+    ],
+    "position": "bottom",
+    "custom": false
+  },
+  "debug": false,
+  "debugOptions": {
+    "enableFPSPanel": false
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "renderer": "webview",
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,62 @@
+{
+  "name": "youdeyiwu-mp",
+  "author": "dafengzhen",
+  "description": "尤得一物-小程序",
+  "license": "MIT",
+  "bugs": "https://github.com/dafengzhen/youdeyiwu-mp/issues",
+  "homepage": "https://github.com/dafengzhen/youdeyiwu-mp#readme",
+  "type": "module",
+  "scripts": {
+    "css": "npx tailwindcss -o dist/miniprogram/app.css",
+    "dev": "tsc && vite build --watch",
+    "dev2": "tsc && vite build --emptyOutDir=false --watch",
+    "build": "tsc && vite build",
+    "stylelint": "npx stylelint \"**/*.scss\"",
+    "preview": "vite preview",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "axios": "^1.3.2",
+    "lodash-es": "^4.17.21",
+    "microdiff": "^1.3.1"
+  },
+  "devDependencies": {
+    "@types/html-minifier-terser": "^7.0.0",
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^18.11.19",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@youdeyiwu/postcss-plugin-mp": "^0.0.0",
+    "@youdeyiwu/vite-plugin-mp": "^0.1.4",
+    "@youdeyiwu/vite-plugin-mp-axios": "^0.0.0",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "glob": "^8.1.0",
+    "html-minifier-terser": "^7.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "miniprogram-api-typings": "^3.9.0",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
+    "postcss-nesting": "^11.1.0",
+    "postcss-preset-env": "^8.0.1",
+    "prettier": "2.8.3",
+    "prettier-plugin-tailwindcss": "^0.2.2",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "sass": "^1.58.0",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-standard-scss": "^6.1.0",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
