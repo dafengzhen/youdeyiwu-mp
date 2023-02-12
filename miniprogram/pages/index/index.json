@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "mp-tabs": "../../components/tabs/index"
+  },
+  "enablePullDownRefresh": true
 }

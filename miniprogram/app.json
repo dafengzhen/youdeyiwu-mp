@@ -10,7 +10,7 @@
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "尤得一物",
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationStyle": "default"
   },
   "tabBar": {

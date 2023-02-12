@@ -17,6 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
+      "@components/*": ["miniprogram/components/*"],
       "@assets/*": ["miniprogram/assets/*"],
       "@pages/*": ["miniprogram/pages/*"],
       "@tools/*": ["miniprogram/tools/*"]

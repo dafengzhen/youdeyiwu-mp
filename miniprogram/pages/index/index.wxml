@@ -1,26 +1,171 @@
-<page-meta root-font-size="system"/>
-<view class="page" data-weui-theme="" data-weui-mode="">
-    <view class="weui-msg">
-        <view class="weui-msg__icon-area"><text class="weui-icon-success weui-icon_msg"></text></view>
-        <view class="weui-msg__text-area">
-            <view class="weui-msg__title">操作成功</view>
-            <view class="weui-msg__desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<navigator class="weui-wa-hotarea weui-link" url="javascript:">文字链接</navigator></view>
-        </view>
-        <view class="weui-msg__opr-area">
-            <view class="weui-btn-area">
-                <navigator class="weui-btn weui-btn_primary" aria-role="button" url="javascript:history.back();">推荐操作</navigator>
-            </view>
-        </view>
-        <view class="weui-msg__tips-area">
-            <view class="weui-msg__tips">提示详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<navigator class="weui-wa-hotarea weui-link" url="javascript:">文字链接</navigator></view>
-        </view>
-        <view class="weui-msg__extra-area">
-            <view class="weui-footer">
-                <view class="weui-footer__links">
-                    <navigator class="weui-wa-hotarea weui-footer__link" url="javascript:">底部链接文本</navigator>
-                </view>
-                <view class="weui-footer__text">Copyright copy; 2023 youdeyiwu</view>
-            </view>
-        </view>
-    </view>
+<page-meta root-font-size="system" />
+<view wx:if="{{tabs.length === 0}}" class="w-full h-full flex justify-center items-center">
+  <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
 </view>
+<view wx:else class="index-box" style="height: {{indexBoxHeight}}rpx;">
+  <mp-tabs swiperClass="weui-tabs-swiper" activeClass="tab-bar-title__selected" tabs="{{tabs}}" activeTab="{{activeTab}}" activeTabIndex="{{activeTabIndex}}" bindchange="onChange" bindtabClick="onTabClick">
+    <block wx:for="{{tabs}}" wx:key="title">
+      <view id="tab_content_{{item.id}}" class="p-2 overflow-hidden" slot="tab-content-{{item.id}}">
+        <!-- 全部内容 -->
+        <view class="all-content-box bg-white p-2 py-4 rounded-md">
+          <!-- 上 -->
+          <view class="flex justify-between items-center">
+            <view>全部内容</view>
+            <navigator url="/pages/card/index" open-type="switchTab">
+              <view class="flex items-center">
+                <view>更多</view>
+                <i class="bi bi-chevron-right"></i>
+              </view>
+            </navigator>
+          </view>
+          <!-- 下 -->
+          <view class="all-content-box-down mt-6 rounded-lg">
+            <scroll-view class="all-content-box-down_scroll w-full" scroll-x scroll-with-animation enable-passive enhanced show-scrollbar="{{false}}">
+              <view class="all-content-box-down_scroll_box flex flex-nowrap items-center rounded-lg">
+                <block wx:if="{{tabs.length !== 0}}">
+                  <block wx:for="{{tabs}}" wx:key="id">
+                    <view wx:if="{{item.id !== 'all'}}" class="all-content-box-down_scroll_box_item mr-4 flex-shrink-0 rounded-lg" data-index="{{index}}">
+                      <template is="{{item._loaded ? 'content-loaded' : item.cover ? 'content-load': 'content-loaded'}}" data="{{item}}" />
+                    </view>
+                  </block>
+                </block>
+                <block wx:else>
+                  <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+                </block>
+              </view>
+            </scroll-view>
+          </view>
+        </view>
+        <!-- 相关帖子 -->
+        <block wx:if="{{postData.content.length !== 0}}">
+          <block wx:for="{{postData.content}}" wx:key="id">
+            <view class="all-post-box bg-white mt-2 p-2 py-4 pb-3 rounded-md">
+              <view class="all-post-box-box flex flex-col">
+                <view class="all-post-box-box_item rounded-md">
+                  <!-- 基本 -->
+                  <view class="flex items-center">
+                    <navigator url="/pages/user/index" open-type="switchTab">
+                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_avatar flex-shrink-0 rounded-full" src="{{item.user.details._avatarUrl}}"></image>
+                    </navigator>
+                    <view class="flex flex-col justify-between ml-4">
+                      <view class="line-clamp-1 mb-4 font-semibold">{{item.name}}</view>
+                      <view class="line-clamp-1 text-slate-600">
+                        <navigator url="/pages/user/index" open-type="switchTab">
+                          {{item.user.alias +' · ' + item._fromNow}}前
+                        </navigator>
+                      </view>
+                    </view>
+                  </view>
+                  <!-- 概述 -->
+                  <view class="line-clamp-4 my-4 indent-8">{{item.overview}}</view>
+                  <!-- 图片 -->
+                  <block wx:if="{{item.images.length === 1}}">
+                    <view class="grid grid-cols-1">
+                      <image mode="aspectFill" class="col-auto rounded-md" src="{{item.images[0]}}"></image>
+                    </view>
+                  </block>
+                  <block wx:elif="{{item.images.length === 2}}">
+                    <view class="grid grid-cols-1 gap-y-2">
+                      <image lazy-load mode="aspectFill" class="col-auto rounded-md" src="{{item.images[0]}}"></image>
+                      <image lazy-load mode="aspectFill" class="col-auto rounded-md" src="{{item.images[1]}}"></image>
+                    </view>
+                  </block>
+                  <block wx:elif="{{item.images.length === 3}}">
+                    <view class="grid grid-cols-3">
+                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[0]}}"></image>
+                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[1]}}"></image>
+                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[2]}}"></image>
+                    </view>
+                  </block>
+                  <block wx:elif="{{item.images.length > 4}}">
+                    <view class="grid grid-cols-3 gap-y-2">
+                      <block wx:for="{{item.images}}" wx:key="item">
+                        <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item}}"></image>
+                      </block>
+                    </view>
+                  </block>
+                  <!-- 状态 -->
+                  <view class="mt-4 flex justify-between items-center">
+                    <view class="grid grid-cols-3 w-full text-slate-500">
+                      <view class="col-auto flex items-center">
+                        <i class="bi bi-eye text-xl mr-1 text-slate-500"></i>
+                        <view wx:if="{{item.details.viewCount > 0}}">
+                          {{item.details._viewTotalText}}
+                        </view>
+                      </view>
+                      <view wx:if="{{item.details.commentCount > 0}}" class="col-auto flex items-center">
+                        <i class="bi bi-chat-dots text-xl mr-1 text-slate-500"></i>
+                        <view>{{item.details._commentTotalText}}</view>
+                      </view>
+                      <view wx:if="{{item.details.replyCount > 0}}" class="col-auto flex items-center">
+                        <i class="bi bi-reply-all text-xl mr-1 text-slate-500"></i>
+                        <view class="">{{item.details._replyTotalText}}</view>
+                      </view>
+                    </view>
+                    <view class="all-post-box-box_item_section_name text-slate-500 line-clamp-1 text-right">
+                      {{item.section.name}}
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </block>
+        <block wx:else>
+          <view class="all-post-box bg-white mt-2 p-2 py-4 pb-3 rounded-md">
+            <view class="all-post-box-box flex flex-col">
+              <view class="all-post-box-box_item rounded-md m-auto">
+                <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+              </view>
+            </view>
+          </view>
+        </block>
+        <!-- 加载更多 -->
+        <view class="my-3">
+          <block wx:if="{{postData.pageable.next}}">
+            <button disabled="{{isLoadMore}}" bindtap="bindTapLoadMore" size="mini" type="default" class="flex items-center" style="width: 100%;">
+              <i wx:if="{{isLoadMore}}" class="spinner-border spinner-border-sm"></i>
+              <i wx:else class="bi bi-three-dots ml-1"></i>
+              加载更多
+            </button>
+          </block>
+          <block wx:else>
+            <button size="mini" type="default" disabled class="flex items-center" style="width: 100%;">
+              <i class="bi bi-three-dots ml-1"></i>
+              暂无更多
+            </button>
+          </block>
+        </view>
+        <!-- 占位元素 -->
+        <view class="w-full h-10"></view>
+      </view>
+    </block>
+  </mp-tabs>
+</view>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+  {{tip}}
+</view>
+<!-- 内容正在加载 -->
+<template name="content-load">
+  <view class="animate-pulse flex flex-col text-center h-full bg-white shadow shadow-slate-200 rounded-lg">
+    <image data-index="{{item._index}}" bindload="bindLoadContentCover" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg hidden" src="{{item.cover}}"></image>
+    <view class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-200"></view>
+    <view class="all-content-box-down_scroll_box_item_desc grid grid-cols-1 h-auto justify-items-center m-auto">
+      <view class="px-2 bg-slate-200 w-16 h-4"></view>
+      <view class="mt-2 px-2 w-20 col-auto bg-slate-200 h-4"></view>
+    </view>
+  </view>
+</template>
+<!-- 内容加载完成 -->
+<template name="content-loaded">
+  <view class="flex flex-col text-center h-full bg-white shadow shadow-slate-200 rounded-lg">
+    <!-- 封面 -->
+    <image wx:if="{{item.cover}}" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg" src="{{item.cover}}"></image>
+    <view wx:else class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-100"></view>
+    <!-- 名称/概述 -->
+    <view class="all-content-box-down_scroll_box_item_desc flex flex-col justify-center items-center h-auto flex-grow">
+      <view class="line-clamp-1 px-2">{{item.name}}</view>
+      <view class="mt-2 px-2 line-clamp-2 text-sm text-slate-600">{{item.overview}}</view>
+    </view>
+  </view>
+</template>

@@ -3,12 +3,13 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
+import config from '../config';
 
 const requestAdapter = async (
   config: InternalAxiosRequestConfig
 ): AxiosPromise => {
   return await new Promise((resolve, reject) => {
-    const url = config.url;
+    let url = config.url;
     if (url === undefined) {
       reject(
         new Error(
@@ -20,9 +21,10 @@ const requestAdapter = async (
       );
       return;
     }
+    url = (config.baseURL ?? '') + url;
 
     const data =
-      config.method === 'GET' || config.method === 'DELETE'
+      config.method === 'get' || config.method === 'delete'
         ? config.params
         : config.data;
     const header = { ...config.headers };
@@ -31,6 +33,7 @@ const requestAdapter = async (
       url,
       data,
       header,
+      enableHttp2: true,
       success(res) {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           const response: AxiosResponse<unknown, unknown> = {
@@ -39,7 +42,10 @@ const requestAdapter = async (
             statusText: res.errMsg,
             headers: res.header,
             config,
-            request,
+            request: {
+              ...request,
+              data,
+            },
           };
           resolve(response);
         } else {
@@ -76,8 +82,16 @@ axios.defaults.transformResponse = (data) => {
 
 axios.interceptors.response.use(
   (response) => {
+    const debug = config.DEBUG;
+    const request = response.request;
+    if (debug && typeof request === 'object' && 'data' in request) {
+      console.debug('Request Output => ', request.data);
+    }
+
     if (typeof response === 'object' && 'data' in response) {
-      console.info('Request Output => ', response.data);
+      if (debug) {
+        console.info('Response Output => ', response.data);
+      }
       return response.data;
     } else {
       console.info('Skip Output => ~~~~~~');
@@ -97,6 +111,7 @@ axios.interceptors.response.use(
   }
 );
 
+axios.defaults.baseURL = config.APP_API_SERVER;
 axios.defaults.adapter = requestAdapter;
 
 export default axios;

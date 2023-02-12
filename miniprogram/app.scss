@@ -1,8 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'weui.wxss';
+@import 'assets/styles/bootstrap-icons.css';
+@import 'assets/styles/weui.wxss';
 
-.box {
-  color: red;
+$yw-color-a: #fff6fb !important;
+$yw-color-s: #ffbee3 !important;
+$yw-color-d: #fc5bb6 !important;
+$yw-color-f: #ff0592 !important;
+$yw-color-g: #f3f4f6 !important;
+
+page {
+  --yw-color-a: #fff6fb;
+  --yw-color-s: #ffbee3;
+  --yw-color-d: #fc5bb6;
+  --yw-color-f: #ff0592;
+  --yw-color-g: #f3f4f6;
+}
+
+.spinner-border {
+  --bs-spinner-width: 1rem;
+  --bs-spinner-height: 1rem;
+  --bs-spinner-border-width: 0.25em;
+  border: var(--bs-spinner-border-width) solid currentcolor;
+  border-right-color: transparent;
+  display: inline-block;
+  width: var(--bs-spinner-width);
+  height: var(--bs-spinner-height);
+  vertical-align: -0.125em;
+  border-radius: 50%;
+  animation: 0.75s linear infinite spinner-border;
+}
+
+.spinner-border-sm {
+  --bs-spinner-width: 0.6rem;
+  --bs-spinner-height: 0.6rem;
+  --bs-spinner-border-width: 0.2em;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
 }

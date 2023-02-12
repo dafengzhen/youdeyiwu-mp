@@ -1,10 +1,5 @@
-App<any>({
+import { type IApp } from './interfaces';
+
+App<IApp>({
   globalData: {},
-  async onLaunch() {
-    wx.login({
-      success: (res) => {
-        console.log(res.code);
-      },
-    });
-  },
 });

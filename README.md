@@ -12,6 +12,10 @@ Tip：正在开发中
 
 尤得一物-后端 [youdeyiwu-backend](https://github.com/dafengzhen/youdeyiwu-backend)
 
+<br />
+
+![index](https://s1.ax1x.com/2023/02/12/pS5bkb4.png "index")
+
 ## 2. 技术
 
 - vite + typescript + sass + 微信小程序
@@ -28,6 +32,22 @@ Tip：正在开发中
 ```json
 {
   "appid": "填入小程序 appid"
+}
+```
+
+- 打开 ```miniprogram/config.ts``` 配置文件，并修改相关应用信息
+
+```text
+{
+  APP_NAME: '尤得一物',
+  APP_NAME_ABBR: 'youdeyiwu',
+  APP_URL: 'http://localhost:3000',
+  APP_URL_HOST: 'localhost:3000',
+  APP_DESCRIPTION: '这里是尤得一物论坛，欢迎光临。尤得一物是一个开源论坛程序，它可以作为简单管理或分享文章的论坛博客，也可以在此基础上进行自定义开发',
+  APP_API_SERVER: 'http://localhost:8080',
+  APP_OSS_SERVER: 'http://localhost:9000',
+  TOKEN_SECRET: '123456',
+  REFRESH_TOKEN_SECRET: '123456',
 }
 ```
 
@@ -56,7 +76,8 @@ yarn build
 - 直转平台小程序
 
 一般目标平台都提供小程序转换工具，可以查看相关文档。
-例如抖音小程序的 [wx-to-tt](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/developer-instrument/development-assistance/one-key-move 'wx-to-tt') 工具
+例如抖音小程序的 [wx-to-tt](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/developer-instrument/development-assistance/one-key-move 'wx-to-tt')
+工具
 
 - 间接转跨平台小程序
 
