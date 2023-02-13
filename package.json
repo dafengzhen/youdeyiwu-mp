@@ -1,10 +1,7 @@
 {
   "name": "youdeyiwu-mp",
-  "author": "dafengzhen",
-  "description": "尤得一物-小程序",
-  "license": "MIT",
-  "bugs": "https://github.com/dafengzhen/youdeyiwu-mp/issues",
-  "homepage": "https://github.com/dafengzhen/youdeyiwu-mp#readme",
+  "version": "1.0.0",
+  "description": "youdeyiwu-mp 尤得一物-小程序",
   "type": "module",
   "scripts": {
     "css": "npx tailwindcss -o dist/miniprogram/app.css",
@@ -66,6 +63,22 @@
     "typescript": "^4.9.5",
     "vite": "^4.1.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dafengzhen/youdeyiwu-mp.git"
+  },
+  "keywords": [
+    "youdeyiwu",
+    "mp",
+    "miniprogram",
+    "weixin"
+  ],
+  "author": "dafengzhen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dafengzhen/youdeyiwu-mp/issues"
+  },
+  "homepage": "https://github.com/dafengzhen/youdeyiwu-mp#readme",
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   }

@@ -12,6 +12,8 @@ Tip：正在开发中
 
 尤得一物-后端 [youdeyiwu-backend](https://github.com/dafengzhen/youdeyiwu-backend)
 
+尤得一物-前端 [youdeyiwu-frontend](https://github.com/dafengzhen/youdeyiwu-frontend)
+
 <br />
 
 ![index](https://s1.ax1x.com/2023/02/12/pS5bkb4.png "index")
