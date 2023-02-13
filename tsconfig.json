@@ -17,6 +17,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
+      "@types/*": ["miniprogram/types/*"],
+      "@interfaces/*": ["miniprogram/interfaces/*"],
+      "@apis/*": ["miniprogram/apis/*"],
       "@components/*": ["miniprogram/components/*"],
       "@assets/*": ["miniprogram/assets/*"],
       "@pages/*": ["miniprogram/pages/*"],

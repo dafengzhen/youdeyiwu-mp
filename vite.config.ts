@@ -9,6 +9,18 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: [
         {
+          find: '@types',
+          replacement: path.resolve(__dirname, 'miniprogram/types'),
+        },
+        {
+          find: '@interfaces',
+          replacement: path.resolve(__dirname, 'miniprogram/interfaces'),
+        },
+        {
+          find: '@apis',
+          replacement: path.resolve(__dirname, 'miniprogram/apis'),
+        },
+        {
           find: '@components',
           replacement: path.resolve(__dirname, 'miniprogram/components'),
         },

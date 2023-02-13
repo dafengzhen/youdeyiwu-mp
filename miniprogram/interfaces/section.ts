@@ -20,7 +20,6 @@ export interface ISectionClient extends ISection {
   sectionGroup?: ISectionGroup;
   admins: IUser[];
   tags: ITag[];
-
   _index?: number;
   _loaded?: boolean;
   _customized?: boolean;

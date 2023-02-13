@@ -17,6 +17,7 @@ Tip：正在开发中
 <br />
 
 ![index](https://s1.ax1x.com/2023/02/12/pS5bkb4.png "index")
+![card](https://s1.ax1x.com/2023/02/14/pSo2wbq.png "card")
 
 ## 2. 技术
 

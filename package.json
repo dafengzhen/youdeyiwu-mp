@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "css": "npx tailwindcss -o dist/miniprogram/app.css",
-    "dev": "tsc && vite build --watch",
-    "dev2": "tsc && vite build --emptyOutDir=false --watch",
+    "dev": "tsc && vite build",
+    "watch": "tsc && vite build --emptyOutDir=false --watch",
     "build": "tsc && vite build",
     "build:css": "NODE_ENV=production tailwindcss -o dist/miniprogram/app.css -m",
     "stylelint": "npx stylelint \"**/*.scss\"",

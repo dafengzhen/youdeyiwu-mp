@@ -1,23 +1,39 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
+<page-meta root-font-size="system" />
+<block wx:if="{{keys.length === 0}}">
+    <view class="w-full h-full flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <block wx:for="{{keys}}" wx:for-item="key" wx:key="key">
+        <!-- 版块组 -->
+        <view class="sticky top-0 section-group bg-white flex items-center justify-between mb-4 px-2 pt-2">
+            <view class="">{{key === defaultSgKey ? '全部内容': key}}</view>
+            <view wx:if="{{sectionData[key].length !== 0}}" class="text-slate-400">
+                {{sectionData[key].length}}
+            </view>
+        </view>
+        <!-- 版块列表 -->
+        <view class="section-list p-2 grid grid-cols-3 gap-x-2 gap-y-3 mb-3">
+            <block wx:for="{{sectionData[key]}}" wx:for-item="item" wx:key="id">
+                <navigator url="/pages/user/index" open-type="switchTab">
+                    <view class="section-list_item bg-white rounded-lg relative">
+                        <image wx:if="{{item.cover}}" class="section-list_item_bg rounded-lg" src="{{item.cover}}" mode="aspectFill" lazy-load></image>
+                        <view wx:else class="section-list_item_bg rounded-lg bg-slate-100"></view>
+                        <view class="section-list_item_name absolute line-clamp-1 text-center">
+                            {{item.name}}
+                        </view>
+                        <view class="section-list_item_go absolute flex justify-center items-center">
+                            前往
+                        </view>
+                    </view>
+                </navigator>
+            </block>
+        </view>
     </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
 </view>
+<!-- 占位符 -->
+<view class="h-1"></view>
