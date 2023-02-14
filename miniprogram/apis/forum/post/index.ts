@@ -1,6 +1,6 @@
-import type { IPagination, TParams } from '../../../interfaces';
+import type { IPagination, TParams } from '@/interfaces';
 import request from '@tools/request';
-import { type IPost } from '../../../interfaces/post';
+import { type IPost } from '@interfaces/post';
 
 export const clientQueryAllPost = async (
   params: TParams = {}

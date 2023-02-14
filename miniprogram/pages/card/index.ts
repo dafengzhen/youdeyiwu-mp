@@ -1,8 +1,8 @@
-import { clientQueryAllSection } from '../../apis/forum/section';
-import { hasText, isHttpOrHttps, parseError } from '../../tools';
-import { type ISectionClient } from '../../interfaces/section';
-import config from '../../config';
-import memoryCache from '../../tools/cache';
+import { clientQueryAllSection } from '@apis/forum/section';
+import { hasText, isHttpOrHttps, parseError } from '@/tools';
+import { type ISectionClient } from '@interfaces/section';
+import config from '@/config';
+import memoryCache from '@/tools/cache';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
@@ -21,14 +21,14 @@ Page({
 
   async onLoad() {
     try {
+      const cacheKey = this.data.cacheKey;
       const cache = await memoryCache;
       const cacheData:
         | {
             sectionData: Record<string, ISectionClient[]>;
             keys: string[];
           }
-        | undefined = await cache.get('sectionData_keys_card_page');
-      const cacheKey = this.data.cacheKey;
+        | undefined = await cache.get(cacheKey);
 
       let sectionData: Record<string, ISectionClient[]> = {};
       let keys: string[] = [];

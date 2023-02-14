@@ -1,23 +1,39 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<page-meta root-font-size="system" />
+<block wx:if="{{messageData.content.length === 0}}">
+    <view class="w-full h-full flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <!-- 消息导航 -->
+    <view class="sticky top-0 message-nav bg-white flex items-center justify-between mb-4 px-2 pt-2">
+        <view class="">我的消息</view>
+        <view wx:if="{{messageData.content.length> 0}}" class="text-slate-400">
+            {{messageData.content.length}}
+        </view>
+    </view>
+    <!-- 我的消息 -->
+    <view class="message-box">
+        <view wx:for="{{messageData.content}}" wx:key="id" class="bg-white message-box_item p-2 flex items-center mb-2">
+            <view class="mr-4 flex-shrink-0 rounded-full message-box_item_bell flex justify-center items-center">
+                <i class="bi bi-bell text-3xl {{item.messageStatus === 'HAVE_READ'? 'message-box_item_bell_icon' : 'message-box_item_bell_icon_high'}}"></i>
+            </view>
+            <view class="w-full flex flex-col justify-between">
+                <view class="flex mb-1 justify-between items-center">
+                    <view class="flex-grow line-clamp-1">{{item.name}}</view>
+                    <view class="ml-2 secondary-title-color flex-shrink-0">
+                        {{item._createdOn}}
+                    </view>
+                </view>
+                <view class="mt-1 secondary-title-color text-sm line-clamp-1">
+                    {{item._overview}}
+                </view>
+            </view>
+        </view>
+    </view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
 </view>
+<!-- 占位符 -->
+<view class="h-1"></view>

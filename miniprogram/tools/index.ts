@@ -3,7 +3,8 @@ import HideToastOption = WechatMiniprogram.HideToastOption;
 import ShowLoadingOption = WechatMiniprogram.ShowLoadingOption;
 import ShowToastOption = WechatMiniprogram.ShowToastOption;
 import zhCN from 'date-fns/locale/zh-CN';
-import { formatDistanceStrict } from 'date-fns';
+import { format, formatDistanceStrict } from 'date-fns';
+import { type IPagination } from '@/interfaces';
 
 export const showToast = async (
   options: ShowToastOption = { title: 'ok' }
@@ -123,10 +124,17 @@ export const parseError = (
   if (e instanceof Error) {
     try {
       const reason = JSON.parse(e.message);
-      error = {
-        ...error,
-        ...reason,
-      };
+      if ('data' in reason) {
+        error = {
+          ...error,
+          ...reason.data,
+        };
+      } else {
+        error = {
+          ...error,
+          ...reason,
+        };
+      }
     } catch (e) {
       error.message = 'Failed To Parse Wrong Instance => ' + e + '';
     }
@@ -142,4 +150,27 @@ export const parseError = (
   }
 
   return error;
+};
+
+export const defaultPagination = (): IPagination<any> => {
+  return {
+    content: [],
+    pageable: {
+      next: false,
+      page: 0,
+      pages: 0,
+      previous: false,
+      size: 0,
+    },
+  };
+};
+
+export const simplifyYearMonth = (date: string): string => {
+  const currentDate = new Date(date);
+  const newDate = new Date();
+  let _format = 'MM/dd';
+  if (currentDate.getFullYear() !== newDate.getFullYear()) {
+    _format = 'yyyy/MM/dd';
+  }
+  return format(new Date(date), _format);
 };

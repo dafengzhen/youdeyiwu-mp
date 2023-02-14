@@ -1,0 +1,20 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.section-group {
+  height: 40px;
+  font-size: 18px;
+  font-weight: 500;
+  z-index: 10;
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}

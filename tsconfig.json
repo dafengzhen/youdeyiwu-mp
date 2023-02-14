@@ -23,7 +23,8 @@
       "@components/*": ["miniprogram/components/*"],
       "@assets/*": ["miniprogram/assets/*"],
       "@pages/*": ["miniprogram/pages/*"],
-      "@tools/*": ["miniprogram/tools/*"]
+      "@tools/*": ["miniprogram/tools/*"],
+      "@/*": ["miniprogram/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

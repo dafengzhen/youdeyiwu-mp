@@ -36,6 +36,10 @@ export default defineConfig(({ command }) => {
           find: '@tools',
           replacement: path.resolve(__dirname, 'miniprogram/tools'),
         },
+        {
+          find: '@',
+          replacement: path.resolve(__dirname, 'miniprogram'),
+        },
       ],
     },
     plugins: [

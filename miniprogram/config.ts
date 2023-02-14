@@ -12,4 +12,15 @@ export default {
   TOKEN_SECRET: '123456',
   REFRESH_TOKEN_SECRET: '123456',
   DEBUG: accountInfo.miniProgram.envVersion === 'develop',
+} as {
+  APP_NAME: string;
+  APP_NAME_ABBR: string;
+  APP_URL: string;
+  APP_URL_HOST: string;
+  APP_DESCRIPTION: string;
+  APP_API_SERVER: string;
+  APP_OSS_SERVER: string;
+  TOKEN_SECRET: string;
+  REFRESH_TOKEN_SECRET: string;
+  DEBUG: boolean;
 };

@@ -1,0 +1,44 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.message-nav {
+  height: 40px;
+  font-size: 18px;
+  font-weight: 500;
+  z-index: 1;
+}
+
+.message-box {
+  &_item {
+    height: 80px;
+
+    &_bell {
+      width: 56px;
+      height: 56px;
+      @apply yw-bg;
+
+      &_icon {
+        color: rgba(108, 117, 125, 50%);
+      }
+
+      &_icon_high {
+        color: rgba(220, 53, 69, 50%);
+      }
+    }
+  }
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}
+
+.secondary-title-color {
+  color: #6c757d;
+}

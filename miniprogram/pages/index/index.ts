@@ -1,22 +1,23 @@
-import { queryPath } from '../../apis/path';
+import { queryPath } from '@apis/path';
 import {
   clientQueryAllSection,
   clientQuerySectionDetailsById,
-} from '../../apis/forum/section';
-import { clientQueryAllPost } from '../../apis/forum/post';
-import type { ISectionClient } from '../../interfaces/section';
-import type { IPost } from '../../interfaces/post';
-import emitter from '../../tools/emitter';
+} from '@apis/forum/section';
+import { clientQueryAllPost } from '@apis/forum/post';
+import type { ISectionClient } from '@interfaces/section';
+import type { IPost } from '@interfaces/post';
+import emitter from '@/tools/emitter';
 import {
+  defaultPagination,
   formatTotal,
   fromNow,
   hasText,
   isHttpOrHttps,
   parseError,
-} from '../../tools';
-import config from '../../config';
-import type { IPagination } from '../../interfaces';
-import memoryCache from '../../tools/cache';
+} from '@/tools';
+import config from '@/config';
+import type { IPagination } from '@/interfaces';
+import memoryCache from '@/tools/cache';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
@@ -24,16 +25,7 @@ import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
 Page({
   data: {
     tabs: [] as ISectionClient[],
-    postData: {
-      content: [],
-      pageable: {
-        next: false,
-        page: 0,
-        pages: 0,
-        previous: false,
-        size: 0,
-      },
-    } as IPagination<IPost>,
+    postData: defaultPagination() as IPagination<IPost>,
     activeTab: 0,
     activeTabIndex: 0,
     indexBoxHeight: '100%',

@@ -1,4 +1,4 @@
-import { type IApp } from './interfaces';
+import { type IApp } from '@/interfaces';
 
 App<IApp>({
   globalData: {},

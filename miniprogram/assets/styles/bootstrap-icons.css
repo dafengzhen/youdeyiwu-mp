@@ -47,3 +47,7 @@
 .bi-reply-all::before {
   content: '\F51E';
 }
+
+.bi-bell::before {
+  content: '\F18A';
+}

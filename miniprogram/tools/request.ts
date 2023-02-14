@@ -3,7 +3,7 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
-import config from '../config';
+import config from '@/config';
 
 const requestAdapter = async (
   config: InternalAxiosRequestConfig

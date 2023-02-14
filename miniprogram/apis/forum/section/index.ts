@@ -1,9 +1,6 @@
-import { type TParams } from '../../../interfaces';
+import { type TParams } from '@/interfaces';
 import request from '@tools/request';
-import {
-  type ISectionClient,
-  type ISectionDetails,
-} from '../../../interfaces/section';
+import { type ISectionClient, type ISectionDetails } from '@interfaces/section';
 
 export const clientQueryAllSection = async (
   params: TParams = {}
