@@ -24,7 +24,7 @@
               <view class="all-content-box-down_scroll_box flex flex-nowrap items-center rounded-lg">
                 <block wx:if="{{tabs.length !== 0}}">
                   <block wx:for="{{tabs}}" wx:key="id">
-                    <view wx:if="{{item.id !== 'all'}}" class="all-content-box-down_scroll_box_item mr-4 flex-shrink-0 rounded-lg" data-index="{{index}}">
+                    <view wx:if="{{item.id !== 'all'}}" class="all-content-box-down_scroll_box_item p-1 mr-4 flex-shrink-0 rounded-lg" data-index="{{index}}">
                       <template is="{{item._loaded ? 'content-loaded' : item.cover ? 'content-load': 'content-loaded'}}" data="{{item}}" />
                     </view>
                   </block>
@@ -147,7 +147,7 @@
 </view>
 <!-- 内容正在加载 -->
 <template name="content-load">
-  <view class="animate-pulse flex flex-col text-center h-full bg-white shadow shadow-slate-200 rounded-lg">
+  <view class="animate-pulse flex flex-col text-center h-full bg-white shadow rounded-lg">
     <image data-index="{{item._index}}" bindload="bindLoadContentCover" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg hidden" src="{{item.cover}}"></image>
     <view class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-200"></view>
     <view class="all-content-box-down_scroll_box_item_desc grid grid-cols-1 h-auto justify-items-center m-auto">
@@ -158,7 +158,7 @@
 </template>
 <!-- 内容加载完成 -->
 <template name="content-loaded">
-  <view class="flex flex-col text-center h-full bg-white shadow shadow-slate-200 rounded-lg">
+  <view class="flex flex-col text-center h-full bg-white shadow rounded-lg">
     <!-- 封面 -->
     <image wx:if="{{item.cover}}" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg" src="{{item.cover}}"></image>
     <view wx:else class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-100"></view>

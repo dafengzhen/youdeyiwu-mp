@@ -1,3 +1,171 @@
-<view>
-
+<page-meta root-font-size="system" />
+<block wx:if="{{Object.keys(pathData).length === 0}}">
+    <view class="w-full h-full flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <!-- 我的主页 -->
+    <view class="sticky top-0 user-nav bg-white flex items-center justify-between mb-4 px-2 pt-2">
+        <view>{{isMine ? '我的主页': '用户主页'}}</view>
+    </view>
+    <!-- 我的信息 -->
+    <view class="p-2 user-box">
+        <view class="user-box-top flex justify-between">
+            <image class="user-box-top_avatar flex-shrink-0 mr-4 bg-slate-200 rounded-full" src="{{userData ? userData.user.details._avatarUrl : '../../assets/images/avatar.png'}}" mode="aspectFill" lazy-load></image>
+            <view class="user-box-body flex flex-col justify-between flex-grow">
+                <view class="user-box-body-top flex flex-col justify-between flex-grow">
+                    <view class="line-clamp-1">{{userData ? userData.user.alias : '无名大侠'}}</view>
+                    <view class="line-clamp-1 text-sm secondary-title-color">
+                        {{userData ? userData.user.details.personalizedSignature : appName}}
+                    </view>
+                </view>
+                <view class="grid grid-cols-3 gap-x-2 gap-y-4 mt-4">
+                    <view class="text-sm rounded-full py-1 secondary-bg-color text-center secondary-title-color2">
+                        UID: {{userData ? userData.user.id : -1}}
+                    </view>
+                    <block wx:if="{{userData}}">
+                        <view wx:for="{{userData.user.roles}}" wx:key="id" class="text-sm rounded-full py-1 secondary-bg-color text-center secondary-title-color2">
+                            {{item.name}}
+                        </view>
+                    </block>
+                    <view wx:else class="text-sm rounded-full py-1 secondary-bg-color text-center secondary-title-color2">
+                        游客
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="user-box-bottom my-5">
+            <view wx:if="{{!isLogin}}" class="bg-white rounded-md flex flex-col mb-4">
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-person mr-3 secondary-title-color3"></i>
+                        马上登录
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-person-add mr-3 secondary-title-color3"></i>
+                        快速注册
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{isMine}}" class="bg-white rounded-md flex flex-col mb-4">
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-person-bounding-box mr-3 secondary-title-color3"></i>
+                        修改头像
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-app-indicator mr-3 secondary-title-color3"></i>
+                        创建应用
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-stars mr-3 secondary-title-color3"></i>
+                        我的收藏
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+            </view>
+            <view class="bg-white rounded-md flex flex-col mb-4">
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
+                        {{isMine ? '我的帖子': '相关帖子'}}
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
+                        相关内容
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
+                        相关标签
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
+                        相关统计
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+            </view>
+            <view class="bg-white rounded-md flex flex-col mb-4">
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-person-lines-fill mr-3 secondary-title-color3"></i>
+                        联系方式
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <view class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-person-vcard mr-3 secondary-title-color3"></i>
+                        关于我
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+                <button open-type="feedback" bindtap="bindTapFeedback" class="btn-feedback flex items-center justify-center p-3 text-base font-normal" style="width: 100%;--btn-feedback-color: {{btnFeedbackColor}};">
+                    <view class="flex-shrink-0 btn-feedback-left">
+                        <i class="btn-feedback-left-icon bi bi-question-diamond mr-3"></i>
+                        反馈
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="btn-feedback-right-icon bi bi-chevron-right"></i>
+                    </view>
+                </button>
+                <view wx:if="{{isMine}}" class="flex items-center justify-center p-3">
+                    <view class="flex-shrink-0">
+                        <i class="bi bi-arrow-bar-right mr-3 secondary-title-color3"></i>
+                        退出登录
+                    </view>
+                    <view class="flex-grow text-end">
+                        <i class="bi bi-chevron-right secondary-title-color3"></i>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
 </view>
+<!-- 占位符 -->
+<view class="h-1"></view>

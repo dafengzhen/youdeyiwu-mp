@@ -1,5 +1,8 @@
 import { type IRole } from './role';
-import { type IBase } from './index';
+import { type IBase, type IPagination } from './index';
+import { type ISection } from '@interfaces/section';
+import { type IPost } from '@interfaces/post';
+import { type ITag } from '@interfaces/tag';
 
 export interface IUser extends IBase {
   alias?: string;
@@ -61,4 +64,11 @@ export interface IContact {
   id: string;
   key: string;
   val: string;
+}
+
+export interface IUserClientDetails {
+  user: IUserOv;
+  sections: ISection[];
+  tags: ITag[];
+  data: IPagination<IPost>;
 }

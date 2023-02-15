@@ -3,11 +3,26 @@ page {
   @apply yw-bg;
 }
 
-.section-group {
+.user-nav {
   height: 40px;
   font-size: 18px;
   font-weight: 500;
   z-index: 10;
+}
+
+.user-box {
+  &-top {
+    &_avatar {
+      width: 56px;
+      height: 56px;
+    }
+  }
+}
+
+.user-box-body {
+  &-top {
+    height: 56px;
+  }
 }
 
 .navigator-hover {
@@ -17,4 +32,32 @@ page {
 
 .weui-toptips {
   display: block;
+}
+
+.secondary-title-color {
+  color: #6c757d;
+}
+
+.secondary-title-color2 {
+  color: #646672;
+}
+
+.secondary-title-color3 {
+  color: #8f9293;
+}
+
+.secondary-bg-color {
+  background: #efeef3;
+}
+
+.btn-feedback {
+  &-left {
+    &-icon {
+      color: var(--btn-feedback-color);
+    }
+  }
+
+  &-right-icon {
+    color: var(--btn-feedback-color);
+  }
 }

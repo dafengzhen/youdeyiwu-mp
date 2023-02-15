@@ -51,3 +51,47 @@
 .bi-bell::before {
   content: '\F18A';
 }
+
+.bi-signpost::before {
+  content: '\F54A';
+}
+
+.bi-person::before {
+  content: '\F4E1';
+}
+
+.bi-person-add::before {
+  content: '\F89A';
+}
+
+.bi-person-lines-fill::before {
+  content: '\F4DB';
+}
+
+.bi-person-bounding-box::before {
+  content: '\F4D4';
+}
+
+.bi-person-vcard::before {
+  content: '\F8C9';
+}
+
+.bi-stars::before {
+  content: '\F589';
+}
+
+.bi-app::before {
+  content: '\F10B';
+}
+
+.bi-app-indicator::before {
+  content: '\F10A';
+}
+
+.bi-arrow-bar-right::before {
+  content: '\F114';
+}
+
+.bi-question-diamond::before {
+  content: '\F507';
+}

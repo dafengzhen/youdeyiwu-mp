@@ -50,8 +50,8 @@ Page({
           {
             id: -3,
             name: '欢迎来到',
-            _overview: `欢迎来到${config.APP_NAME as string}`,
-            content: `欢迎来到${config.APP_NAME as string}`,
+            _overview: `欢迎来到${config.APP_NAME}`,
+            content: `欢迎来到${config.APP_NAME}`,
             _content: {},
             messageType: 'OTHER',
             messageRange: 'USER',
