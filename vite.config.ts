@@ -48,7 +48,10 @@ export default defineConfig(({ command }) => {
         outputDir: path.resolve(__dirname, 'dist'),
         copyPrivateConfigUrlCheck: true,
         delFileTargets: [
-          path.resolve(__dirname, 'dist/miniprogram/assets/styles/weui.wxss'),
+          path.resolve(__dirname, 'dist/miniprogram/types'),
+          path.resolve(__dirname, 'dist/miniprogram/interfaces'),
+          path.resolve(__dirname, 'dist/miniprogram/assets/styles'),
+          path.resolve(__dirname, 'dist/miniprogram/weui.wxss'),
         ],
       }),
       youdeyiwuMpAxios(),
