@@ -3,12 +3,15 @@ import { hasText, isHttpOrHttps, parseError } from '@/tools';
 import { type ISectionClient } from '@interfaces/section';
 import config from '@/config';
 import memoryCache from '@/tools/cache';
+import { queryPath } from '@apis/path';
+import { type IPath } from '@interfaces/path';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
 
 Page({
   data: {
+    pathData: null as IPath | null,
     sectionData: {} as Record<string, ISectionClient[]>,
     keys: [] as string[],
     defaultSgKey: '0_0',
@@ -25,19 +28,26 @@ Page({
       const cache = await memoryCache;
       const cacheData:
         | {
+            pathData: IPath;
             sectionData: Record<string, ISectionClient[]>;
             keys: string[];
           }
         | undefined = await cache.get(cacheKey);
 
+      let pathData: IPath | null = null;
       let sectionData: Record<string, ISectionClient[]> = {};
       let keys: string[] = [];
       if (cacheData === undefined) {
+        const pathReq = queryPath();
         const clientQueryAllSectionReq = clientQueryAllSection();
-        const responses = await Promise.all([clientQueryAllSectionReq]);
+        const responses = await Promise.all([
+          pathReq,
+          clientQueryAllSectionReq,
+        ]);
         const defaultSgKey = this.data.defaultSgKey;
 
-        sectionData = responses[0].reduce<Record<string, ISectionClient[]>>(
+        pathData = responses[0];
+        sectionData = responses[1].reduce<Record<string, ISectionClient[]>>(
           (previousValue, currentValue) => {
             this.handleSectionData(currentValue);
             if (currentValue.sectionGroup != null) {
@@ -69,17 +79,19 @@ Page({
         await cache.set(
           cacheKey,
           {
+            pathData,
             sectionData,
             keys,
           },
           30000
         );
       } else {
+        pathData = cacheData.pathData;
         sectionData = cacheData.sectionData;
         keys = cacheData.keys;
       }
 
-      this.setData({ sectionData, keys });
+      this.setData({ pathData, sectionData, keys });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);

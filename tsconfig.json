@@ -17,6 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
+      "@constants/*": ["miniprogram/constants/*"],
       "@types/*": ["miniprogram/types/*"],
       "@interfaces/*": ["miniprogram/interfaces/*"],
       "@apis/*": ["miniprogram/apis/*"],

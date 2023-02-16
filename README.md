@@ -28,17 +28,25 @@ Tip：正在开发中
 
 ## 3. 部署
 
-- 新建 ```project.private.config.json``` 文件，并修改 appid 字段。
+- 替换 logo 图片（可选）
 
-或者复制 project.template.config.json 文件内容到 ```project.private.config.json``` 中并修改 appid 字段
+替换 ```miniprogram/assets/images/logo.svg``` 文件即可
 
-```json
+- 修改标题名称（可选）
+
+打开 ```miniprogram/app.json``` 文件，并修改 ```window.navigationBarTitleText``` 字段
+
+```text
 {
-  "appid": "填入小程序 appid"
+  "window": {
+    "navigationBarTitleText": "尤得一物",
+  },
 }
 ```
 
-- 打开 ```miniprogram/config.ts``` 配置文件，并修改相关应用信息
+- 修改应用信息
+
+打开 ```miniprogram/config.ts``` 配置文件，并修改相关应用信息
 
 ```text
 {
@@ -49,8 +57,17 @@ Tip：正在开发中
   APP_DESCRIPTION: '这里是尤得一物论坛，欢迎光临。尤得一物是一个开源论坛程序，它可以作为简单管理或分享文章的论坛博客，也可以在此基础上进行自定义开发',
   APP_API_SERVER: 'http://localhost:8080',
   APP_OSS_SERVER: 'http://localhost:9000',
-  TOKEN_SECRET: '123456',
-  REFRESH_TOKEN_SECRET: '123456',
+}
+```
+
+- 修改小程序 appid
+
+新建 ```project.private.config.json``` 文件到根目录下，并修改 ```appid``` 字段。
+或者复制 project.template.config.json 文件内容到 ```project.private.config.json``` 中并修改 ```appid``` 字段
+
+```json
+{
+  "appid": "appid"
 }
 ```
 

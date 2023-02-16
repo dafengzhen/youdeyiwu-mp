@@ -6,6 +6,11 @@ export interface TParams {
   query?: object;
 }
 
+export interface TBody<T> {
+  id?: string | number;
+  data?: T;
+}
+
 export interface IBase extends IExtra {
   id: number;
   createdBy?: number;
@@ -42,4 +47,11 @@ export interface IKeySet {
 
 export interface IApp {
   globalData: IPath | Record<string, any>;
+}
+
+export interface IToken {
+  id: number;
+  alias: string;
+  token: string;
+  refreshToken: string;
 }

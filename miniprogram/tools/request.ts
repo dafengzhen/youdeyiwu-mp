@@ -4,6 +4,8 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import config from '@/config';
+import { checkTicket, getStorageSync } from '@tools/index';
+import Constants from '@/constants';
 
 const requestAdapter = async (
   config: InternalAxiosRequestConfig
@@ -27,14 +29,39 @@ const requestAdapter = async (
       config.method === 'get' || config.method === 'delete'
         ? config.params
         : config.data;
-    const header = { ...config.headers };
+    const method = config.method?.toUpperCase() ?? 'GET';
+    let header = { ...config.headers };
+    const ticket = getStorageSync(Constants.TICKET);
+    if (typeof ticket === 'object' && 'token' in ticket && ticket.token) {
+      header = {
+        Authorization: 'Bearer ' + ticket.token,
+        ...header,
+      };
+    }
 
     const request = wx.request({
       url,
       data,
       header,
+      method: method as
+        | 'OPTIONS'
+        | 'GET'
+        | 'HEAD'
+        | 'POST'
+        | 'PUT'
+        | 'DELETE'
+        | 'TRACE'
+        | 'CONNECT',
       enableHttp2: true,
       success(res) {
+        if (
+          typeof res.data === 'object' &&
+          'code' in res.data &&
+          res.data.code
+        ) {
+          checkTicket(res.data.code);
+        }
+
         if (res.statusCode >= 200 && res.statusCode < 300) {
           const response: AxiosResponse<unknown, unknown> = {
             data: res.data,

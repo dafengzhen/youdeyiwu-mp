@@ -9,6 +9,10 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: [
         {
+          find: '@constants',
+          replacement: path.resolve(__dirname, 'miniprogram/constants'),
+        },
+        {
           find: '@types',
           replacement: path.resolve(__dirname, 'miniprogram/types'),
         },

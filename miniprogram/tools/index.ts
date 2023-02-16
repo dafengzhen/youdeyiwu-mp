@@ -2,14 +2,17 @@ import HideLoadingOption = WechatMiniprogram.HideLoadingOption;
 import HideToastOption = WechatMiniprogram.HideToastOption;
 import ShowLoadingOption = WechatMiniprogram.ShowLoadingOption;
 import ShowToastOption = WechatMiniprogram.ShowToastOption;
+import GeneralCallbackResult = WechatMiniprogram.GeneralCallbackResult;
 import zhCN from 'date-fns/locale/zh-CN';
-import { format, formatDistanceStrict } from 'date-fns';
+import { format, formatDistanceStrict, isAfter } from 'date-fns';
 import { type IPagination } from '@/interfaces';
+import { decodeJwt, type JWTPayload } from 'jose';
+import Constants from '@/constants';
 
 export const showToast = async (
   options: ShowToastOption = { title: 'ok' }
-): Promise<void> => {
-  await new Promise((resolve, reject) => {
+): Promise<GeneralCallbackResult> => {
+  return await new Promise((resolve, reject) => {
     wx.showToast({
       icon: 'none',
       ...options,
@@ -25,8 +28,8 @@ export const showToast = async (
 
 export const hideToast = async (
   options: HideToastOption = {}
-): Promise<void> => {
-  await new Promise((resolve, reject) => {
+): Promise<GeneralCallbackResult> => {
+  return await new Promise((resolve, reject) => {
     wx.hideToast({
       ...options,
       success: (res) => {
@@ -41,8 +44,8 @@ export const hideToast = async (
 
 export const showLoading = async (
   options: ShowLoadingOption = { title: '正在加载...' }
-): Promise<void> => {
-  await new Promise((resolve, reject) => {
+): Promise<GeneralCallbackResult> => {
+  return await new Promise((resolve, reject) => {
     wx.showLoading({
       ...options,
       success: (res) => {
@@ -57,8 +60,8 @@ export const showLoading = async (
 
 export const hideLoading = async (
   options: HideLoadingOption = {}
-): Promise<void> => {
-  await new Promise((resolve, reject) => {
+): Promise<GeneralCallbackResult> => {
+  return await new Promise((resolve, reject) => {
     wx.hideLoading({
       ...options,
       success: (res) => {
@@ -173,4 +176,54 @@ export const simplifyYearMonth = (date: string): string => {
     _format = 'yyyy/MM/dd';
   }
   return format(new Date(date), _format);
+};
+
+export const decodeToken = (value: string): JWTPayload => {
+  return decodeJwt(value);
+};
+
+export const setStorageSync = (key: string, data: any, time?: Date): void => {
+  try {
+    wx.setStorageSync(key, {
+      data,
+      time,
+    });
+  } catch (e) {
+    console.error(e);
+    void showToast({ title: '小程序保存数据失败' });
+  }
+};
+
+export const getStorageSync = (key: string): any => {
+  try {
+    const storage = wx.getStorageSync(key);
+    const time = storage.time;
+    if (time) {
+      if (isAfter(new Date(time), new Date())) {
+        return storage.data;
+      } else {
+        wx.removeStorageSync(key);
+        return;
+      }
+    }
+    return storage.data;
+  } catch (e) {
+    console.error(e);
+    void showToast({ title: '小程序获取数据失败' });
+  }
+};
+
+export const removeStorageSync = (key: string): void => {
+  try {
+    wx.removeStorageSync(key);
+  } catch (e) {
+    console.error(e);
+    void showToast({ title: '小程序删除数据失败' });
+  }
+};
+
+export const checkTicket = (code: number): void => {
+  if (code === 4010 || code === 4011) {
+    removeStorageSync(Constants.TICKET);
+  }
 };

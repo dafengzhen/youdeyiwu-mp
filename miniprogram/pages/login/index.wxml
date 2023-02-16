@@ -1,0 +1,81 @@
+<page-meta root-font-size="system" />
+<view class="weui-msg {{step === 2 ? 'weui-msg-bg' : ''}}">
+    <view class="weui-msg__icon-area">
+        <image mode="aspectFill" class="logo rounded-full" src="{{defaultAvatarUrl}}"></image>
+    </view>
+    <view wx:if="{{loginCode}}" class="weui-msg__text-area">
+        <view wx:if="{{step === 1}}" class="weui-msg__desc">
+            {{isRegister ? '注册': '登录'}}即可查看详情内容
+        </view>
+        <view wx:elif="{{step === 2}}" class="weui-msg__desc">完善您的个人头像昵称</view>
+        <view wx:else class="weui-msg__desc">点击完成保存并返回</view>
+    </view>
+    <view wx:else class="weui-msg__text-area">
+        <view class="weui-msg__desc">请重新获取{{isRegister ? '注册': '登录'}}态</view>
+    </view>
+    <view wx:if="{{step === 2}}" class="weui-form__control-area">
+        <view class="weui-cells__group weui-cells__group_form">
+            <view class="weui-cells rounded-lg">
+                <view class="weui-cell weui-cell-name weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <label class="weui-label">昵称</label>
+                    </view>
+                    <view class="weui-cell__bd">
+                        <input type="text" class="weui-input" placeholder="请输入昵称（可选）" value="{{alias}}" />
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{loginCode}}" class="weui-msg__opr-area">
+        <view class="weui-btn-area">
+            <button disabled="{{isLoadReq}}" wx:if="{{step === 1}}" open-type="getPhoneNumber" bindgetphonenumber="bindgetphonenumber" binderror="binderrorgetphonenumber" class="weui-btn weui-btn_primary">
+                <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
+                微信快捷{{isRegister ? '注册': '登录'}}
+            </button>
+            <button disabled="{{isLoadReq}}" wx:elif="{{step === 2}}" open-type="chooseAvatar" bindchooseavatar="bindchooseavatar" binderror="binderrorchooseavatar" class="weui-btn weui-btn_primary">
+                <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
+                获取头像
+            </button>
+            <button wx:else bindtap="bindtapLogin" class="weui-btn weui-btn_primary">
+                <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
+                保存并返回
+            </button>
+        </view>
+    </view>
+    <view wx:else class="weui-msg__opr-area">
+        <view class="weui-btn-area">
+            <button bindtap="bindtapLoginRetry" class="weui-btn weui-btn_primary">重试</button>
+        </view>
+    </view>
+    <view class="weui-msg__tips-area">
+        <view class="weui-msg__tips flex items-center justify-center">
+            <view wx:if="{{step === 1}}" class="weui-cells_checkbox">
+                <checkbox-group bindchange="bindchangeCheckbox">
+                    <label class="weui-cell weui-cell_active weui-check__label">
+                        <checkbox class="weui-check" value="agree" />
+                        <i class="weui-icon-checked"></i>
+                    </label>
+                </checkbox-group>
+            </view>
+            <view class="flex items-center flex-shrink-0">
+                我已阅读并同意
+                <navigator url="/pages/terms/index" open-type="navigate" class="weui-link">
+                    《服务协议》
+                </navigator>
+                和
+                <navigator url="/pages/privacy/index" open-type="navigate" class="weui-link">
+                    《隐私政策》
+                </navigator>
+            </view>
+        </view>
+    </view>
+    <view class="weui-msg__extra-area">
+        <view class="weui-footer">
+            <view class="weui-footer__text">Copyright © 2023 {{appNameAbbr}}</view>
+        </view>
+    </view>
+</view>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
+</view>

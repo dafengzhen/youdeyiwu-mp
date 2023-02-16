@@ -4,7 +4,10 @@
     "pages/index/index",
     "pages/card/index",
     "pages/bell/index",
-    "pages/user/index"
+    "pages/user/index",
+    "pages/login/index",
+    "pages/terms/index",
+    "pages/privacy/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

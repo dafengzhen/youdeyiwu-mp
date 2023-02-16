@@ -37,7 +37,7 @@
         </view>
         <view class="user-box-bottom my-5">
             <view wx:if="{{!isLogin}}" class="bg-white rounded-md flex flex-col mb-4">
-                <view class="flex items-center justify-center p-3">
+                <navigator class="flex items-center justify-center p-3" url="/pages/login/index" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-person mr-3 secondary-title-color3"></i>
                         马上登录
@@ -45,8 +45,8 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
-                <view class="flex items-center justify-center p-3">
+                </navigator>
+                <navigator class="flex items-center justify-center p-3" url="/pages/login/index?r=t" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-person-add mr-3 secondary-title-color3"></i>
                         快速注册
@@ -54,7 +54,7 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
+                </navigator>
             </view>
             <view wx:if="{{isMine}}" class="bg-white rounded-md flex flex-col mb-4">
                 <view class="flex items-center justify-center p-3">
