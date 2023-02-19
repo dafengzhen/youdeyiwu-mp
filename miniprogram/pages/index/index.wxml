@@ -102,9 +102,9 @@
                         <view class="">{{item.details._replyTotalText}}</view>
                       </view>
                     </view>
-                    <view class="all-post-box-box_item_section_name text-slate-500 line-clamp-1 text-right">
+                    <navigator class="all-post-box-box_item_section_name text-slate-500 line-clamp-1 text-right" url="/pages/details/card/index?id={{item.section.id}}" open-type="navigate">
                       {{item.section.name}}
-                    </view>
+                    </navigator>
                   </view>
                 </view>
               </view>
@@ -163,9 +163,9 @@
     <image wx:if="{{item.cover}}" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg" src="{{item.cover}}"></image>
     <view wx:else class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-100"></view>
     <!-- 名称/概述 -->
-    <view class="all-content-box-down_scroll_box_item_desc flex flex-col justify-center items-center h-auto flex-grow">
+    <navigator class="all-content-box-down_scroll_box_item_desc flex flex-col justify-center items-center h-auto flex-grow" url="/pages/details/card/index?id={{item.id}}" open-type="navigate">
       <view class="line-clamp-1 px-2">{{item.name}}</view>
       <view class="mt-2 px-2 line-clamp-2 text-sm text-slate-600">{{item.overview}}</view>
-    </view>
+    </navigator>
   </view>
 </template>

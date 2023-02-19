@@ -88,6 +88,9 @@ Page({
       });
 
     this.setData({ loadQuery: query });
+    void wx.setNavigationBarTitle({
+      title: config.APP_NAME,
+    });
   },
 
   async onPullDownRefresh() {
@@ -160,7 +163,7 @@ Page({
       | ICustomShareContent
       | ICustomTimelineContent
       | IAddToFavoritesContent = {
-      title: '用户主页 - youdeyiwu',
+      title: '用户主页 - ' + config.APP_NAME_ABBR,
     };
 
     if (source === 'f') {

@@ -28,21 +28,9 @@ Tip：正在开发中
 
 ## 3. 部署
 
-- 替换 logo 图片（可选）
+- 修改应用图标
 
 替换 ```miniprogram/assets/images/logo.svg``` 文件即可
-
-- 修改标题名称（可选）
-
-打开 ```miniprogram/app.json``` 文件，并修改 ```window.navigationBarTitleText``` 字段
-
-```text
-{
-  "window": {
-    "navigationBarTitleText": "尤得一物",
-  },
-}
-```
 
 - 修改应用信息
 
@@ -81,7 +69,7 @@ yarn install
 
 - 编译
 
-构建编译小程序
+编译小程序
 
 ```bash
 yarn build

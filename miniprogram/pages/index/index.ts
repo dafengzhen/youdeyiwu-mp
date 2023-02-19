@@ -81,6 +81,10 @@ Page({
       this.openTip(parseError(e).message);
       this.closeTip(3000);
     }
+
+    void wx.setNavigationBarTitle({
+      title: config.APP_NAME,
+    });
   },
 
   onReady() {
@@ -373,7 +377,7 @@ Page({
       | ICustomShareContent
       | ICustomTimelineContent
       | IAddToFavoritesContent = {
-      title: 'youdeyiwu - 尤得一物',
+      title: config.APP_NAME_ABBR + ' - ' + config.APP_NAME,
     };
 
     if (source === 'f') {

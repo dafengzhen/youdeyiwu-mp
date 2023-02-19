@@ -7,7 +7,8 @@
     "pages/user/index",
     "pages/login/index",
     "pages/terms/index",
-    "pages/privacy/index"
+    "pages/privacy/index",
+    "pages/details/card/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

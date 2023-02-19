@@ -1,0 +1,47 @@
+<block wx:if="{{node.templateType}}">
+    <block wx:if="{{node.templateType === 'rich'}}">
+        <block wx:if="{{node.name === 'pre'}}">
+            <view class="hljs-view overflow-auto rounded-md p-4">
+                <rich-text nodes="{{[node]}}"></rich-text>
+            </view>
+        </block>
+        <block wx:else>
+            <rich-text nodes="{{[node]}}"></rich-text>
+        </block>
+    </block>
+    <block wx:else>
+        <template is="{{node.templateType}}" data="{{...node}}"></template>
+    </block>
+</block>
+<template name="view">
+    <view class="{{class}}" style="{{style}}">
+        <block wx:for="{{children}}" wx:for-item="child" wx:key="id">
+            <mp-html-view node="{{child}}"></mp-html-view>
+        </block>
+    </view>
+</template>
+<template name="text">
+    <text user-select class="{{class}}" style="{{style}}">
+        <block wx:for="{{children}}" wx:for-item="child" wx:key="id">
+            <mp-html-view node="{{child}}"></mp-html-view>
+            <block wx:if="{{child.text}}">{{child.text}}</block>
+        </block>
+        <block wx:if="{{text}}">{{text}}</block>
+    </text>
+</template>
+<template name="a">
+    <text user-select bindtap="bindTapCopyLink" data-attrs="{{attrs}}" class="{{class}} text-blue-500" style="{{style}}">
+        <block wx:for="{{children}}" wx:for-item="child" wx:key="id">
+            <mp-html-view node="{{child}}"></mp-html-view>
+            <block wx:if="{{child.text}}">{{child.text}}</block>
+        </block>
+        <block wx:if="{{text}}">{{text}}</block>
+    </text>
+</template>
+<template name="img">
+    <image bindtap="bindTapViewImage" src="{{attrs.src}}" mode="aspectFill" lazy-load data-attrs="{{attrs}}" class="{{class}} max-w-full" style="{{style}}">
+        <block wx:for="{{children}}" wx:for-item="child" wx:key="id">
+            <mp-html-view node="{{child}}"></mp-html-view>
+        </block>
+    </image>
+</template>

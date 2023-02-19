@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import 'assets/styles/bootstrap-icons.css';
 @import 'assets/styles/weui.wxss';
+@import 'assets/styles/zenburn';
 
 $yw-color-a: #fff6fb !important;
 $yw-color-s: #ffbee3 !important;
@@ -48,4 +49,8 @@ page {
   to {
     transform: rotate(360deg);
   }
+}
+
+pre code.hljs {
+  border-radius: 0.375rem;
 }

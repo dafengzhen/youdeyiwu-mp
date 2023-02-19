@@ -96,6 +96,10 @@ Page({
       this.openTip(parseError(e).message);
       this.closeTip(3000);
     }
+
+    void wx.setNavigationBarTitle({
+      title: config.APP_NAME,
+    });
   },
 
   async onPullDownRefresh() {
@@ -166,7 +170,7 @@ Page({
       | ICustomShareContent
       | ICustomTimelineContent
       | IAddToFavoritesContent = {
-      title: '全部内容 - youdeyiwu',
+      title: '全部内容 - ' + config.APP_NAME_ABBR,
     };
 
     if (source === 'f') {

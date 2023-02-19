@@ -46,6 +46,10 @@ Page({
       isRegister: query.r === 't',
       loginCode,
     });
+
+    void wx.setNavigationBarTitle({
+      title: query.r === 't' ? '快捷注册' : '快捷登录',
+    });
   },
 
   closeTip(ms: number = 2000) {

@@ -1,0 +1,45 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}
+
+.details-box {
+  &-top {
+    &-admin {
+      &_item {
+      }
+    }
+  }
+}
+
+.details-box {
+  &-bottom {
+  }
+
+  &-post-item {
+  }
+}
+
+.section-cover {
+  width: 56px;
+  height: 56px;
+}
+
+.user-cover {
+  width: 56px;
+  height: 56px;
+}
+
+.content-cover {
+  width: 108px;
+  height: 113px;
+}

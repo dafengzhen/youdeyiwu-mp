@@ -16,16 +16,14 @@
         <!-- 版块列表 -->
         <view class="section-list p-2 grid grid-cols-3 gap-x-2 gap-y-3 mb-3">
             <block wx:for="{{sectionData[key]}}" wx:for-item="item" wx:key="id">
-                <navigator url="/pages/user/index" open-type="switchTab">
-                    <view class="section-list_item bg-white rounded-lg relative">
-                        <image wx:if="{{item.cover}}" class="section-list_item_bg rounded-lg" src="{{item.cover}}" mode="aspectFill" lazy-load></image>
-                        <view wx:else class="section-list_item_bg rounded-lg bg-slate-100"></view>
-                        <view class="section-list_item_name absolute line-clamp-1 text-center">
-                            {{item.name}}
-                        </view>
-                        <view class="section-list_item_go absolute flex justify-center items-center">
-                            前往
-                        </view>
+                <navigator class="section-list_item bg-white rounded-lg relative" url="/pages/details/card/index?id={{item.id}}" open-type="navigate">
+                    <image wx:if="{{item.cover}}" class="section-list_item_bg rounded-lg" src="{{item.cover}}" mode="aspectFill" lazy-load></image>
+                    <view wx:else class="section-list_item_bg rounded-lg bg-slate-100"></view>
+                    <view class="section-list_item_name absolute line-clamp-1 text-center">
+                        {{item.name}}
+                    </view>
+                    <view class="section-list_item_go absolute flex justify-center items-center">
+                        前往
                     </view>
                 </navigator>
             </block>

@@ -227,3 +227,12 @@ export const checkTicket = (code: number): void => {
     removeStorageSync(Constants.TICKET);
   }
 };
+
+export const generateRandomNum = (n: number): string => {
+  let num = '';
+  for (let i = 0; i < n; i++) {
+    const id = Math.ceil(Math.random() * 35);
+    num += Constants.NUMS[id];
+  }
+  return num;
+};
