@@ -8,7 +8,11 @@
     "pages/login/index",
     "pages/terms/index",
     "pages/privacy/index",
-    "pages/details/card/index"
+    "pages/details/card/index",
+    "pages/details/post/index",
+    "pages/details/role/index",
+    "pages/details/reply/index",
+    "pages/success/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

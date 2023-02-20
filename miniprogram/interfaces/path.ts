@@ -1,4 +1,4 @@
-import { type IUserOv } from './user';
+import { type IUserOv } from '@interfaces/user';
 
 export interface IPath {
   imageConfig?: {
@@ -34,6 +34,7 @@ export interface IPath {
     reportLink: string | undefined;
   };
   user?: IUserOv;
+  _isQuickLogin?: boolean;
 }
 
 export interface IYwOauthClientUrl {

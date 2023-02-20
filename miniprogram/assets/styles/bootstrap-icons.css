@@ -33,6 +33,10 @@
   content: '\F407';
 }
 
+.bi-hand-thumbs-up-fill::before {
+  content: '\F406';
+}
+
 .bi-chat-dots::before {
   content: '\F24A';
 }
@@ -51,6 +55,10 @@
 
 .bi-bell::before {
   content: '\F18A';
+}
+
+.bi-bell-fill::before {
+  content: '\F189';
 }
 
 .bi-signpost::before {
@@ -107,4 +115,20 @@
 
 .bi-card-text::before {
   content: '\F228';
+}
+
+.bi-star::before {
+  content: '\F588';
+}
+
+.bi-star-fill::before {
+  content: '\F586';
+}
+
+.bi-heart::before {
+  content: '\F417';
+}
+
+.bi-tags::before {
+  content: '\F5B2';
 }

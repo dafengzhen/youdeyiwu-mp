@@ -1,4 +1,4 @@
-import { type IBase } from './index';
+import { type IBase } from '@interfaces/index';
 
 export interface IMessage extends IBase {
   name: string;

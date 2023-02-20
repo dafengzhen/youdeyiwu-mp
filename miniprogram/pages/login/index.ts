@@ -13,6 +13,9 @@ import {
   weixinMpUserLoginByPhone,
 } from '@apis/weixin';
 import Constants from '@/constants';
+import { type IApp } from '@/interfaces';
+
+const loginApp = getApp<IApp>();
 
 Page({
   data: {
@@ -30,6 +33,7 @@ Page({
     token: '',
     isLoadReq: false,
     id: null as null | number,
+    u: '',
   },
 
   async onLoad(query = {}) {
@@ -43,6 +47,7 @@ Page({
     }
 
     this.setData({
+      u: query.u ?? '',
       isRegister: query.r === 't',
       loginCode,
     });
@@ -206,17 +211,28 @@ Page({
         },
       });
 
-      await showToast({ title: '保存完成', icon: 'success' });
+      await showToast({ title: '保存完成', icon: 'success', duration: 1500 });
+      this.setData({ isLoadReq: false });
+      loginApp.globalData._isQuickLogin = true;
+
+      const url = decodeURIComponent(this.data.u);
       setTimeout(() => {
-        void wx.switchTab({
-          url: '/pages/index/index',
-        });
+        if (url) {
+          void wx.navigateTo({
+            url,
+          });
+        } else {
+          void wx.switchTab({
+            url: '/pages/index/index',
+          });
+        }
       }, 1500);
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({ isLoadReq: false });
+      loginApp.globalData._isQuickLogin = false;
     }
-    this.setData({ isLoadReq: false });
   },
 
   async bindtapLoginRetry() {

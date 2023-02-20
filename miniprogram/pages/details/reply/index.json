@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "mp-html": "../../../components/html/index"
+  },
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "评论回复"
+}

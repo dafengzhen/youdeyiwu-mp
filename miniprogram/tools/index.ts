@@ -3,6 +3,8 @@ import HideToastOption = WechatMiniprogram.HideToastOption;
 import ShowLoadingOption = WechatMiniprogram.ShowLoadingOption;
 import ShowToastOption = WechatMiniprogram.ShowToastOption;
 import GeneralCallbackResult = WechatMiniprogram.GeneralCallbackResult;
+import ShowModalOption = WechatMiniprogram.ShowModalOption;
+import ShowModalSuccessCallbackResult = WechatMiniprogram.ShowModalSuccessCallbackResult;
 import zhCN from 'date-fns/locale/zh-CN';
 import { format, formatDistanceStrict, isAfter } from 'date-fns';
 import { type IPagination } from '@/interfaces';
@@ -68,6 +70,22 @@ export const hideLoading = async (
         resolve(res);
       },
       fail: (rea) => {
+        reject(rea);
+      },
+    });
+  });
+};
+
+export const showModal = async (
+  options: ShowModalOption = { title: 'ok', content: 'ok' }
+): Promise<ShowModalSuccessCallbackResult> => {
+  return await new Promise((resolve, reject) => {
+    wx.showModal({
+      ...options,
+      success: (res) => {
+        resolve(res);
+      },
+      fail: async (rea) => {
         reject(rea);
       },
     });

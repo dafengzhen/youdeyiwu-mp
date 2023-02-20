@@ -1,5 +1,7 @@
 import { type IApp } from '@/interfaces';
 
 App<IApp>({
-  globalData: {},
+  globalData: {
+    _isQuickLogin: false,
+  },
 });

@@ -1,0 +1,19 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}
+
+.details-box {
+  &-role {
+    height: 211px;
+  }
+}

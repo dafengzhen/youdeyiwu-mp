@@ -9,3 +9,7 @@ export const clientQueryUserDetails = async (
     params: params.query,
   });
 };
+
+export const logout = async (): Promise<void> => {
+  await request.get('/logout');
+};

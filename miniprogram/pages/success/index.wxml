@@ -1,0 +1,25 @@
+<page-meta root-font-size="system" />
+<view class="weui-msg weui-msg-box">
+    <view class="weui-msg__icon-area">
+        <text class="weui-icon-success weui-icon_msg"></text>
+    </view>
+    <view class="weui-msg__text-area">
+        <view class="weui-msg__title">{{title}}</view>
+        <view class="weui-msg__desc">{{desc}}</view>
+    </view>
+    <view class="weui-msg__opr-area">
+        <view class="weui-btn-area">
+            <navigator class="weui-btn weui-btn_primary" aria-role="button" open-type="navigateBack">
+                返回
+            </navigator>
+        </view>
+    </view>
+    <view class="weui-msg__tips-area">
+        <view class="weui-msg__tips">{{tip}}</view>
+    </view>
+    <view class="weui-msg__extra-area">
+        <view class="weui-footer">
+            <view class="weui-footer__text capitalize">copyright © 2023 {{appNameAbbr}}</view>
+        </view>
+    </view>
+</view>

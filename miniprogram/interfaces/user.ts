@@ -1,5 +1,5 @@
-import { type IRole } from './role';
-import { type IBase, type IPagination } from './index';
+import { type IRole } from '@interfaces/role';
+import { type IBase, type IPagination } from '@interfaces/index';
 import { type ISection } from '@interfaces/section';
 import { type IPost } from '@interfaces/post';
 import { type ITag } from '@interfaces/tag';

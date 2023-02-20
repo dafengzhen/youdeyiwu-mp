@@ -1,0 +1,16 @@
+<page-meta root-font-size="system" />
+<block wx:if="{{!pathData || !postDetailsData}}">
+    <view class="w-full h-full flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <view class="details-box">
+        xxx
+    </view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
+</view>
+<!-- 占位符 -->
+<view class="h-2"></view>

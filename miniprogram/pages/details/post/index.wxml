@@ -1,0 +1,89 @@
+<page-meta root-font-size="system" />
+<block wx:if="{{!pathData || !postDetailsData}}">
+    <view class="w-full h-full flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <view class="details-box bg-white">
+        <image wx:if="{{postDetailsData.basic.cover}}" class="details-box-cover rounded-b" src="{{postDetailsData.basic.cover}}" mode="aspectFill" lazy-load></image>
+        <image wx:else class="details-box-cover rounded-b" src="../../../assets/images/vr.jpg" mode="aspectFill" lazy-load></image>
+        <view class="details-box-content">
+            <view class="sticky top-0 bg-white p-2">
+                <view class="details-box-content-title text-lg font-semibold leading-relaxed line-clamp-3">
+                    <text wx:for="{{postDetailsData.basic.highlights}}" wx:key="item" class="text-blue-600 mr-2 inline-block border-2 text-base mb-1 px-2 rounded border-blue-600">
+                        {{item}}
+                    </text>
+                    {{postDetailsData.basic.name}}
+                </view>
+                <view class="details-box-content-subtitle flex items-center gap-4 mt-3">
+                    <navigator class="user-avatar flex-shrink-0 rounded-full" url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
+                        <image class="user-avatar flex-shrink-0 rounded-full" src="{{postDetailsData.user.details._avatarUrl}}" mode="aspectFill" lazy-load></image>
+                    </navigator>
+                    <navigator class="text-gray-500 overflow-auto flex-nowrap" url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
+                        {{postDetailsData.user.alias}}
+                    </navigator>
+                    <view class="text-gray-500 flex-shrink-0">
+                        {{postDetailsData.basic._fromNow}}前
+                    </view>
+                    <view wx:if="{{postDetailsData.user.roles.length === 1}}" class="text-gray-500 bg-gray-200 px-2 rounded-full flex-shrink-0">
+                        {{postDetailsData.user.roles[0].name}}
+                    </view>
+                    <navigator wx:if="{{postDetailsData.user.roles.length > 1}}" class="text-gray-500 flex items-center flex-shrink-0" url="/pages/details/role/index?id={{postDetailsData.basic.id}}" open-type="navigate">
+                        <view>用户角色</view>
+                        <view>
+                            <i class="bi bi-chevron-right"></i>
+                        </view>
+                    </navigator>
+                </view>
+            </view>
+            <view class="details-box-content-item my-5 px-2">
+                <block wx:if="{{postDetailsData.content}}">
+                    <mp-html rawHtml="{{postDetailsData.content}}"></mp-html>
+                </block>
+                <block wx:else>
+                    <view class="w-full h-full flex justify-center items-center">
+                        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
+                    </view>
+                </block>
+            </view>
+            <view class="details-box-content-item_h"></view>
+            <view class="details-box-btn p-2 fixed bottom-0 bg-white w-full rounded-t">
+                <view class="details-box-btn_item flex justify-around items-center">
+                    <view class="flex items-center gap-1" bindtap="bindTapLike">
+                        <i wx:if="{{isLoadLikeReq}}" class="spinner-border spinner-border-md text-gray-500"></i>
+                        <i wx:else class="details-box-btn_item_icon bi {{postDetailsData.isLike ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}} text-2xl"></i>
+                        <text wx:if="{{postDetailsData.details.likeCount > 0}}">
+                            {{postDetailsData.details._likeTotalText}}
+                        </text>
+                    </view>
+                    <view class="flex items-center gap-1" bindtap="bindTapFollow">
+                        <i wx:if="{{isLoadFollowReq}}" class="spinner-border spinner-border-md text-gray-500"></i>
+                        <i wx:else class="details-box-btn_item_icon bi {{postDetailsData.isFollow ? 'bi-bell-fill' : 'bi-bell'}} text-2xl"></i>
+                        <text wx:if="{{postDetailsData.details.followCount > 0}}">
+                            {{postDetailsData.details._followTotalText}}
+                        </text>
+                    </view>
+                    <view class="flex items-center gap-1" bindtap="bindTapFavorite">
+                        <i wx:if="{{isLoadFavoriteReq}}" class="spinner-border spinner-border-md text-gray-500"></i>
+                        <i wx:else class="details-box-btn_item_icon bi {{postDetailsData.isFavourite ? 'bi-star-fill' : 'bi-star'}} text-2xl"></i>
+                        <text wx:if="{{postDetailsData.details.favoriteCount > 0}}">
+                            {{postDetailsData.details._favoriteTotalText}}
+                        </text>
+                    </view>
+                    <navigator class="flex items-center gap-1" url="/pages/details/reply/index?id={{postDetailsData.basic.id}}" open-type="navigate">
+                        <i class="details-box-btn_item_icon bi bi-chat-dots text-2xl"></i>
+                        <text wx:if="{{postDetailsData.details.commentCount + postDetailsData.details.replyCount > 0}}">
+                            {{postDetailsData.details._commentReplyTotalText}}
+                        </text>
+                    </navigator>
+                </view>
+            </view>
+        </view>
+    </view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
+</view>
+<!-- 占位符 -->
+<view class="h-2"></view>

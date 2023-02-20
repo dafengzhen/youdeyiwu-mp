@@ -1,5 +1,5 @@
-import { type IBase } from './index';
-import { type ISection } from './section';
+import { type IBase } from '@interfaces/index';
+import { type ISection } from '@interfaces/section';
 
 export interface ISectionGroup extends IBase {
   name: string;

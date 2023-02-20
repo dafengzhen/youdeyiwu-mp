@@ -1,4 +1,4 @@
-import { type IBase } from './index';
+import { type IBase } from '@interfaces/index';
 
 export interface IRole extends IBase {
   name: string;

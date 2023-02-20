@@ -1,5 +1,5 @@
-import { type IUserOv } from './user';
-import { type IPath } from './path';
+import { type IUserOv } from '@interfaces/user';
+import { type IPath } from '@interfaces/path';
 
 export interface TParams {
   id?: string | number;

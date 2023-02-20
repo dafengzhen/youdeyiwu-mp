@@ -40,13 +40,13 @@
                 <navigator class="flex items-center justify-center p-3" url="/pages/login/index" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-person mr-3 secondary-title-color3"></i>
-                        马上登录
+                        快捷登录
                     </view>
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
                 </navigator>
-                <navigator class="flex items-center justify-center p-3" url="/pages/login/index?r=t" open-type="navigate">
+                <!-- <navigator class="flex items-center justify-center p-3" url="/pages/login/index?r=t" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-person-add mr-3 secondary-title-color3"></i>
                         快速注册
@@ -54,7 +54,7 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </navigator>
+                </navigator> -->
             </view>
             <view wx:if="{{isMine}}" class="bg-white rounded-md flex flex-col mb-4">
                 <view class="flex items-center justify-center p-3">
@@ -151,7 +151,7 @@
                         <i class="btn-feedback-right-icon bi bi-chevron-right"></i>
                     </view>
                 </button>
-                <view wx:if="{{isMine}}" class="flex items-center justify-center p-3">
+                <button wx:if="{{isMine}}" bindtap="bindTapLogout" class="flex items-center justify-center p-3 text-base font-normal" style="width: 100%;">
                     <view class="flex-shrink-0">
                         <i class="bi bi-arrow-bar-right mr-3 secondary-title-color3"></i>
                         退出登录
@@ -159,7 +159,7 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
+                </button>
             </view>
         </view>
     </view>

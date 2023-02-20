@@ -1,13 +1,23 @@
-import { isHttpOrHttps, parseError } from '@/tools';
+import {
+  isHttpOrHttps,
+  parseError,
+  removeStorageSync,
+  showModal,
+  showToast,
+} from '@/tools';
 import memoryCache from '@tools/cache';
-import { clientQueryUserDetails } from '@apis/user';
+import { clientQueryUserDetails, logout } from '@apis/user';
 import { type IUserClientDetails } from '@interfaces/user';
 import { queryPath } from '@apis/path';
 import { type IPath } from '@interfaces/path';
 import config from '@/config';
+import { type IApp } from '@/interfaces';
+import Constants from '@/constants';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
+
+const userApp = getApp<IApp>();
 
 Page({
   data: {
@@ -30,7 +40,8 @@ Page({
       .then(async (pathData) => {
         if (pathData.user) {
           try {
-            const cacheKey = this.data.cacheKey;
+            const id = query.id ?? pathData.user.id;
+            const cacheKey = `${id}_${this.data.cacheKey}`;
             const cache = await memoryCache;
             const cacheData:
               | {
@@ -42,7 +53,7 @@ Page({
             let userData: IUserClientDetails;
             if (cacheData === undefined) {
               const clientQueryUserDetailsReq = clientQueryUserDetails({
-                id: query.id ?? pathData.user.id,
+                id,
               });
               const responses = await Promise.all([clientQueryUserDetailsReq]);
               userData = responses[0];
@@ -154,6 +165,34 @@ Page({
         btnFeedbackColor: '#8f9293',
       });
     }, 200);
+  },
+
+  async bindTapLogout() {
+    const result = await showModal({
+      title: '温馨提示',
+      content: '确定要退出登录吗?',
+      confirmText: '退出',
+      confirmColor: '#07c160',
+    });
+    if (result.cancel) {
+      return;
+    }
+
+    removeStorageSync(Constants.TICKET);
+    userApp.globalData._isQuickLogin = false;
+
+    try {
+      await logout();
+      await showToast({
+        title: '退出登录完成',
+        icon: 'success',
+        duration: 1500,
+      });
+      await wx.reLaunch({ url: '/pages/index/index' });
+    } catch (e) {
+      this.openTip(parseError(e).message);
+      this.closeTip(3000);
+    }
   },
 
   handleShare(

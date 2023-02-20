@@ -1,0 +1,46 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}
+
+.details-box {
+  &-cover {
+    width: 375px;
+    height: 211px;
+  }
+
+  &-content {
+    &-title {
+    }
+
+    &-subtitle {
+    }
+
+    &-item {
+      &_h {
+        height: 20px;
+        margin-bottom: constant(safe-area-inset-bottom);
+        margin-bottom: env(safe-area-inset-bottom);
+      }
+    }
+  }
+
+  &-btn {
+    margin-bottom: constant(safe-area-inset-bottom);
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+}

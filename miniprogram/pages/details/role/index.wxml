@@ -1,0 +1,21 @@
+<page-meta root-font-size="system" />
+<block wx:if="{{!pathData || !postDetailsData}}">
+    <view class="w-full h-full flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <view class="details-box p-4">
+        <view class="details-box-role bg-white p-4 rounded-lg">
+            <view class="font-bold text-lg">用户角色</view>
+            <view class="my-4 grid grid-cols-3 gap-4 text-gray-500">
+                <view wx:for="{{postDetailsData.user.roles}}" wx:key="id">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
+</view>
+<!-- 占位符 -->
+<view class="h-2"></view>

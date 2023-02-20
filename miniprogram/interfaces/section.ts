@@ -1,9 +1,9 @@
 import { type IBase, type IPagination } from '.';
-import { type ISectionGroup } from './sectiongroup';
-import { type IUser } from './user';
-import { type ITag } from './tag';
-import { type ITagGroup } from './taggroup';
-import { type IPost } from './post';
+import { type ISectionGroup } from '@interfaces/sectiongroup';
+import { type IUser } from '@interfaces/user';
+import { type ITag } from '@interfaces/tag';
+import { type ITagGroup } from '@interfaces/taggroup';
+import { type IPost } from '@interfaces/post';
 
 export interface ISection extends IBase {
   id: number;

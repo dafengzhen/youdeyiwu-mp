@@ -39,7 +39,7 @@ Page({
     }
 
     try {
-      const cacheKey = this.data.cacheKey;
+      const cacheKey = `${id}_${this.data.cacheKey}`;
       const cache = await memoryCache;
       const cacheData:
         | {
@@ -66,15 +66,15 @@ Page({
 
         this.handleSectionDetailsData(sectionDetailsData);
 
-        await wx.setNavigationBarTitle({
-          title: sectionDetailsData.basic.name,
-        });
         await cache.set(cacheKey, { pathData, sectionDetailsData }, 30000);
       } else {
         pathData = cacheData.pathData;
         sectionDetailsData = cacheData.sectionDetailsData;
       }
 
+      await wx.setNavigationBarTitle({
+        title: sectionDetailsData.basic.name,
+      });
       this.setData({ pathData, sectionDetailsData });
     } catch (e) {
       this.openTip(parseError(e).message);
