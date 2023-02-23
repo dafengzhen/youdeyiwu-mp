@@ -9,7 +9,7 @@
         <image wx:if="{{postDetailsData.basic.cover}}" class="details-box-cover rounded-b" src="{{postDetailsData.basic.cover}}" mode="aspectFill" lazy-load></image>
         <image wx:else class="details-box-cover rounded-b" src="../../../assets/images/vr.jpg" mode="aspectFill" lazy-load></image>
         <view class="details-box-content">
-            <view class="sticky top-0 bg-white p-2">
+            <view class="sticky top-0 bg-white p-2 z-10">
                 <view class="details-box-content-title text-lg font-semibold leading-relaxed line-clamp-3">
                     <text wx:for="{{postDetailsData.basic.highlights}}" wx:key="item" class="text-blue-600 mr-2 inline-block border-2 text-base mb-1 px-2 rounded border-blue-600">
                         {{item}}

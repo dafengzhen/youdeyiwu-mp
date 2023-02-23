@@ -59,7 +59,7 @@
                     </view>
                   </view>
                   <!-- 概述 -->
-                  <view class="line-clamp-4 my-4 indent-8 text-justify">
+                  <view class="line-clamp-4 my-4 indent-8">
                     <mp-html rawHtml="{{item.overview}}"></mp-html>
                   </view>
                   <!-- 图片 -->
