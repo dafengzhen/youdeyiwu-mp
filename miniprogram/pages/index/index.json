@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "mp-tabs": "../../components/tabs/index"
+    "mp-tabs": "../../components/tabs/index",
+    "mp-html": "../../components/html/index"
   },
   "enablePullDownRefresh": true
 }

@@ -42,18 +42,23 @@
                         <view class="ml-4 flex-shrink-0">{{item._fromNow}}前</view>
                     </navigator>
                 </view>
-                <view class="mt-4 line-clamp-2">{{item.name}}</view>
+                <navigator class="mt-4 line-clamp-2" url="/pages/details/post/index?id={{item.id}}" open-type="navigate">
+                    {{item.name}}
+                </navigator>
                 <view wx:if="{{item.images.length === 1}}" class="mt-4 mb-3 grid grid-cols-1">
-                    <image class="col-auto rounded-md" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
+                    <image bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
                 </view>
                 <view wx:elif="{{item.images.length === 2}}" class="mt-4 mb-3 grid grid-cols-1 gap-y-2">
-                    <image class="col-auto rounded-md" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
-                    <image class="col-auto rounded-md" src="{{item.images[1]}}" mode="aspectFill" lazy-load></image>
+                    <image bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
+                    <image bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md" src="{{item.images[1]}}" mode="aspectFill" lazy-load></image>
                 </view>
                 <view wx:elif="{{item.images.length === 3}}" class="mt-4 mb-3 grid grid-cols-3 gap-2">
-                    <image class="col-auto rounded-md content-cover" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
-                    <image class="col-auto rounded-md content-cover" src="{{item.images[1]}}" mode="aspectFill" lazy-load></image>
-                    <image class="col-auto rounded-md content-cover" src="{{item.images[2]}}" mode="aspectFill" lazy-load></image>
+                    <image bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md content-cover" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
+                    <image bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md content-cover" src="{{item.images[1]}}" mode="aspectFill" lazy-load></image>
+                    <image bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md content-cover" src="{{item.images[2]}}" mode="aspectFill" lazy-load></image>
+                </view>
+                <view wx:elif="{{item.images.length > 3}}" class="mt-4 mb-3 grid grid-cols-3 gap-2">
+                    <image wx:for="{{item.images}}" wx:for-item="image" wx:key="image" bindtap="bindTapImage" data-item="{{item}}" class="col-auto rounded-md content-cover" src="{{item.images[0]}}" mode="aspectFill" lazy-load></image>
                 </view>
                 <view wx:if="{{index !== sectionDetailsData.data.content.length - 1}}" class="border-b mt-8 mb-3 border-slate-200 mr-4"></view>
             </view>
@@ -89,4 +94,4 @@
     {{tip}}
 </view>
 <!-- 占位符 -->
-<view class="h-2"></view>
+<view class="bottom-placeholder h-2"></view>

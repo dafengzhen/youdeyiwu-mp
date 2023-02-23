@@ -62,3 +62,7 @@ export const postFavourite = async (params: TParams): Promise<void> => {
 export const postCancelFavourite = async (params: TParams): Promise<void> => {
   await request.delete(`/forum/posts/${params.id as string}/favourite`);
 };
+
+export const postView = async (params: TBody<void>): Promise<void> => {
+  await request.post(`/forum/posts/${params.id as string}/view`);
+};

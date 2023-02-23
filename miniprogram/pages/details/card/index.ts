@@ -6,6 +6,7 @@ import {
   hasText,
   isHttpOrHttps,
   parseError,
+  uniqBy,
 } from '@/tools';
 import { clientQuerySectionDetailsById } from '@apis/forum/section';
 import { type IPath } from '@interfaces/path';
@@ -27,8 +28,10 @@ Page({
     isPullDownRefresh: false,
     isViewAdmin: false,
     isLoadNextPage: false,
-    queryParams: {} as {
-      page?: number;
+    queryParams: {
+      page: 0,
+    } as {
+      page: number;
     },
   },
 
@@ -54,7 +57,6 @@ Page({
         const pathReq = queryPath();
         const clientQuerySectionDetailsByIdReq = clientQuerySectionDetailsById({
           id,
-          query: this.data.queryParams,
         });
         const responses = await Promise.all([
           pathReq,
@@ -63,7 +65,6 @@ Page({
 
         pathData = responses[0];
         sectionDetailsData = responses[1];
-
         this.handleSectionDetailsData(sectionDetailsData);
 
         await cache.set(cacheKey, { pathData, sectionDetailsData }, 30000);
@@ -87,34 +88,13 @@ Page({
       return;
     }
 
-    this.setData({ isPullDownRefresh: true });
-
-    if (this.data.sectionDetailsData?.data?.pageable.next) {
-      const queryParams = this.data.queryParams;
-      if (
-        Object.keys(queryParams).length &&
-        typeof queryParams.page === 'number'
-      ) {
-        const page = this.data.sectionDetailsData.data?.pageable.page ?? 0;
-        const pages = this.data.sectionDetailsData.data?.pageable.pages ?? 0;
-        this.setData({
-          queryParams: {
-            ...queryParams,
-            page: Math.min(page + 1, pages),
-          },
-        });
-      } else {
-        this.setData({ queryParams: {} });
-      }
-
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve('loading');
-        }, 500);
-      });
+    const sectionDetailsData = this.data.sectionDetailsData;
+    if (!sectionDetailsData) {
+      return;
     }
 
-    await this.onLoad();
+    this.setData({ isPullDownRefresh: true });
+    await this.onLoad({ id: sectionDetailsData.basic.id as any });
     wx.stopPullDownRefresh({
       complete: () => {
         setTimeout(() => {
@@ -156,6 +136,21 @@ Page({
     this.setData({
       tip,
       showTip: true,
+    });
+  },
+
+  async bindTapImage(e: any) {
+    const item: IPost = e.currentTarget.dataset.item;
+    if (!item) {
+      return;
+    }
+
+    if (!item.images || item.images.length === 0) {
+      return;
+    }
+
+    await wx.previewImage({
+      urls: item.images,
     });
   },
 
@@ -226,7 +221,12 @@ Page({
   },
 
   async bindTapLoadNextPage() {
-    if (this.data.isLoadNextPage) {
+    if (
+      this.data.isLoadNextPage ||
+      !this.data.sectionDetailsData ||
+      !this.data.sectionDetailsData.data ||
+      !this.data.sectionDetailsData.data.pageable.next
+    ) {
       return;
     }
 
@@ -234,20 +234,30 @@ Page({
       isLoadNextPage: true,
     });
 
-    if (!this.data.sectionDetailsData?.data?.pageable.next) {
+    const id = this.data.sectionDetailsData.basic.id;
+    const data = this.data.sectionDetailsData.data;
+    const queryParams = this.data.queryParams;
+    const pages = data.pageable.pages;
+
+    const response = await clientQuerySectionDetailsById({
+      id,
+    });
+    if (!response.data) {
       return;
     }
 
-    const queryParams = this.data.queryParams;
-    const page = this.data.sectionDetailsData.data?.pageable.page ?? 0;
-    const pages = this.data.sectionDetailsData.data?.pageable.pages ?? 0;
-    await this.onLoad();
+    await this.onUnload();
+    const content = uniqBy([...data.content, ...response.data.content], 'id');
+    const pageable = response.data.pageable;
 
     this.setData({
       isLoadNextPage: false,
+      'sectionDetailsData.data': {
+        content,
+        pageable,
+      },
       queryParams: {
-        ...queryParams,
-        page: Math.min(page + 1, pages),
+        page: Math.min(queryParams.page + 1, pages),
       },
     });
   },

@@ -5,6 +5,7 @@ export interface IReplyBase extends IBase {
   likeCount: number;
   reviewReason?: string;
   reviewStatus: 'AWAITING' | 'VERIFYING' | 'FAILED' | 'VERIFIED';
+  _fromNow?: string;
 }
 
 export interface IReply extends IReplyBase {

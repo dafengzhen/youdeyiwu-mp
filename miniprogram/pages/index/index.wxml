@@ -59,30 +59,32 @@
                     </view>
                   </view>
                   <!-- 概述 -->
-                  <view class="line-clamp-4 my-4 indent-8">{{item.overview}}</view>
+                  <view class="line-clamp-4 my-4 indent-8 text-justify">
+                    <mp-html rawHtml="{{item.overview}}"></mp-html>
+                  </view>
                   <!-- 图片 -->
                   <block wx:if="{{item.images.length === 1}}">
                     <view class="grid grid-cols-1">
-                      <image mode="aspectFill" class="col-auto rounded-md" src="{{item.images[0]}}"></image>
+                      <image bindtap="bindTapImage" data-item="{{item}}" mode="aspectFill" class="col-auto rounded-md" src="{{item.images[0]}}"></image>
                     </view>
                   </block>
                   <block wx:elif="{{item.images.length === 2}}">
                     <view class="grid grid-cols-1 gap-y-2">
-                      <image lazy-load mode="aspectFill" class="col-auto rounded-md" src="{{item.images[0]}}"></image>
-                      <image lazy-load mode="aspectFill" class="col-auto rounded-md" src="{{item.images[1]}}"></image>
+                      <image bindtap="bindTapImage" data-item="{{item}}" lazy-load mode="aspectFill" class="col-auto rounded-md" src="{{item.images[0]}}"></image>
+                      <image bindtap="bindTapImage" data-item="{{item}}" lazy-load mode="aspectFill" class="col-auto rounded-md" src="{{item.images[1]}}"></image>
                     </view>
                   </block>
                   <block wx:elif="{{item.images.length === 3}}">
                     <view class="grid grid-cols-3">
-                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[0]}}"></image>
-                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[1]}}"></image>
-                      <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[2]}}"></image>
+                      <image bindtap="bindTapImage" data-item="{{item}}" lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[0]}}"></image>
+                      <image bindtap="bindTapImage" data-item="{{item}}" lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[1]}}"></image>
+                      <image bindtap="bindTapImage" data-item="{{item}}" lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item.images[2]}}"></image>
                     </view>
                   </block>
                   <block wx:elif="{{item.images.length > 4}}">
                     <view class="grid grid-cols-3 gap-y-2">
                       <block wx:for="{{item.images}}" wx:key="item">
-                        <image lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item}}"></image>
+                        <image bindtap="bindTapImage" data-item="{{item}}" lazy-load mode="aspectFill" class="all-post-box-box_item_sample_graph col-auto rounded-md" src="{{item}}"></image>
                       </block>
                     </view>
                   </block>
@@ -162,8 +164,10 @@
 <template name="content-loaded">
   <view class="flex flex-col text-center h-full bg-white shadow rounded-lg">
     <!-- 封面 -->
-    <image wx:if="{{item.cover}}" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg" src="{{item.cover}}"></image>
-    <view wx:else class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-100"></view>
+    <navigator url="/pages/details/card/index?id={{item.id}}" open-type="navigate">
+      <image wx:if="{{item.cover}}" lazy-load mode="aspectFill" class="all-content-box-down_scroll_box_item_cover rounded-t-lg" src="{{item.cover}}"></image>
+      <view wx:else class="all-content-box-down_scroll_box_item_cover rounded-t-lg bg-slate-100"></view>
+    </navigator>
     <!-- 名称/概述 -->
     <navigator class="all-content-box-down_scroll_box_item_desc flex flex-col justify-center items-center h-auto flex-grow" url="/pages/details/card/index?id={{item.id}}" open-type="navigate">
       <view class="line-clamp-1 px-2">{{item.name}}</view>

@@ -37,7 +37,7 @@
                 <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
                 获取头像
             </button>
-            <button wx:else bindtap="bindtapLogin" class="weui-btn weui-btn_primary">
+            <button disabled="{{isLoadReq}}" wx:else bindtap="bindtapLogin" class="weui-btn weui-btn_primary">
                 <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
                 保存并返回
             </button>

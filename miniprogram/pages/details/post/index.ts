@@ -22,6 +22,7 @@ import {
   postFavourite,
   postFollow,
   postLike,
+  postView,
   removeFavourite,
   removeFollow,
 } from '@apis/forum/post';
@@ -44,8 +45,10 @@ Page({
     isLoadLikeReq: false,
     isLoadFollowReq: false,
     isLoadFavoriteReq: false,
-    queryParams: {} as {
-      page?: number;
+    queryParams: {
+      page: 0,
+    } as {
+      page: number;
     },
   },
 
@@ -71,11 +74,12 @@ Page({
         const pathReq = queryPath();
         const clientQueryPostDetailsReq = clientQueryPostDetails({
           id,
-          query: this.data.queryParams,
         });
+        const postViewReq = postView({ id });
         const responses = await Promise.all([
           pathReq,
           clientQueryPostDetailsReq,
+          postViewReq,
         ]);
 
         pathData = responses[0];

@@ -31,6 +31,8 @@ Page({
     indexBoxHeight: '100%',
     queryParams: {
       page: 0,
+    } as {
+      page: number;
     },
     isLoadMore: false,
     tip: '抱歉，访问此资源遇到错误',
@@ -218,7 +220,6 @@ Page({
     this.setData({ isLoadMore: true });
 
     const query = {
-      ...queryParams,
       page: Math.min(queryParams.page + 1, pageable.pages),
     };
 
@@ -284,6 +285,21 @@ Page({
         }
       );
     }
+  },
+
+  async bindTapImage(e: any) {
+    const item: IPost = e.currentTarget.dataset.item;
+    if (!item) {
+      return;
+    }
+
+    if (!item.images || item.images.length === 0) {
+      return;
+    }
+
+    await wx.previewImage({
+      urls: item.images,
+    });
   },
 
   initIndexBoxHeight() {

@@ -7,4 +7,5 @@ export interface IComment extends IBase {
   secret?: string;
   reviewReason?: string;
   reviewStatus: 'AWAITING' | 'VERIFYING' | 'FAILED' | 'VERIFIED';
+  _fromNow?: string;
 }

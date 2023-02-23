@@ -1,19 +1,19 @@
 <page-meta root-font-size="system" />
-<block wx:if="{{!pathData || !postDetailsData}}">
+<block wx:if="{{!pathData || !replyData}}">
     <view class="w-full h-full flex justify-center items-center">
-        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../../assets/images/nodata.png"></image>
     </view>
 </block>
 <block wx:else>
     <view class="details-box h-auto bg-white pt-4">
-        <block wx:if="{{postDetailsData.data.content.length === 0}}">
+        <block wx:if="{{replyData.content.length === 0}}">
             <view class="flex items-center justify-center h-screen text-slate-500">
                 <icon type="info" class="mr-2"></icon>
                 暂无回复
             </view>
         </block>
         <block wx:else>
-            <block wx:for="{{postDetailsData.data.content}}" wx:key="_commentId">
+            <block wx:for="{{replyData.content}}" wx:key="_replyId">
                 <view class="details-box-item p-2">
                     <view class="flex gap-4">
                         <navigator url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
@@ -23,30 +23,17 @@
                             <navigator class="line-clamp-1" url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
                                 {{item.user.alias}}
                             </navigator>
-                            <view class="text-gray-500">{{item.comment._fromNow}}前</view>
+                            <view class="text-gray-500">{{item.reply._fromNow}}前</view>
                         </view>
                     </view>
                     <view wx:if="{{item.content.length === 0}}" class="mt-5 p-2 text-justify">
-                        <mp-html rawHtml="{{item.comment.content}}"></mp-html>
+                        <mp-html rawHtml="{{item.reply.content}}"></mp-html>
                     </view>
-                    <navigator wx:else class="mt-5 p-2 text-justify" url="/pages/details/reply/parent/index?id={{item._commentId}}&pid={{postDetailsData.basic.id}}" open-type="navigate">
-                        <mp-html rawHtml="{{item.comment.content}}"></mp-html>
-                    </navigator>
-                    <view class="p-2 mb-4">
-                        <view class="details-box-item_nav flex items-center gap-4 justify-end px-2">
-                            <view class="flex yw-bg items-center justify-center py-1 px-5 rounded-lg gap-4">
-                                <button bindtap="bindTapSend" data-item="{{item}}" class="details-box-item_nav_send">
-                                    <i class="bi bi-send text-gray-600 text-base"></i>
-                                </button>
-                                <navigator wx:if="{{item.content.length > 0}}" url="/pages/details/reply/parent/index?id={{item._commentId}}&pid={{postDetailsData.basic.id}}" open-type="navigate">
-                                    <i class="bi bi-chat-text text-gray-600 text-lg"></i>
-                                    <!-- <text class="text-gray-600 font-medium">+</text> -->
-                                </navigator>
-                            </view>
-                        </view>
+                    <view wx:else class="mt-5 p-2 text-justify">
+                        <mp-html rawHtml="{{item.reply.content}}"></mp-html>
                     </view>
                 </view>
-                <view wx:if="{{postDetailsData.data.content.length - 1 !== index}}" class="border-b px-2 border-slate-200 mr-8 mt-2 mb-8"></view>
+                <view wx:if="{{replyData.content.length - 1 !== index}}" class="border-b px-2 border-slate-200 mr-8 mt-2 mb-8"></view>
             </block>
             <view class="details-box-item_h p-2"></view>
         </block>
@@ -58,9 +45,6 @@
                         <button disabled="{{isLoadSubmit}}" form-type="submit" size="mini" type="primary" class="details-box-btn_send  flex items-center rounded-full">
                             <i wx:if="{{isLoadSubmit}}" class="spinner-border spinner-border-sm"></i>
                             发送
-                        </button>
-                        <button wx:if="{{focus}}" bindtap="bindBlurReply" size="mini" type="default" class="details-box-btn_send flex items-center rounded-full">
-                            取消
                         </button>
                     </view>
                 </view>

@@ -182,6 +182,12 @@ Page({
     const avatarUrl = this.data.defaultAvatarUrl;
     const alias = this.data.alias;
 
+    if (loginApp.globalData._isQuickLogin) {
+      await showToast({ title: '已登录', icon: 'success' });
+      await wx.navigateBack();
+      return;
+    }
+
     if (!id) {
       await showToast({ title: '保存失败，请重试', icon: 'error' });
       this.setData({
@@ -212,11 +218,11 @@ Page({
       });
 
       await showToast({ title: '保存完成', icon: 'success', duration: 1500 });
-      this.setData({ isLoadReq: false });
       loginApp.globalData._isQuickLogin = true;
 
       const url = decodeURIComponent(this.data.u);
       setTimeout(() => {
+        this.setData({ isLoadReq: false });
         if (url) {
           void wx.navigateTo({
             url,

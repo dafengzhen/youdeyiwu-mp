@@ -12,6 +12,9 @@
     "pages/details/post/index",
     "pages/details/role/index",
     "pages/details/reply/index",
+    "pages/details/reply/parent/index",
+    "pages/details/reply/child/index",
+    "pages/details/reply/final/index",
     "pages/success/index"
   ],
   "window": {

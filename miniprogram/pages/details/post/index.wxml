@@ -5,7 +5,7 @@
     </view>
 </block>
 <block wx:else>
-    <view class="details-box bg-white">
+    <view class="details-box bg-white h-auto">
         <image wx:if="{{postDetailsData.basic.cover}}" class="details-box-cover rounded-b" src="{{postDetailsData.basic.cover}}" mode="aspectFill" lazy-load></image>
         <image wx:else class="details-box-cover rounded-b" src="../../../assets/images/vr.jpg" mode="aspectFill" lazy-load></image>
         <view class="details-box-content">

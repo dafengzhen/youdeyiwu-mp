@@ -132,3 +132,15 @@
 .bi-tags::before {
   content: '\F5B2';
 }
+
+.bi-chat-text::before {
+  content: '\F267';
+}
+
+.bi-send::before {
+  content: '\F6C0';
+}
+
+.bi-send-dash::before {
+  content: '\F6B5';
+}

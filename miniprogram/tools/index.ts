@@ -109,25 +109,25 @@ export const fromNow = (datetime: string): string => {
 export const formatTotal = (total: number): string => {
   if (total < 10) {
     return total + '';
-  } else if (total > 10 && total < 20) {
+  } else if (total >= 10 && total < 20) {
     return '10+';
-  } else if (total > 20 && total < 30) {
+  } else if (total >= 20 && total < 30) {
     return '20+';
-  } else if (total > 30 && total < 40) {
+  } else if (total >= 30 && total < 40) {
     return '30+';
-  } else if (total > 40 && total < 50) {
+  } else if (total >= 40 && total < 50) {
     return '40+';
-  } else if (total > 50 && total < 60) {
+  } else if (total >= 50 && total < 60) {
     return '50+';
-  } else if (total > 60 && total < 70) {
+  } else if (total >= 60 && total < 70) {
     return '60+';
-  } else if (total > 70 && total < 80) {
+  } else if (total >= 70 && total < 80) {
     return '70+';
-  } else if (total > 80 && total < 90) {
+  } else if (total >= 80 && total < 90) {
     return '80+';
-  } else if (total > 90 && total < 100) {
+  } else if (total >= 90 && total < 100) {
     return '99+';
-  } else if (total > 100 && total < 900) {
+  } else if (total >= 100 && total < 900) {
     return total + '+';
   } else {
     return '999+';
@@ -253,4 +253,13 @@ export const generateRandomNum = (n: number): string => {
     num += Constants.NUMS[id];
   }
   return num;
+};
+
+export const uniqBy = (array: any[] = [], by: string): any[] => {
+  return array.reduce((previousValue, currentValue) => {
+    if (!previousValue.find((item: any) => item[by] === currentValue[by])) {
+      previousValue.push(currentValue);
+    }
+    return previousValue;
+  }, []);
 };
