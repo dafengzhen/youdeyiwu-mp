@@ -5,11 +5,11 @@ import ShowToastOption = WechatMiniprogram.ShowToastOption;
 import GeneralCallbackResult = WechatMiniprogram.GeneralCallbackResult;
 import ShowModalOption = WechatMiniprogram.ShowModalOption;
 import ShowModalSuccessCallbackResult = WechatMiniprogram.ShowModalSuccessCallbackResult;
+import Constants from '@/constants';
 import zhCN from 'date-fns/locale/zh-CN';
+import { atob } from 'js-base64';
 import { format, formatDistanceStrict, isAfter } from 'date-fns';
 import { type IPagination } from '@/interfaces';
-import { decodeJwt, type JWTPayload } from 'jose';
-import Constants from '@/constants';
 
 export const showToast = async (
   options: ShowToastOption = { title: 'ok' }
@@ -196,8 +196,19 @@ export const simplifyYearMonth = (date: string): string => {
   return format(new Date(date), _format);
 };
 
-export const decodeToken = (value: string): JWTPayload => {
-  return decodeJwt(value);
+export const decodeToken = (
+  value: string
+): {
+  iss?: string;
+  sub?: string;
+  aud?: string | string[];
+  jti?: string;
+  nbf?: number;
+  exp?: number;
+  iat?: number;
+  [propName: string]: unknown;
+} => {
+  return JSON.parse(atob(value));
 };
 
 export const setStorageSync = (key: string, data: any, time?: Date): void => {

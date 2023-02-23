@@ -94,15 +94,6 @@ const requestAdapter = async (
   });
 };
 
-// @ts-expect-error FormData Operations Not Supported
-axios.defaults.env.FormData = () => {
-  throw new Error('FormData Operations Not Supported');
-};
-// @ts-expect-error Blob Operations Not Supported
-axios.defaults.env.Blob = () => {
-  throw new Error('Blob Operations Not Supported');
-};
-
 axios.defaults.transformResponse = (data) => {
   return typeof data === 'object' && 'data' in data ? data.data : data;
 };

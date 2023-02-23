@@ -112,7 +112,7 @@ Page({
         },
       });
 
-      const exp = decodeToken(response.token).exp;
+      const exp = decodeToken(response.token.split('.')[1]).exp;
       if (exp) {
         setStorageSync(Constants.TICKET, response, new Date(exp * 1000));
       }

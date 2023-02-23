@@ -1,7 +1,6 @@
 import { defineConfig, type UserConfig } from 'vite';
 import path from 'path';
 import youdeyiwuMp from '@youdeyiwu/vite-plugin-mp';
-import youdeyiwuMpAxios from '@youdeyiwu/vite-plugin-mp-axios';
 
 export default defineConfig(({ command }) => {
   const defaultConfig: UserConfig = {
@@ -58,7 +57,6 @@ export default defineConfig(({ command }) => {
           path.resolve(__dirname, 'dist/miniprogram/weui.wxss'),
         ],
       }),
-      youdeyiwuMpAxios(),
     ],
   };
 
