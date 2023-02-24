@@ -52,7 +52,7 @@
         </block>
         <view class="details-box-btn fixed bottom-0 bg-white w-full rounded-t">
             <form bindsubmit="bindFormSubmit">
-                <view class="flex items-center justify-around py-4 px-4 h-full gap-4">
+                <view class="flex items-center justify-around pt-5 pb-9 px-4 h-full gap-4">
                     <textarea value="{{replyValue}}" name="content" fixed class="yw-bg rounded-lg flex-grow w-full h-full" placeholder="{{placeholder}}" placeholder-class="details-box-btn_text" focus="{{focus}}" />
                     <view class="flex flex-col gap-2 flex-shrink-0 justify-between items-center">
                         <button disabled="{{isLoadSubmit}}" form-type="submit" size="mini" type="primary" class="details-box-btn_send  flex items-center rounded-full">

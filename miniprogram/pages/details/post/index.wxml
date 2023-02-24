@@ -49,7 +49,7 @@
             </view>
             <view class="details-box-content-item_h"></view>
             <view class="details-box-btn p-2 fixed bottom-0 bg-white w-full rounded-t">
-                <view class="details-box-btn_item flex justify-around items-center">
+                <view class="details-box-btn_item flex justify-around items-center pb-5 pt-2">
                     <view class="flex items-center gap-1" bindtap="bindTapLike">
                         <i wx:if="{{isLoadLikeReq}}" class="spinner-border spinner-border-md text-gray-500"></i>
                         <i wx:else class="details-box-btn_item_icon bi {{postDetailsData.isLike ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}} text-2xl"></i>
