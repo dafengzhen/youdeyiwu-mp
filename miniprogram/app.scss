@@ -54,3 +54,8 @@ page {
 pre code.hljs {
   border-radius: 0.375rem;
 }
+
+.safe-area {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}

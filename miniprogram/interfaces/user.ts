@@ -50,14 +50,16 @@ export interface IUserOv {
     _avatarUrl?: string;
   };
   roles: IRole[];
-  statistic: {
-    posts: number;
-    sections: number;
-    tags: number;
-    comments: number;
-    replies: number;
-    views: number;
-  };
+  statistic: IStatistic;
+}
+
+export interface IStatistic {
+  posts?: number;
+  sections?: number;
+  tags?: number;
+  comments?: number;
+  replies?: number;
+  views?: number;
 }
 
 export interface IContact {
