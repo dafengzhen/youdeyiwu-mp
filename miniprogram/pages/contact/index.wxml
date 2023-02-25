@@ -9,17 +9,20 @@
         </view>
     </view>
 </block>
-<block wx:elif="{{!pathData || !postDetailsData}}">
+<block wx:elif="{{contacts.length === 0}}">
     <view class="w-full h-screen flex justify-center items-center">
-        <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
     </view>
 </block>
 <block wx:else>
     <view class="details-box p-4">
-        <view class="details-box-role bg-white p-4 rounded-lg">
-            <view class="font-bold text-lg">用户角色</view>
-            <view class="my-4 grid grid-cols-3 gap-4 text-gray-500">
-                <view wx:for="{{postDetailsData.user.roles}}" wx:key="id">{{item.name}}</view>
+        <view class="bg-white p-4 rounded-lg">
+            <view class="font-bold text-lg">联系方式</view>
+            <view class="my-4 grid grid-cols-1 gap-4 text-gray-500">
+                <view wx:for="{{contacts}}" wx:key="id" class="flex items-center gap-4" bindtap="bindTapCopy" data-item="{{item}}">
+                    <view>{{item.key}}</view>
+                    <view class="{{item._isUnderline ? 'underline' : ''}}">{{item.val}}</view>
+                </view>
             </view>
         </view>
     </view>

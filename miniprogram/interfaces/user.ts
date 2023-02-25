@@ -64,6 +64,7 @@ export interface IContact {
   id: string;
   key: string;
   val: string;
+  _isUnderline?: boolean;
 }
 
 export interface IUserClientDetails {

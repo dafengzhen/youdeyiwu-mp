@@ -7,7 +7,7 @@
     <view class="bg-slate-200 w-24 h-4"></view>
   </view>
 </view>
-<view wx:elif="{{tabs.length === 0}}" class="w-full h-full flex justify-center items-center">
+<view wx:elif="{{tabs.length === 0}}" class="w-full h-screen flex justify-center items-center">
   <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
 </view>
 <view wx:else class="index-box" style="height: {{indexBoxHeight}}rpx;">

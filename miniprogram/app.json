@@ -15,7 +15,9 @@
     "pages/details/reply/parent/index",
     "pages/details/reply/child/index",
     "pages/details/reply/final/index",
-    "pages/success/index"
+    "pages/success/index",
+    "pages/contact/index",
+    "pages/about/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

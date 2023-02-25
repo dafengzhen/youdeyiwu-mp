@@ -10,7 +10,7 @@
     </view>
 </block>
 <block wx:elif="{{!pathData || !postDetailsData}}">
-    <view class="w-full h-full flex justify-center items-center">
+    <view class="w-full h-screen flex justify-center items-center">
         <image mode="aspectFill" class="rounded-lg m-auto" src="../../../assets/images/nodata.png"></image>
     </view>
 </block>
