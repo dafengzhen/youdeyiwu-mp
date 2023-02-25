@@ -33,6 +33,7 @@ Page({
     } as {
       page: number;
     },
+    isLoading: true,
   },
 
   async onLoad(query = {}) {
@@ -76,10 +77,11 @@ Page({
       await wx.setNavigationBarTitle({
         title: sectionDetailsData.basic.name,
       });
-      this.setData({ pathData, sectionDetailsData });
+      this.setData({ pathData, sectionDetailsData, isLoading: false });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({ isLoading: false });
     }
   },
 

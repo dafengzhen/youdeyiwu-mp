@@ -33,6 +33,7 @@ Page({
     isLogin: false,
     appName: '欢迎来到' + config.APP_NAME,
     btnFeedbackColor: '#8f9293',
+    isLoading: true,
   },
 
   async onLoad(query = {}) {
@@ -80,22 +81,30 @@ Page({
               pathData,
               isLogin: true,
               isMine: pathData.user && pathData.user.id === userData.user.id,
+              isLoading: false,
             });
           } catch (e) {
             this.openTip(parseError(e).message);
             this.closeTip(3000);
+            this.setData({
+              isLoading: false,
+            });
           }
         } else {
           this.setData({
             pathData,
             isLogin: false,
             isMine: false,
+            isLoading: false,
           });
         }
       })
       .catch((reason) => {
         this.openTip(parseError(reason).message);
         this.closeTip(3000);
+        this.setData({
+          isLoading: false,
+        });
       });
 
     this.setData({ loadQuery: query });

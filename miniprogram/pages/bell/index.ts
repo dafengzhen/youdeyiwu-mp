@@ -17,6 +17,7 @@ Page({
     showTip: false,
     hideTip: false,
     isPullDownRefresh: false,
+    isLoading: true,
   },
 
   async onLoad() {
@@ -87,10 +88,11 @@ Page({
               messageData = cacheData.messageData;
             }
 
-            this.setData({ messageData });
+            this.setData({ messageData, isLoading: false });
           } catch (e) {
             this.openTip(parseError(e).message);
             this.closeTip(3000);
+            this.setData({ isLoading: false });
           }
         } else {
           this.setData({
@@ -98,12 +100,14 @@ Page({
               ...this.data.messageData,
               content: defaultMessages,
             },
+            isLoading: false,
           });
         }
       })
       .catch((reason) => {
         this.openTip(parseError(reason).message);
         this.closeTip(3000);
+        this.setData({ isLoading: false });
       });
 
     void wx.setNavigationBarTitle({

@@ -20,6 +20,7 @@ Page({
     showTip: false,
     hideTip: false,
     isPullDownRefresh: false,
+    isLoading: true,
   },
 
   async onLoad() {
@@ -91,10 +92,11 @@ Page({
         keys = cacheData.keys;
       }
 
-      this.setData({ pathData, sectionData, keys });
+      this.setData({ pathData, sectionData, keys, isLoading: false });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({ isLoading: false });
     }
 
     void wx.setNavigationBarTitle({

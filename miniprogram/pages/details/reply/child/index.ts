@@ -44,6 +44,7 @@ Page({
     isLoadSubmit: false,
     id: null as any,
     pid: null as any,
+    isLoading: true,
   },
 
   async onLoad(query = {}) {
@@ -100,10 +101,12 @@ Page({
         id,
         pid,
         placeholder: `回复 ${replyData.user.alias}`,
+        isLoading: false,
       });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({ isLoading: false });
     }
   },
 

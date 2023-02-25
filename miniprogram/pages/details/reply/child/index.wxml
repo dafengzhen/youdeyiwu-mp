@@ -1,5 +1,15 @@
 <page-meta root-font-size="system" />
-<block wx:if="{{!pathData || !replyData}}">
+<block wx:if="{{isLoading}}">
+    <view class="animate-pulse flex flex-col h-screen bg-white gap-2">
+        <view class="rounded-t-lg bg-slate-200 h-4"></view>
+        <view class="rounded-t-lg bg-slate-200 h-4 mx-4"></view>
+        <view class="grid grid-cols-1 h-auto justify-items-center m-auto gap-2">
+            <view class="bg-slate-200 w-16 h-4"></view>
+            <view class="bg-slate-200 w-24 h-4"></view>
+        </view>
+    </view>
+</block>
+<block wx:elif="{{!pathData || !replyData}}">
     <view class="w-full h-full flex justify-center items-center">
         <image mode="aspectFill" class="rounded-lg m-auto" src="../../../../assets/images/nodata.png"></image>
     </view>
@@ -67,9 +77,9 @@
             </form>
         </view>
     </view>
+    <!-- 占位符 -->
+    <view class="h-2"></view>
 </block>
 <view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
     {{tip}}
 </view>
-<!-- 占位符 -->
-<view class="h-2"></view>

@@ -39,6 +39,7 @@ Page({
     showTip: false,
     hideTip: false,
     isPullDownRefresh: false,
+    isLoading: true,
   },
 
   async onLoad() {
@@ -74,6 +75,7 @@ Page({
           activeTab: sections[0].id,
           activeTabIndex: sections[0]._index,
           postData,
+          isLoading: false,
         },
         () => {
           emitter.emit('ready_index_page');
@@ -82,6 +84,9 @@ Page({
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({
+        isLoading: false,
+      });
     }
 
     void wx.setNavigationBarTitle({

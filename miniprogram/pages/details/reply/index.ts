@@ -40,6 +40,7 @@ Page({
     replyValue: '',
     placeholder: '请输入回复',
     focus: false,
+    isLoading: true,
   },
 
   async onLoad(query = {}) {
@@ -83,10 +84,11 @@ Page({
       await wx.setNavigationBarTitle({
         title: postDetailsData.basic.name + ' - 评论回复',
       });
-      this.setData({ pathData, postDetailsData });
+      this.setData({ pathData, postDetailsData, isLoading: false });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({ isLoading: false });
     }
   },
 
