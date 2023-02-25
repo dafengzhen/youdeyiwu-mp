@@ -31,10 +31,10 @@ const requestAdapter = async (
         : config.data;
     const method = config.method?.toUpperCase() ?? 'GET';
     let header = { ...config.headers };
-    const ticket = getStorageSync(Constants.TICKET);
-    if (typeof ticket === 'object' && 'token' in ticket && ticket.token) {
+    const token = getStorageSync(Constants.TICKET)?.token;
+    if (token) {
       header = {
-        Authorization: 'Bearer ' + ticket.token,
+        Authorization: 'Bearer ' + token,
         ...header,
       };
     }

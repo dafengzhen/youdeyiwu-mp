@@ -1,4 +1,5 @@
 import {
+  getNavQueryStrings,
   isHttpOrHttps,
   parseError,
   removeStorageSync,
@@ -28,26 +29,25 @@ Page({
     showTip: false,
     hideTip: false,
     isPullDownRefresh: false,
-    loadQuery: {},
     isMine: false,
     isLogin: false,
     appName: '欢迎来到' + config.APP_NAME,
     btnFeedbackColor: '#8f9293',
     isLoading: true,
+    isHide: false,
+    loadQuery: {} as {
+      id?: any;
+    },
   },
 
   async onLoad(query = {}) {
-    const queryStrings = userApp.globalData._queryStrings;
-    if (queryStrings?.id) {
-      query.id = queryStrings.id;
-      delete userApp.globalData._queryStrings.id;
-    }
-
+    query.id = getNavQueryStrings(userApp, 'id') ?? query.id;
     queryPath()
       .then(async (pathData) => {
-        if (pathData.user) {
+        const id = query.id ?? pathData?.user?.id;
+
+        if (pathData.user && id) {
           try {
-            const id = query.id ?? pathData.user.id;
             const cacheKey = `${id}_${this.data.cacheKey}`;
             const cache = await memoryCache;
             const cacheData:
@@ -104,6 +104,8 @@ Page({
             isLoading: false,
           });
         }
+
+        this.setData({ loadQuery: { ...query, id } });
       })
       .catch((reason) => {
         this.openTip(parseError(reason).message);
@@ -116,6 +118,33 @@ Page({
     this.setData({ loadQuery: query });
     void wx.setNavigationBarTitle({
       title: config.APP_NAME,
+    });
+  },
+
+  async onShow() {
+    const hide = this.data.isHide;
+    const pathData = this.data.pathData;
+    if (hide && pathData) {
+      this.setData({
+        isLoading: true,
+        isHide: false,
+      });
+      await this.onLoad({
+        id: getNavQueryStrings(userApp, 'id') ?? pathData?.user?.id,
+      });
+      this.setData({
+        isLoading: false,
+      });
+    }
+  },
+
+  onHide() {
+    this.setData({
+      isHide: true,
+      loadQuery: {
+        ...this.data.loadQuery,
+        id: null,
+      },
     });
   },
 
@@ -213,19 +242,24 @@ Page({
   handleShare(
     source: string
   ): ICustomShareContent | ICustomTimelineContent | IAddToFavoritesContent {
+    const id = this.data.userData?.user.id ?? '';
+    const alias = this.data.userData
+      ? this.data.userData.user.alias
+      : config.APP_NAME_ABBR;
+
     const custom:
       | ICustomShareContent
       | ICustomTimelineContent
       | IAddToFavoritesContent = {
-      title: '用户主页 - ' + config.APP_NAME_ABBR,
+      title: `用户主页 - ${alias}`,
     };
 
     if (source === 'f') {
-      (custom as ICustomShareContent).path = '/pages/user/index?s=f';
+      (custom as ICustomShareContent).path = `/pages/user/index?s=f&id=${id}`;
     } else if (source === 'f') {
-      (custom as ICustomTimelineContent).query = 's=fc';
+      (custom as ICustomTimelineContent).query = `s=fc&id=${id}`;
     } else if (source === 'f') {
-      (custom as IAddToFavoritesContent).query = 's=fa';
+      (custom as IAddToFavoritesContent).query = `s=fa&id=${id}`;
     }
 
     return custom;

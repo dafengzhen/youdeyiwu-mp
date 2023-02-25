@@ -1,0 +1,42 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+}
+
+.weui-cell {
+  padding: 8px;
+
+  &-name {
+    padding: 16px;
+  }
+}
+
+.weui-label {
+  width: 4em;
+}
+
+.weui-msg {
+  @apply bg-white;
+
+  &-bg {
+    background: #f3f4f6 !important;
+  }
+}
+
+.avatar {
+  color: #000000;
+}

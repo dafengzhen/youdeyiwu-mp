@@ -9,7 +9,7 @@
         </view>
     </view>
 </block>
-<block wx:elif="{{Object.keys(pathData).length === 0}}">
+<block wx:elif="{{!userData}}">
     <view class="w-full h-screen flex justify-center items-center">
         <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
     </view>
@@ -58,7 +58,7 @@
                 </navigator>
             </view>
             <view wx:if="{{isMine}}" class="bg-white rounded-md flex flex-col mb-4">
-                <view class="flex items-center justify-center p-3">
+                <navigator class="flex items-center justify-center p-3" url="/pages/avatar/index?id={{userData ? userData.user.id : loadQuery.id}}" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-person-bounding-box mr-3 secondary-title-color3"></i>
                         修改头像
@@ -66,7 +66,7 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
+                </navigator>
                 <navigator class="flex items-center justify-center p-3" url="/pages/favorite/index?id={{userData ? userData.user.id : loadQuery.id}}" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-stars mr-3 secondary-title-color3"></i>

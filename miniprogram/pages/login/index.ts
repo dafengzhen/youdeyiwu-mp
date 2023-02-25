@@ -122,12 +122,13 @@ Page({
         id: response.id,
         alias: response.alias,
         token: response.token,
+        isLoadReq: false,
       });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({ isLoadReq: false });
     }
-    this.setData({ isLoadReq: false });
   },
 
   async binderrorgetphonenumber(e: any) {
@@ -158,18 +159,21 @@ Page({
           token,
         },
       });
+
+      this.setData({
+        defaultAvatarUrl: isHttpOrHttps(avatarUrl)
+          ? avatarUrl
+          : config.APP_OSS_SERVER + avatarUrl ?? this.data.defaultAvatarUrl,
+        step: 3,
+        isLoadReq: false,
+      });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
+      this.setData({
+        isLoadReq: false,
+      });
     }
-
-    this.setData({
-      defaultAvatarUrl: isHttpOrHttps(avatarUrl)
-        ? avatarUrl
-        : config.APP_OSS_SERVER + avatarUrl ?? this.data.defaultAvatarUrl,
-      step: 3,
-      isLoadReq: false,
-    });
   },
 
   async binderrorchooseavatar(e: any) {

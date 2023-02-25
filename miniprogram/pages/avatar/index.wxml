@@ -1,0 +1,35 @@
+<page-meta root-font-size="system" />
+<view class="weui-msg">
+    <view class="weui-msg__icon-area">
+        <image mode="aspectFill" class="logo rounded-full" src="{{defaultAvatarUrl}}"></image>
+    </view>
+    <view class="weui-msg__text-area">
+        <view wx:if="{{step === 1}}" class="weui-msg__desc">更新您的个人头像</view>
+        <view wx:else class="weui-msg__desc">恭喜您更新头像完成</view>
+    </view>
+    <view class="weui-msg__opr-area">
+        <view class="weui-btn-area">
+            <button disabled="{{isLoadReq}}" wx:if="{{step === 1}}" open-type="chooseAvatar" bindchooseavatar="bindchooseavatar" binderror="binderrorchooseavatar" class="weui-btn weui-btn_primary">
+                <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
+                获取头像
+            </button>
+            <button disabled="{{isLoadReq}}" wx:else bindtap="bindtapReturn" class="weui-btn weui-btn_primary">
+                <i wx:if="{{isLoadReq}}" class="spinner-border spinner-border-md"></i>
+                返回
+            </button>
+        </view>
+    </view>
+    <view class="weui-msg__tips-area">
+        <view class="weui-msg__tips flex items-center justify-center">
+            <view class="flex items-center flex-shrink-0">可以选择使用已有头像或者上传自定义头像</view>
+        </view>
+    </view>
+    <view class="weui-msg__extra-area">
+        <view class="weui-footer">
+            <view class="weui-footer__text capitalize">copyright © 2023 {{appNameAbbr}}</view>
+        </view>
+    </view>
+</view>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
+</view>

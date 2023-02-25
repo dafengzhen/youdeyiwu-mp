@@ -20,7 +20,8 @@
     "pages/about/index",
     "pages/statistic/index",
     "pages/related/index",
-    "pages/favorite/index"
+    "pages/favorite/index",
+    "pages/avatar/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

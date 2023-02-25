@@ -260,6 +260,13 @@ export const setNavQueryStrings = (app: IApp, query = {}): void => {
   app.globalData._queryStrings = { ...queryStrings, ...query };
 };
 
+export const getNavQueryStrings = (app: IApp, key: string): any => {
+  const queryStrings = app.globalData._queryStrings ?? {};
+  const _value = queryStrings[key];
+  queryStrings[key] = undefined;
+  return _value;
+};
+
 export const filterParams = (params: any = {}): any => {
   const _params: any = {};
   for (const paramsKey in params) {
