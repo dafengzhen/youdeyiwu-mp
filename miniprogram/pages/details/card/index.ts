@@ -6,6 +6,7 @@ import {
   hasText,
   isHttpOrHttps,
   parseError,
+  setNavQueryStrings,
   uniqBy,
 } from '@/tools';
 import { clientQuerySectionDetailsById } from '@apis/forum/section';
@@ -13,9 +14,12 @@ import { type IPath } from '@interfaces/path';
 import { type ISectionDetails } from '@interfaces/section';
 import config from '@/config';
 import { type IPost } from '@interfaces/post';
+import { type IApp } from '@/interfaces';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
+
+const cardDetailsApp = getApp<IApp>();
 
 Page({
   data: {
@@ -220,6 +224,15 @@ Page({
     this.setData({
       isViewAdmin: !this.data.isViewAdmin,
     });
+  },
+
+  bindTapUserNavigator(e: any) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
+      return;
+    }
+
+    setNavQueryStrings(cardDetailsApp, { id });
   },
 
   async bindTapLoadNextPage() {

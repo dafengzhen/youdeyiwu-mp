@@ -6,6 +6,7 @@ import {
   hasText,
   isHttpOrHttps,
   parseError,
+  setNavQueryStrings,
   showModal,
   showToast,
 } from '@/tools';
@@ -31,7 +32,7 @@ import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
 
-const postApp = getApp<IApp>();
+const postDetailsApp = getApp<IApp>();
 
 Page({
   data: {
@@ -225,7 +226,7 @@ Page({
       return;
     }
 
-    if (!pathData.user && !postApp.globalData._isQuickLogin) {
+    if (!pathData.user && !postDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',
@@ -283,7 +284,7 @@ Page({
       return;
     }
 
-    if (!pathData.user && !postApp.globalData._isQuickLogin) {
+    if (!pathData.user && !postDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',
@@ -345,7 +346,7 @@ Page({
       return;
     }
 
-    if (!pathData.user && !postApp.globalData._isQuickLogin) {
+    if (!pathData.user && !postDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',
@@ -397,5 +398,14 @@ Page({
       this.openTip(parseError(e).message);
       this.closeTip(3000);
     }
+  },
+
+  bindTapUserNavigator(e: any) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
+      return;
+    }
+
+    setNavQueryStrings(postDetailsApp, { id });
   },
 });

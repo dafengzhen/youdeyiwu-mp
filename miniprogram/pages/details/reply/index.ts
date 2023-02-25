@@ -9,6 +9,7 @@ import {
   hideLoading,
   isHttpOrHttps,
   parseError,
+  setNavQueryStrings,
   showLoading,
   showModal,
   showToast,
@@ -313,5 +314,14 @@ Page({
         pageable,
       },
     });
+  },
+
+  bindTapUserNavigator(e: any) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
+      return;
+    }
+
+    setNavQueryStrings(replyApp, { id });
   },
 });

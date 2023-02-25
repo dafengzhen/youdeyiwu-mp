@@ -29,7 +29,7 @@
                 </button>
             </view>
             <view wx:if="{{isViewAdmin}}" class="details-box-top-admin mt-4 grid grid-cols-3 gap-x-4 gap-y-2 text-base text-slate-500">
-                <navigator wx:for="{{sectionDetailsData.admins}}" wx:key="id" class="details-box-top-admin_item" url="/pages/user/index?id={{item.id}}" open-type="switchTab">
+                <navigator wx:for="{{sectionDetailsData.admins}}" wx:key="id" class="details-box-top-admin_item" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.id}}" open-type="switchTab">
                     {{item.alias}}
                 </navigator>
             </view>
@@ -46,8 +46,10 @@
             </view>
             <view wx:for="{{sectionDetailsData.data.content}}" wx:key="id" class="details-box-bottom-post-item px-2">
                 <view class="flex justify-between items-center mt-5">
-                    <image class="flex-shrink-0 rounded-full user-cover" src="{{item.user.details._avatarUrl}}" mode="aspectFill" lazy-load></image>
-                    <navigator class="flex items-center justify-between flex-grow text-slate-500" url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
+                    <navigator class="flex-shrink-0 rounded-full user-cover" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
+                        <image class="flex-shrink-0 rounded-full user-cover" src="{{item.user.details._avatarUrl}}" mode="aspectFill" lazy-load></image>
+                    </navigator>
+                    <navigator class="flex items-center justify-between flex-grow text-slate-500" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
                         <view class="ml-4 line-clamp-1 flex-nowrap">{{item.user.alias}}</view>
                         <view class="ml-4 flex-shrink-0">{{item._fromNow}}前</view>
                     </navigator>

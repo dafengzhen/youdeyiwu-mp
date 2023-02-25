@@ -26,11 +26,11 @@
             <block wx:for="{{commentData.content}}" wx:key="_replyId">
                 <view class="details-box-item p-2">
                     <view class="flex gap-4">
-                        <navigator url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
+                        <navigator url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
                             <image class="user-avatar rounded-full flex-shrink-0" src="{{item.user.details._avatarUrl}}" mode="aspectFill" lazy-load></image>
                         </navigator>
                         <view class="flex flex-col justify-between w-full">
-                            <navigator class="line-clamp-1" url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
+                            <navigator class="line-clamp-1" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
                                 {{item.user.alias}}
                             </navigator>
                             <view class="text-gray-500">{{item.reply._fromNow}}前</view>

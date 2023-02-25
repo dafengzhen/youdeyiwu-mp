@@ -8,6 +8,7 @@ import {
   hideLoading,
   isHttpOrHttps,
   parseError,
+  setNavQueryStrings,
   showLoading,
   showModal,
   showToast,
@@ -334,5 +335,14 @@ Page({
       'replyData.content': content,
       'replyData.pageable': pageable,
     });
+  },
+
+  bindTapUserNavigator(e: any) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
+      return;
+    }
+
+    setNavQueryStrings(childReplyApp, { id });
   },
 });
