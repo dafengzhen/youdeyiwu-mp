@@ -1,6 +1,10 @@
 import type { IPagination, TBody, TParams } from '@/interfaces';
 import request from '@tools/request';
-import { type IPost, type IPostClientDetails } from '@interfaces/post';
+import {
+  type IPost,
+  type IPostClientDetails,
+  type IPostFavourite,
+} from '@interfaces/post';
 
 export const clientQueryAllPost = async (
   params: TParams = {}
@@ -65,4 +69,8 @@ export const postCancelFavourite = async (params: TParams): Promise<void> => {
 
 export const postView = async (params: TBody<void>): Promise<void> => {
   await request.post(`/forum/posts/${params.id as string}/view`);
+};
+
+export const queryPostFavourites = async (): Promise<IPostFavourite[]> => {
+  return await request.get('/forum/posts/favourites');
 };

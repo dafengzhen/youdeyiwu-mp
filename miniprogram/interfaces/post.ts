@@ -126,3 +126,9 @@ export type TPostOtherStatus =
   | 'NO_COMMENT'
   | 'NO_REPLY'
   | 'NO_COMMENT_REPLY';
+
+export interface IPostFavourite extends IBase {
+  name: string;
+  remark?: string;
+  postId: number;
+}
