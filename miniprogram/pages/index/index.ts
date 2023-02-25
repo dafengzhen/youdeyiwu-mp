@@ -11,23 +11,30 @@ import {
   defaultPagination,
   formatTotal,
   fromNow,
+  getBackgroundFetchData,
+  getToken,
   hasText,
   isHttpOrHttps,
+  onBackgroundFetchData,
   parseError,
   setNavQueryStrings,
 } from '@/tools';
 import config from '@/config';
 import type { IApp, IPagination } from '@/interfaces';
 import memoryCache from '@/tools/cache';
+import { type IPath } from '@interfaces/path';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
+import OnBackgroundFetchDataListenerResult = WechatMiniprogram.OnBackgroundFetchDataListenerResult;
+import GetBackgroundFetchDataSuccessCallbackResult = WechatMiniprogram.GetBackgroundFetchDataSuccessCallbackResult;
 
 const indexApp = getApp<IApp>();
 
 Page({
   data: {
     tabs: [] as ISectionClient[],
+    pathData: null as null | IPath,
     postData: defaultPagination() as IPagination<IPost>,
     activeTab: 0,
     activeTabIndex: 0,
@@ -46,51 +53,92 @@ Page({
   },
 
   async onLoad() {
-    const queryPathReq = queryPath();
-    const clientQueryAllSectionReq = clientQueryAllSection();
-    const clientQueryAllPostReq = clientQueryAllPost();
-
-    try {
-      const responses = await Promise.all([
-        queryPathReq,
-        clientQueryAllSectionReq,
-        clientQueryAllPostReq,
-      ]);
-
-      const sections = [
-        {
-          id: 'all',
-          name: '全部',
-          _customized: true,
-        } as any,
-        ...responses[1],
-      ].map((item, index) => this.handleSectionData(item, index));
-      if (sections.length === 0) {
-        return;
-      }
-
-      const postData = responses[2];
-      postData.content.map((item) => this.handlePostItem(item));
-
-      this.setData(
-        {
-          tabs: sections,
-          activeTab: sections[0].id,
-          activeTabIndex: sections[0]._index,
-          postData,
-          isLoading: false,
-        },
-        () => {
-          emitter.emit('ready_index_page');
-        }
-      );
-    } catch (e) {
-      this.openTip(parseError(e).message);
-      this.closeTip(3000);
-      this.setData({
-        isLoading: false,
+    const token = getToken();
+    if (token) {
+      await wx.setBackgroundFetchToken({
+        token,
       });
     }
+
+    const onBackgroundFetchDataReq = onBackgroundFetchData();
+    const getBackgroundPreFetchDataReq = getBackgroundFetchData({
+      fetchType: 'pre',
+    });
+    const getBackgroundPeriodicFetchDataReq = getBackgroundFetchData({
+      fetchType: 'periodic',
+    });
+
+    let fetchedData: [] | [IPath, ISectionClient[], IPagination<IPost>] = [];
+    try {
+      const response = await Promise.race<
+        | OnBackgroundFetchDataListenerResult
+        | GetBackgroundFetchDataSuccessCallbackResult
+      >([
+        onBackgroundFetchDataReq,
+        getBackgroundPreFetchDataReq,
+        getBackgroundPeriodicFetchDataReq,
+      ]);
+
+      const _fetchedData = response.fetchedData;
+      if (_fetchedData) {
+        const parse = JSON.parse(_fetchedData);
+        const path = parse.path;
+        const sections = parse.sections;
+        const postData = parse.postData;
+        if (path && sections && postData) {
+          fetchedData = [path, sections, postData];
+        }
+      }
+    } catch (e) {}
+
+    if (fetchedData.length === 0) {
+      try {
+        const queryPathReq = queryPath();
+        const clientQueryAllSectionReq = clientQueryAllSection();
+        const clientQueryAllPostReq = clientQueryAllPost();
+        fetchedData = await Promise.all([
+          queryPathReq,
+          clientQueryAllSectionReq,
+          clientQueryAllPostReq,
+        ]);
+      } catch (e) {
+        this.openTip(parseError(e).message);
+        this.closeTip(3000);
+        this.setData({
+          isLoading: false,
+        });
+        return;
+      }
+    }
+
+    const sections = fetchedData[1];
+    sections.unshift({
+      id: 'all',
+      name: '全部',
+      _customized: true,
+    } as any);
+    sections.forEach((item, index) => {
+      this.handleSectionData(item, index);
+    });
+
+    const postData = fetchedData[2];
+    postData.content.forEach((item) => {
+      this.handlePostItem(item);
+    });
+
+    this.setData(
+      {
+        tabs: sections,
+        activeTab: sections[0].id,
+        activeTabIndex: sections[0]._index,
+        pathData: fetchedData[0],
+        postData,
+        isLoading: false,
+      },
+      () => {
+        emitter.emit('ready_index_page');
+      }
+    );
 
     void wx.setNavigationBarTitle({
       title: config.APP_NAME,

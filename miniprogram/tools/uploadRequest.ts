@@ -1,7 +1,6 @@
 import UploadFileOption = WechatMiniprogram.UploadFileOption;
 import config from '@/config';
-import { getStorageSync } from '@tools/index';
-import Constants from '@/constants';
+import { getToken } from '@tools/index';
 
 const uploadRequest = async (
   options: UploadFileOption & { token?: string }
@@ -15,7 +14,7 @@ const uploadRequest = async (
         Authorization: `Bearer ${options.token}`,
       };
     } else {
-      const token: string = getStorageSync(Constants.TICKET)?.token;
+      const token: string = getToken();
       if (token) {
         header = {
           Authorization: `Bearer ${token}`,

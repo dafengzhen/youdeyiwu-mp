@@ -5,6 +5,9 @@ import ShowToastOption = WechatMiniprogram.ShowToastOption;
 import GeneralCallbackResult = WechatMiniprogram.GeneralCallbackResult;
 import ShowModalOption = WechatMiniprogram.ShowModalOption;
 import ShowModalSuccessCallbackResult = WechatMiniprogram.ShowModalSuccessCallbackResult;
+import OnBackgroundFetchDataListenerResult = WechatMiniprogram.OnBackgroundFetchDataListenerResult;
+import GetBackgroundFetchDataOption = WechatMiniprogram.GetBackgroundFetchDataOption;
+import GetBackgroundFetchDataSuccessCallbackResult = WechatMiniprogram.GetBackgroundFetchDataSuccessCallbackResult;
 import Constants from '@/constants';
 import zhCN from 'date-fns/locale/zh-CN';
 import { atob } from 'js-base64';
@@ -17,13 +20,13 @@ export const showToast = async (
   return await new Promise((resolve, reject) => {
     wx.showToast({
       icon: 'none',
-      ...options,
       success: (res) => {
         resolve(res);
       },
-      fail: async (rea) => {
+      fail: (rea) => {
         reject(rea);
       },
+      ...options,
     });
   });
 };
@@ -33,13 +36,13 @@ export const hideToast = async (
 ): Promise<GeneralCallbackResult> => {
   return await new Promise((resolve, reject) => {
     wx.hideToast({
-      ...options,
       success: (res) => {
         resolve(res);
       },
       fail: (rea) => {
         reject(rea);
       },
+      ...options,
     });
   });
 };
@@ -49,13 +52,13 @@ export const showLoading = async (
 ): Promise<GeneralCallbackResult> => {
   return await new Promise((resolve, reject) => {
     wx.showLoading({
-      ...options,
       success: (res) => {
         resolve(res);
       },
-      fail: async (rea) => {
+      fail: (rea) => {
         reject(rea);
       },
+      ...options,
     });
   });
 };
@@ -65,13 +68,13 @@ export const hideLoading = async (
 ): Promise<GeneralCallbackResult> => {
   return await new Promise((resolve, reject) => {
     wx.hideLoading({
-      ...options,
       success: (res) => {
         resolve(res);
       },
       fail: (rea) => {
         reject(rea);
       },
+      ...options,
     });
   });
 };
@@ -81,13 +84,13 @@ export const showModal = async (
 ): Promise<ShowModalSuccessCallbackResult> => {
   return await new Promise((resolve, reject) => {
     wx.showModal({
-      ...options,
       success: (res) => {
         resolve(res);
       },
-      fail: async (rea) => {
+      fail: (rea) => {
         reject(rea);
       },
+      ...options,
     });
   });
 };
@@ -145,6 +148,7 @@ export const parseError = (
     error = {
       ...error,
       ...e,
+      message: e.message ?? e.errMsg ?? error.message,
     };
   } else {
     error.message = e + '';
@@ -279,4 +283,38 @@ export const filterParams = (params: any = {}): any => {
     }
   }
   return _params;
+};
+
+export const getToken = (defaultValue?: undefined | any): string => {
+  return getStorageSync(Constants.TICKET)?.token ??
+    typeof defaultValue !== 'undefined'
+    ? defaultValue
+    : undefined;
+};
+
+export const onBackgroundFetchData =
+  async (): Promise<OnBackgroundFetchDataListenerResult> => {
+    return await new Promise((resolve, reject) => {
+      try {
+        wx.onBackgroundFetchData(resolve);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  };
+
+export const getBackgroundFetchData = async (
+  options: GetBackgroundFetchDataOption & { fetchType: 'pre' | 'periodic' }
+): Promise<GetBackgroundFetchDataSuccessCallbackResult> => {
+  return await new Promise((resolve, reject) => {
+    wx.getBackgroundFetchData({
+      success: (res) => {
+        resolve(res);
+      },
+      fail: (rea) => {
+        reject(rea);
+      },
+      ...options,
+    });
+  });
 };

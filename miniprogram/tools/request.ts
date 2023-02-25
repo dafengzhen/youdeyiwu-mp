@@ -4,8 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import config from '@/config';
-import { checkTicket, filterParams, getStorageSync } from '@tools/index';
-import Constants from '@/constants';
+import { checkTicket, filterParams, getToken } from '@tools/index';
 
 const requestAdapter = async (
   config: InternalAxiosRequestConfig
@@ -31,7 +30,7 @@ const requestAdapter = async (
         : config.data;
     const method = config.method?.toUpperCase() ?? 'GET';
     let header = { ...config.headers };
-    const token = getStorageSync(Constants.TICKET)?.token;
+    const token = getToken();
     if (token) {
       header = {
         Authorization: 'Bearer ' + token,
