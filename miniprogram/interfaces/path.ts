@@ -35,6 +35,9 @@ export interface IPath {
   };
   user?: IUserOv;
   _isQuickLogin?: boolean;
+  _queryStrings?: {
+    id?: any;
+  };
 }
 
 export interface IYwOauthClientUrl {

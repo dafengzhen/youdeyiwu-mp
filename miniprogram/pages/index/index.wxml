@@ -52,7 +52,7 @@
                 <view class="all-post-box-box_item rounded-md">
                   <!-- 基本 -->
                   <view class="flex items-center">
-                    <navigator url="/pages/user/index" open-type="switchTab">
+                    <navigator url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
                       <image lazy-load mode="aspectFill" class="all-post-box-box_item_avatar flex-shrink-0 rounded-full" src="{{item.user.details._avatarUrl}}"></image>
                     </navigator>
                     <view class="flex flex-col justify-between ml-4">
@@ -60,7 +60,7 @@
                         {{item.name}}
                       </navigator>
                       <view class="line-clamp-1 text-slate-600">
-                        <navigator url="/pages/user/index?id={{item.user.id}}" open-type="switchTab">
+                        <navigator url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
                           {{item.user.alias +' · ' + item._fromNow}}前
                         </navigator>
                       </view>

@@ -1,5 +1,8 @@
 import { parseError, showToast } from '@/tools';
 import { clientQueryUserDetails } from '@apis/user';
+import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
+import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
+import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
 
 Page({
   data: {
@@ -8,6 +11,10 @@ Page({
     hideTip: false,
     isLoading: true,
     about: '',
+    loadQuery: {} as {
+      id?: string;
+    },
+    alias: '',
   },
 
   async onLoad(query = {}) {
@@ -31,6 +38,7 @@ Page({
       const about = userData.user.details.about ?? '';
       this.setData({
         about,
+        alias: userData.user.alias,
         isLoading: false,
       });
     } catch (e) {
@@ -40,6 +48,20 @@ Page({
         isLoading: false,
       });
     }
+
+    this.setData({ loadQuery: query });
+  },
+
+  onShareAppMessage() {
+    return this.handleShare('f');
+  },
+
+  onShareTimeline() {
+    return this.handleShare('fc');
+  },
+
+  onAddToFavorites() {
+    return this.handleShare('fa');
   },
 
   closeTip(ms: number = 2000) {
@@ -75,5 +97,29 @@ Page({
         void showToast({ title: rea.errMsg });
       },
     });
+  },
+
+  handleShare(
+    source: string
+  ): ICustomShareContent | ICustomTimelineContent | IAddToFavoritesContent {
+    const id = this.data.loadQuery.id ?? '';
+    const alias = this.data.alias;
+
+    const custom:
+      | ICustomShareContent
+      | ICustomTimelineContent
+      | IAddToFavoritesContent = {
+      title: '关于我 - ' + alias,
+    };
+
+    if (source === 'f') {
+      (custom as ICustomShareContent).path = `/pages/about/index?s=f&id=${id}`;
+    } else if (source === 'f') {
+      (custom as ICustomTimelineContent).query = `s=fc&id=${id}`;
+    } else if (source === 'f') {
+      (custom as IAddToFavoritesContent).query = `s=fa&id=${id}`;
+    }
+
+    return custom;
   },
 });

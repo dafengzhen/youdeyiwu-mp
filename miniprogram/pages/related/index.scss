@@ -1,0 +1,43 @@
+page {
+  height: 100%;
+  @apply yw-bg;
+}
+
+.navigator-hover {
+  color: #07c160;
+  @apply rounded-md;
+}
+
+.weui-toptips {
+  display: block;
+}
+
+.related {
+  color: #000000;
+}
+
+.sections-box {
+}
+
+.tags-box {
+}
+
+.btn-color {
+  color: rgb(107 114 128 / var(--tw-text-opacity)) !important;
+}
+
+.btn-bg {
+  background: #f2f2f2;
+}
+
+.btn-bg-active {
+  background: #07c160;
+}
+
+.read-bg {
+  background: #07c160;
+}
+
+.post-title {
+  width: 50%;
+}

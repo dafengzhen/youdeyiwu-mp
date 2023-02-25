@@ -14,13 +14,16 @@ import {
   hasText,
   isHttpOrHttps,
   parseError,
+  setNavQueryStrings,
 } from '@/tools';
 import config from '@/config';
-import type { IPagination } from '@/interfaces';
+import type { IApp, IPagination } from '@/interfaces';
 import memoryCache from '@/tools/cache';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
+
+const indexApp = getApp<IApp>();
 
 Page({
   data: {
@@ -305,6 +308,15 @@ Page({
     await wx.previewImage({
       urls: item.images,
     });
+  },
+
+  bindTapUserNavigator(e: any) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) {
+      return;
+    }
+
+    setNavQueryStrings(indexApp, { id });
   },
 
   initIndexBoxHeight() {

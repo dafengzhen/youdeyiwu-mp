@@ -37,6 +37,12 @@ Page({
   },
 
   async onLoad(query = {}) {
+    const queryStrings = userApp.globalData._queryStrings;
+    if (queryStrings?.id) {
+      query.id = queryStrings.id;
+      delete userApp.globalData._queryStrings.id;
+    }
+
     queryPath()
       .then(async (pathData) => {
         if (pathData.user) {

@@ -78,7 +78,7 @@
                 </view>
             </view>
             <view class="bg-white rounded-md flex flex-col mb-4">
-                <view class="flex items-center justify-center p-3">
+                <navigator class="flex items-center justify-center p-3" url="/pages/related/index?s=p&id={{userData ? userData.user.id : loadQuery.id}}" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
                         {{isMine ? '我的帖子': '相关帖子'}}
@@ -86,8 +86,8 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
-                <view class="flex items-center justify-center p-3">
+                </navigator>
+                <navigator class="flex items-center justify-center p-3" url="/pages/related/index?s=s&id={{userData ? userData.user.id : loadQuery.id}}" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
                         相关内容
@@ -95,8 +95,8 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
-                <view class="flex items-center justify-center p-3">
+                </navigator>
+                <navigator class="flex items-center justify-center p-3" url="/pages/related/index?s=t&id={{userData ? userData.user.id : loadQuery.id}}" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-signpost mr-3 secondary-title-color3"></i>
                         相关标签
@@ -104,7 +104,7 @@
                     <view class="flex-grow text-end">
                         <i class="bi bi-chevron-right secondary-title-color3"></i>
                     </view>
-                </view>
+                </navigator>
                 <navigator class="flex items-center justify-center p-3" url="/pages/statistic/index?id={{userData ? userData.user.id : loadQuery.id}}" open-type="navigate">
                     <view class="flex-shrink-0">
                         <i class="bi bi-signpost mr-3 secondary-title-color3"></i>

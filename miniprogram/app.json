@@ -18,7 +18,8 @@
     "pages/success/index",
     "pages/contact/index",
     "pages/about/index",
-    "pages/statistic/index"
+    "pages/statistic/index",
+    "pages/related/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

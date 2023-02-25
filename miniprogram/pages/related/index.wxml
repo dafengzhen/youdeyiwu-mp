@@ -1,0 +1,92 @@
+<page-meta root-font-size="system" />
+<block wx:if="{{isLoading}}">
+    <view class="animate-pulse flex flex-col h-screen bg-white gap-2">
+        <view class="rounded-t-lg bg-slate-200 h-4"></view>
+        <view class="rounded-t-lg bg-slate-200 h-4 mx-4"></view>
+        <view class="grid grid-cols-1 h-auto justify-items-center m-auto gap-2">
+            <view class="bg-slate-200 w-16 h-4"></view>
+            <view class="bg-slate-200 w-24 h-4"></view>
+        </view>
+    </view>
+</block>
+<block wx:elif="{{!userData}}">
+    <view class="w-full h-screen flex justify-center items-center">
+        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+    </view>
+</block>
+<block wx:else>
+    <view class="details-box p-4 flex flex-col gap-4 gap-y-2">
+        <view class="posts-box bg-white p-4 rounded-lg">
+            <view class="font-bold text-lg">相关帖子</view>
+            <view class="my-4 grid grid-cols-1 gap-4">
+                <block wx:if="{{userData.data.content.length === 0}}">
+                    <view class="overflow-hidden">
+                        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+                    </view>
+                </block>
+                <block wx:else>
+                    <view wx:for="{{userData.data.content}}" wx:key="id" class="flex flex-col gap-4">
+                        <view class="text-center line-clamp-1 text-lg font-semibold">
+                            {{item.name}}
+                        </view>
+                        <view class="text-center mx-auto post-title border-b mb-3 border-black"></view>
+                        <view class="text-gray-500 text-justify">
+                            <rich-text>{{item.overview}}</rich-text>
+                        </view>
+                        <navigator class="w-24 rounded py-1 text-white flex items-center justify-center read-bg" url="/pages/details/post/index?id={{item.id}}" open-type="navigate">
+                            阅读更多
+                        </navigator>
+                        <view wx:if="{{userData.data.content.length - 1 !== index}}" class="my-4 invisible"></view>
+                    </view>
+                </block>
+            </view>
+        </view>
+        <view id="sections" class="invisible"></view>
+        <view class="sections-box bg-white p-4 rounded-lg">
+            <view class="font-bold text-lg">相关内容</view>
+            <block wx:if="{{userData.sections.length === 0}}">
+                <view class="my-4">
+                    <view class="overflow-hidden">
+                        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+                    </view>
+                </view>
+            </block>
+            <block wx:else>
+                <view class="my-4 grid grid-cols-2 gap-4 text-gray-500">
+                    <navigator wx:for="{{userData.sections}}" wx:key="id" class="rounded py-1 text-gray-500 flex items-center justify-center {{loadQuery.sid && loadQuery.sid === item.id + '' ? 'btn-bg-active text-white' : 'btn-bg'}}" url="/pages/related/index" bindtap="bindTapSection" data-item="{{item}}" open-type="switchTab">
+                        {{item.name}}
+                    </navigator>
+                    <navigator class="rounded py-1 text-gray-500 flex items-center justify-center btn-bg" url="/pages/related/index" bindtap="bindTapSection" open-type="switchTab">
+                        全部
+                    </navigator>
+                </view>
+            </block>
+        </view>
+        <view id="tags" class="invisible"></view>
+        <view class="tags-box bg-white p-4 rounded-lg">
+            <view class="font-bold text-lg">相关标签</view>
+            <block wx:if="{{userData.tags.length === 0}}">
+                <view class="my-4">
+                    <view class="overflow-hidden">
+                        <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
+                    </view>
+                </view>
+            </block>
+            <block wx:else>
+                <view class="my-4 grid grid-cols-2 gap-4 text-gray-500">
+                    <navigator wx:for="{{userData.tags}}" wx:key="id" class="rounded py-1 text-gray-500 flex items-center justify-center {{loadQuery.tid && loadQuery.tid === item.id + '' ? 'btn-bg-active text-white' : 'btn-bg'}}" url="/pages/related/index" bindtap="bindTapTag" data-item="{{item}}" open-type="switchTab">
+                        {{item.name}}
+                    </navigator>
+                    <navigator class="rounded py-1 text-gray-500 flex items-center justify-center btn-bg" url="/pages/related/index" bindtap="bindTapTag" open-type="switchTab">
+                        全部
+                    </navigator>
+                </view>
+            </block>
+        </view>
+    </view>
+    <!-- 占位符 -->
+    <view class="safe-area h-2"></view>
+</block>
+<view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
+    {{tip}}
+</view>

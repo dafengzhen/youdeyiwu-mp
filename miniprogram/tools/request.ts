@@ -4,7 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import config from '@/config';
-import { checkTicket, getStorageSync } from '@tools/index';
+import { checkTicket, filterParams, getStorageSync } from '@tools/index';
 import Constants from '@/constants';
 
 const requestAdapter = async (
@@ -27,7 +27,7 @@ const requestAdapter = async (
 
     const data =
       config.method === 'get' || config.method === 'delete'
-        ? config.params
+        ? filterParams(config.params)
         : config.data;
     const method = config.method?.toUpperCase() ?? 'GET';
     let header = { ...config.headers };

@@ -1,9 +1,13 @@
-import { parseError } from '@/tools';
+import { parseError, setNavQueryStrings } from '@/tools';
 import { clientQueryUserDetails } from '@apis/user';
-import { type IStatistic } from '@interfaces/user';
+import { type IUserClientDetails } from '@interfaces/user';
+import { type ISection } from '@interfaces/section';
+import { type IApp } from '@/interfaces';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
+
+const relatedApp = getApp<IApp>();
 
 Page({
   data: {
@@ -11,11 +15,12 @@ Page({
     showTip: false,
     hideTip: false,
     isLoading: true,
-    statistic: {} as IStatistic,
+    userData: null as null | IUserClientDetails,
     loadQuery: {} as {
       id?: string;
+      sid?: string;
+      tid?: string;
     },
-    alias: '',
   },
 
   async onLoad(query = {}) {
@@ -30,16 +35,18 @@ Page({
     try {
       const userData = await clientQueryUserDetails({
         id,
+        query: {
+          sectionId: query.sid,
+          tagId: query.tid,
+        },
       });
 
       void wx.setNavigationBarTitle({
-        title: `相关统计 - ${userData.user.alias}`,
+        title: `我的相关 - ${userData.user.alias}`,
       });
 
-      const statistic = userData.user.statistic;
       this.setData({
-        statistic,
-        alias: userData.user.alias,
+        userData,
         isLoading: false,
       });
     } catch (e) {
@@ -51,6 +58,18 @@ Page({
     }
 
     this.setData({ loadQuery: query });
+
+    let s = query.s;
+    if (s === 's') {
+      s = '#sections';
+    } else if (s === 't') {
+      s = '#tags';
+    } else {
+      return;
+    }
+    void wx.pageScrollTo({
+      selector: s,
+    });
   },
 
   onShareAppMessage() {
@@ -84,23 +103,51 @@ Page({
     });
   },
 
+  bindTapSection(e: any) {
+    const loadQuery = this.data.loadQuery;
+    if (!loadQuery.id) {
+      return;
+    }
+
+    const item: null | ISection = e.currentTarget.dataset.item;
+    if (item) {
+      setNavQueryStrings(relatedApp, { id: loadQuery.id, sid: item.id });
+    } else {
+      setNavQueryStrings(relatedApp, { id: loadQuery.id });
+    }
+  },
+
+  bindTapTag(e: any) {
+    const loadQuery = this.data.loadQuery;
+    if (!loadQuery.id) {
+      return;
+    }
+
+    const item: null | ISection = e.currentTarget.dataset.item;
+    if (item) {
+      setNavQueryStrings(relatedApp, { id: loadQuery.id, tid: item.id });
+    } else {
+      setNavQueryStrings(relatedApp, { id: loadQuery.id });
+    }
+  },
+
   handleShare(
     source: string
   ): ICustomShareContent | ICustomTimelineContent | IAddToFavoritesContent {
     const id = this.data.loadQuery.id ?? '';
-    const alias = this.data.alias;
+    const alias = this.data.userData ? this.data.userData.user.alias : '';
 
     const custom:
       | ICustomShareContent
       | ICustomTimelineContent
       | IAddToFavoritesContent = {
-      title: '相关统计 - ' + alias,
+      title: '我的相关 - ' + alias,
     };
 
     if (source === 'f') {
       (
         custom as ICustomShareContent
-      ).path = `/pages/statistic/index?s=f&id=${id}`;
+      ).path = `/pages/related/index?s=f&id=${id}`;
     } else if (source === 'f') {
       (custom as ICustomTimelineContent).query = `s=fc&id=${id}`;
     } else if (source === 'f') {

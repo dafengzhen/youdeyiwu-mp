@@ -9,7 +9,7 @@ import Constants from '@/constants';
 import zhCN from 'date-fns/locale/zh-CN';
 import { atob } from 'js-base64';
 import { format, formatDistanceStrict, isAfter } from 'date-fns';
-import { type IPagination } from '@/interfaces';
+import { type IApp, type IPagination } from '@/interfaces';
 
 export const showToast = async (
   options: ShowToastOption = { title: 'ok' }
@@ -253,4 +253,23 @@ export const uniqBy = (array: any[] = [], by: string): any[] => {
     }
     return previousValue;
   }, []);
+};
+
+export const setNavQueryStrings = (app: IApp, query = {}): void => {
+  const queryStrings = app.globalData._queryStrings ?? {};
+  app.globalData._queryStrings = { ...queryStrings, ...query };
+};
+
+export const filterParams = (params: any = {}): any => {
+  const _params: any = {};
+  for (const paramsKey in params) {
+    if (
+      params[paramsKey] !== null &&
+      params[paramsKey] !== undefined &&
+      params[paramsKey] !== ''
+    ) {
+      _params[paramsKey] = params[paramsKey];
+    }
+  }
+  return _params;
 };
