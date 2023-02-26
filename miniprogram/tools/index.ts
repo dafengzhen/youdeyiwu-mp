@@ -286,10 +286,10 @@ export const filterParams = (params: any = {}): any => {
 };
 
 export const getToken = (defaultValue?: undefined | any): string => {
-  return getStorageSync(Constants.TICKET)?.token ??
-    typeof defaultValue !== 'undefined'
-    ? defaultValue
-    : undefined;
+  return (
+    getStorageSync(Constants.TICKET)?.token ??
+    (typeof defaultValue !== 'undefined' ? defaultValue : undefined)
+  );
 };
 
 export const onBackgroundFetchData =

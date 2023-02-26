@@ -124,16 +124,12 @@ Page({
   async onShow() {
     const hide = this.data.isHide;
     const pathData = this.data.pathData;
-    if (hide && pathData) {
+    if (hide && Object.keys(pathData).length !== 0) {
       this.setData({
-        isLoading: true,
         isHide: false,
       });
       await this.onLoad({
         id: getNavQueryStrings(userApp, 'id') ?? pathData?.user?.id,
-      });
-      this.setData({
-        isLoading: false,
       });
     }
   },
