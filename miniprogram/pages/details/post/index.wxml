@@ -27,10 +27,10 @@
                     {{postDetailsData.basic.name}}
                 </view>
                 <view class="details-box-content-subtitle flex items-center gap-4 mt-3">
-                    <navigator class="user-avatar flex-shrink-0 rounded-full" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
+                    <navigator class="user-avatar flex-shrink-0 rounded-full" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{postDetailsData.user.id}}" open-type="switchTab">
                         <image class="user-avatar flex-shrink-0 rounded-full" src="{{postDetailsData.user.details._avatarUrl}}" mode="aspectFill" lazy-load></image>
                     </navigator>
-                    <navigator class="text-gray-500 overflow-auto flex-nowrap" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{item.user.id}}" open-type="switchTab">
+                    <navigator class="text-gray-500 overflow-auto flex-nowrap" url="/pages/user/index" bindtap="bindTapUserNavigator" data-id="{{postDetailsData.user.id}}" open-type="switchTab">
                         {{postDetailsData.user.alias}}
                     </navigator>
                     <view class="text-gray-500 flex-shrink-0">

@@ -1,15 +1,11 @@
-import { parseError, setNavQueryStrings } from '@/tools';
+import { parseError } from '@/tools';
 import { clientQueryUserDetails } from '@apis/user';
 import { type IUserClientDetails } from '@interfaces/user';
-import { type ISection } from '@interfaces/section';
-import { type IApp } from '@/interfaces';
 import { queryPath } from '@apis/path';
 import memoryCache from '@tools/cache';
 import ICustomShareContent = WechatMiniprogram.Page.ICustomShareContent;
 import ICustomTimelineContent = WechatMiniprogram.Page.ICustomTimelineContent;
 import IAddToFavoritesContent = WechatMiniprogram.Page.IAddToFavoritesContent;
-
-const relatedApp = getApp<IApp>();
 
 Page({
   data: {
@@ -90,17 +86,19 @@ Page({
     }
 
     this.setData({ loadQuery: query }, () => {
-      let s = query.s;
-      if (s === 's') {
-        s = '#sections';
-      } else if (s === 't') {
-        s = '#tags';
-      } else {
-        return;
-      }
-      void wx.pageScrollTo({
-        selector: s,
-      });
+      setTimeout(() => {
+        let s = query.s;
+        if (s === 's') {
+          s = '#sections';
+        } else if (s === 't') {
+          s = '#tags';
+        } else {
+          return;
+        }
+        void wx.pageScrollTo({
+          selector: s,
+        });
+      }, 500);
     });
   },
 
@@ -137,34 +135,6 @@ Page({
       tip,
       showTip: true,
     });
-  },
-
-  bindTapSection(e: any) {
-    const loadQuery = this.data.loadQuery;
-    if (!loadQuery.id) {
-      return;
-    }
-
-    const item: null | ISection = e.currentTarget.dataset.item;
-    if (item) {
-      setNavQueryStrings(relatedApp, { id: loadQuery.id, sid: item.id });
-    } else {
-      setNavQueryStrings(relatedApp, { id: loadQuery.id });
-    }
-  },
-
-  bindTapTag(e: any) {
-    const loadQuery = this.data.loadQuery;
-    if (!loadQuery.id) {
-      return;
-    }
-
-    const item: null | ISection = e.currentTarget.dataset.item;
-    if (item) {
-      setNavQueryStrings(relatedApp, { id: loadQuery.id, tid: item.id });
-    } else {
-      setNavQueryStrings(relatedApp, { id: loadQuery.id });
-    }
   },
 
   handleShare(

@@ -41,14 +41,14 @@ Page({
   },
 
   async onLoad(query = {}) {
-    query.id = getNavQueryStrings(userApp, 'id') ?? query.id;
+    const qid = getNavQueryStrings(userApp, 'id') ?? query.id;
     queryPath()
       .then(async (pathData) => {
-        const id = query.id ?? pathData?.user?.id;
+        query.id = qid ?? pathData?.user?.id;
 
-        if (pathData.user && id) {
+        if (query.id) {
           try {
-            const cacheKey = `${id}_${this.data.cacheKey}`;
+            const cacheKey = `${query.id}_${this.data.cacheKey}`;
             const cache = await memoryCache;
             const cacheData:
               | {
@@ -60,7 +60,7 @@ Page({
             let userData: IUserClientDetails;
             if (cacheData === undefined) {
               const clientQueryUserDetailsReq = clientQueryUserDetails({
-                id,
+                id: query.id,
               });
               const responses = await Promise.all([clientQueryUserDetailsReq]);
               userData = responses[0];
@@ -82,11 +82,13 @@ Page({
               userData = cacheData.userData;
             }
 
+            const isMine =
+              !!pathData.user && pathData.user.id === userData.user.id;
             this.setData({
               userData,
               pathData,
-              isLogin: true,
-              isMine: pathData.user && pathData.user.id === userData.user.id,
+              isLogin: isMine,
+              isMine,
               isLoading: false,
             });
           } catch (e) {
@@ -105,7 +107,7 @@ Page({
           });
         }
 
-        this.setData({ loadQuery: { ...query, id } });
+        this.setData({ loadQuery: { ...query } });
       })
       .catch((reason) => {
         this.openTip(parseError(reason).message);
@@ -115,7 +117,6 @@ Page({
         });
       });
 
-    this.setData({ loadQuery: query });
     void wx.setNavigationBarTitle({
       title: config.APP_NAME,
     });
@@ -123,24 +124,17 @@ Page({
 
   async onShow() {
     const hide = this.data.isHide;
-    const pathData = this.data.pathData;
-    if (hide && Object.keys(pathData).length !== 0) {
+    if (hide) {
       this.setData({
         isHide: false,
       });
-      await this.onLoad({
-        id: getNavQueryStrings(userApp, 'id') ?? pathData?.user?.id,
-      });
+      await this.onLoad(this.data.loadQuery);
     }
   },
 
   onHide() {
     this.setData({
       isHide: true,
-      loadQuery: {
-        ...this.data.loadQuery,
-        id: null,
-      },
     });
   },
 

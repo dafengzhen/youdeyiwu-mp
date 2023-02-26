@@ -26,9 +26,9 @@
                 </block>
                 <block wx:else>
                     <view wx:for="{{userData.data.content}}" wx:key="id" class="flex flex-col gap-4">
-                        <view class="text-center line-clamp-1 text-lg font-semibold">
+                        <navigator class="text-center line-clamp-1 text-lg font-semibold" url="/pages/details/post/index?id={{item.id}}" open-type="navigate">
                             {{item.name}}
-                        </view>
+                        </navigator>
                         <view class="text-center mx-auto post-title border-b mb-3 border-black"></view>
                         <view class="text-gray-500 text-justify">
                             <rich-text>{{item.overview}}</rich-text>
@@ -53,10 +53,10 @@
             </block>
             <block wx:else>
                 <view class="my-4 grid grid-cols-2 gap-4 text-gray-500">
-                    <navigator wx:for="{{userData.sections}}" wx:key="id" class="rounded py-1 text-gray-500 flex items-center justify-center {{loadQuery.sid && loadQuery.sid === item.id + '' ? 'btn-bg-active text-white' : 'btn-bg'}}" url="/pages/related/index" bindtap="bindTapSection" data-item="{{item}}" open-type="switchTab">
+                    <navigator wx:for="{{userData.sections}}" wx:key="id" class="rounded py-1 text-gray-500 flex items-center justify-center {{loadQuery.sid && loadQuery.sid === item.id + '' ? 'btn-bg-active text-white' : 'btn-bg'}}" url="/pages/related/index?id={{loadQuery.id}}&sid={{item.id}}" open-type="navigate">
                         {{item.name}}
                     </navigator>
-                    <navigator class="rounded py-1 text-gray-500 flex items-center justify-center btn-bg" url="/pages/related/index" bindtap="bindTapSection" open-type="switchTab">
+                    <navigator class="rounded py-1 text-gray-500 flex items-center justify-center btn-bg" url="/pages/related/index?id={{loadQuery.id}}" open-type="navigate">
                         全部
                     </navigator>
                 </view>
@@ -74,10 +74,10 @@
             </block>
             <block wx:else>
                 <view class="my-4 grid grid-cols-2 gap-4 text-gray-500">
-                    <navigator wx:for="{{userData.tags}}" wx:key="id" class="rounded py-1 text-gray-500 flex items-center justify-center {{loadQuery.tid && loadQuery.tid === item.id + '' ? 'btn-bg-active text-white' : 'btn-bg'}}" url="/pages/related/index" bindtap="bindTapTag" data-item="{{item}}" open-type="switchTab">
+                    <navigator wx:for="{{userData.tags}}" wx:key="id" class="rounded py-1 text-gray-500 flex items-center justify-center {{loadQuery.tid && loadQuery.tid === item.id + '' ? 'btn-bg-active text-white' : 'btn-bg'}}" url="/pages/related/index?id={{loadQuery.id}}&tid={{item.id}}" open-type="navigate">
                         {{item.name}}
                     </navigator>
-                    <navigator class="rounded py-1 text-gray-500 flex items-center justify-center btn-bg" url="/pages/related/index" bindtap="bindTapTag" open-type="switchTab">
+                    <navigator class="rounded py-1 text-gray-500 flex items-center justify-center btn-bg" url="/pages/related/index?id={{loadQuery.id}}" open-type="navigate">
                         全部
                     </navigator>
                 </view>

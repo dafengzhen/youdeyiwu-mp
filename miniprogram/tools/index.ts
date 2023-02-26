@@ -271,6 +271,11 @@ export const getNavQueryStrings = (app: IApp, key: string): any => {
   return _value;
 };
 
+export const hasNavQueryStrings = (app: IApp, key: string): boolean => {
+  const queryStrings = app.globalData._queryStrings ?? {};
+  return !!queryStrings[key];
+};
+
 export const filterParams = (params: any = {}): any => {
   const _params: any = {};
   for (const paramsKey in params) {
