@@ -26,7 +26,7 @@
     "autoAudits": false,
     "urlCheck": true,
     "compileHotReLoad": false,
-    "preloadBackgroundData": false,
+    "preloadBackgroundData": true,
     "lazyloadPlaceholderEnable": false,
     "useStaticServer": false,
     "bigPackageSizeSupport": false,
