@@ -7,6 +7,7 @@ import {
   isHttpOrHttps,
   parseError,
   setNavQueryStrings,
+  showModal,
   uniqBy,
 } from '@/tools';
 import { clientQuerySectionDetailsById } from '@apis/forum/section';
@@ -233,6 +234,34 @@ Page({
     }
 
     setNavQueryStrings(cardDetailsApp, { id });
+  },
+
+  async bindTapEditPost(e: any) {
+    const pathData = this.data.pathData;
+    const sid = e.currentTarget.dataset.sid;
+    if (!pathData || !sid) {
+      return;
+    }
+
+    if (!pathData.user || !cardDetailsApp.globalData._isQuickLogin) {
+      const result = await showModal({
+        title: '温馨提示',
+        content: '还未登录，是否进行登录?',
+        confirmText: '快捷登录',
+        confirmColor: '#07c160',
+      });
+      if (result.confirm) {
+        await this.onUnload();
+        await wx.navigateTo({
+          url: `/pages/login/index?u=${encodeURIComponent(
+            `/pages/details/card/index?id=${sid + ''}`
+          )}`,
+        });
+      }
+      return;
+    }
+
+    void wx.navigateTo({ url: `/pages/edit/index?sid=${sid + ''}` });
   },
 
   async bindTapLoadNextPage() {

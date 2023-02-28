@@ -230,7 +230,7 @@ Page({
     }
 
     const postId = postDetailsData.basic.id;
-    if (!pathData.user && !replyApp.globalData._isQuickLogin) {
+    if (!pathData.user || !replyApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',

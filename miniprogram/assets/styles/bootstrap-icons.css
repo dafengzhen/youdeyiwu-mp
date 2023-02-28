@@ -144,3 +144,87 @@
 .bi-send-dash::before {
   content: '\F6B5';
 }
+
+.bi-pencil-square::before {
+  content: '\F4CA';
+}
+
+.bi-save2::before {
+  content: '\F527';
+}
+
+.bi-image::before {
+  content: '\F42A';
+}
+
+.bi-plus-lg::before {
+  content: '\F64D';
+}
+
+.bi-x-lg::before {
+  content: '\F659';
+}
+
+.bi-type-h1::before {
+  content: '\F5F1';
+}
+
+.bi-type-h2::before {
+  content: '\F5F2';
+}
+
+.bi-type-h3::before {
+  content: '\F5F3';
+}
+
+.bi-type-bold::before {
+  content: '\F5F0';
+}
+
+.bi-type-italic::before {
+  content: '\F5F4';
+}
+
+.bi-type-underline::before {
+  content: '\F5F6';
+}
+
+.bi-type-strikethrough::before {
+  content: '\F5F5';
+}
+
+.bi-list-check::before {
+  content: '\F473';
+}
+
+.bi-list-ol::before {
+  content: '\F475';
+}
+
+.bi-list-ul::before {
+  content: '\F478';
+}
+
+.bi-text-center::before {
+  content: '\F5C4';
+}
+
+.bi-text-right::before {
+  content: '\F5C9';
+}
+
+.bi-text-left::before {
+  content: '\F5C7';
+}
+
+.bi-text-justify::before {
+  content: '\F44B';
+}
+
+.bi-indent::before {
+  content: '\F7FE';
+}
+
+.bi-unindent::before {
+  content: '\F823';
+}

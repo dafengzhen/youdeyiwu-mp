@@ -5,6 +5,7 @@ import {
   type IPostClientDetails,
   type IPostFavourite,
 } from '@interfaces/post';
+import uploadRequest from '@tools/uploadRequest';
 
 export const clientQueryAllPost = async (
   params: TParams = {}
@@ -73,4 +74,16 @@ export const postView = async (params: TBody<void>): Promise<void> => {
 
 export const queryPostFavourites = async (): Promise<IPostFavourite[]> => {
   return await request.get('/forum/posts/favourites');
+};
+
+export const uploadPostNewFile = async (
+  params: TBody<{
+    filePath: string;
+  }>
+): Promise<string> => {
+  return await uploadRequest({
+    url: '/file/posts/new',
+    name: 'file',
+    filePath: params.data!.filePath,
+  });
 };

@@ -21,7 +21,8 @@
     "pages/statistic/index",
     "pages/related/index",
     "pages/favorite/index",
-    "pages/avatar/index"
+    "pages/avatar/index",
+    "pages/edit/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
