@@ -7,6 +7,7 @@ import { type ISection } from '@interfaces/section';
 import { type IUserOv } from '@interfaces/user';
 import { type IComment } from '@interfaces/comment';
 import { type IReply } from '@interfaces/reply';
+import { type ITag } from '@interfaces/tag';
 
 export interface IPost extends IBase {
   name: string;
@@ -131,4 +132,17 @@ export interface IPostFavourite extends IBase {
   name: string;
   remark?: string;
   postId: number;
+}
+
+export interface IPostNewInfo {
+  sections: ISection[];
+}
+
+export interface IPostEditInfo {
+  basic: IPost;
+  content: string;
+  details: IPostDetails;
+  section: ISection;
+  sections: ISection[];
+  tags: ITag[];
 }

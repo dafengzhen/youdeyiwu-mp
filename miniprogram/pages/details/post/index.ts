@@ -226,7 +226,7 @@ Page({
       return;
     }
 
-    if (!pathData.user || !postDetailsApp.globalData._isQuickLogin) {
+    if (!pathData.user || !!postDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',
@@ -284,7 +284,7 @@ Page({
       return;
     }
 
-    if (!pathData.user || !postDetailsApp.globalData._isQuickLogin) {
+    if (!pathData.user || !!postDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',
@@ -346,7 +346,7 @@ Page({
       return;
     }
 
-    if (!pathData.user || !postDetailsApp.globalData._isQuickLogin) {
+    if (!pathData.user || !!postDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',

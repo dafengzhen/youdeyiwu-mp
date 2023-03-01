@@ -9,7 +9,7 @@
         </view>
     </view>
 </block>
-<block wx:elif="{{!pathData || !postDetailsData}}">
+<block wx:elif="{{!pathData || !postInfoData}}">
     <view class="w-full h-screen flex justify-center items-center">
         <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
     </view>
@@ -52,14 +52,15 @@
 <view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
     {{tip}}
 </view>
-<view wx:if="{{pathData && postDetailsData}}" class="edit-box fixed bottom-44 right-3 z-10 safe-area">
+<view wx:if="{{pathData && postInfoData}}" class="edit-box fixed bottom-44 right-3 z-10 safe-area">
     <button bindtap="bindTapSavePost" class="edit-btn rounded-full flex items-center justify-center">
         <i class="bi bi-save2 text-lg"></i>
     </button>
 </view>
-<view class="safe-area w-full text-center fixed bottom-0 pb-4 bg-white rounded-t border-t border-slate-100" catchtouchend="format">
+<view wx:if="{{pathData && postInfoData}}" class="safe-area w-full text-center fixed bottom-0 pb-4 bg-white rounded-t border-t border-slate-100" catchtouchend="format">
     <view class="py-4 grid grid-cols-6 gap-2 h-full">
-        <i class="bi bi-image text-2xl" catchtouchend="insertImage"></i>
+        <i wx:if="{{isLoadInsertImage}}" class="spinner-border ml-4"></i>
+        <i wx:else class="bi bi-image text-2xl" catchtouchend="insertImage"></i>
         <i class="bi bi-type-h1 text-2xl {{formats.header === 1 ? 'text-active' : ''}}" data-name="header" data-value="{{1}}"></i>
         <i class="bi bi-type-h2 text-2xl {{formats.header === 2 ? 'text-active' : ''}}" data-name="header" data-value="{{2}}"></i>
         <i class="bi bi-type-h3 text-2xl {{formats.header === 3 ? 'text-active' : ''}}" data-name="header" data-value="{{3}}"></i>

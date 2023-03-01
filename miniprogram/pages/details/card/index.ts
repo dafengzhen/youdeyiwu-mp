@@ -60,6 +60,7 @@ Page({
       let pathData: null | IPath = null;
       let sectionDetailsData: null | ISectionDetails = null;
       if (cacheData === undefined) {
+        console.log('xxxx');
         const pathReq = queryPath();
         const clientQuerySectionDetailsByIdReq = clientQuerySectionDetailsById({
           id,
@@ -75,6 +76,7 @@ Page({
 
         await cache.set(cacheKey, { pathData, sectionDetailsData }, 30000);
       } else {
+        console.log('xxxx2');
         pathData = cacheData.pathData;
         sectionDetailsData = cacheData.sectionDetailsData;
       }
@@ -243,7 +245,7 @@ Page({
       return;
     }
 
-    if (!pathData.user || !cardDetailsApp.globalData._isQuickLogin) {
+    if (!pathData.user || !!cardDetailsApp.globalData._isQuickLogin) {
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',

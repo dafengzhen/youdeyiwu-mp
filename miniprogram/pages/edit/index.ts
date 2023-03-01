@@ -2,10 +2,11 @@ import { queryPath } from '@apis/path';
 import memoryCache from '@tools/cache';
 import { isHttpOrHttps, parseError, showToast } from '@/tools';
 import { type IPath } from '@interfaces/path';
-import { type IPostClientDetails } from '@interfaces/post';
+import { type IPostEditInfo, type IPostNewInfo } from '@interfaces/post';
 import {
-  clientQueryPostDetails,
-  postView,
+  queryPostEditInfo,
+  queryPostNewInfo,
+  uploadPostContent,
   uploadPostNewFile,
 } from '@apis/forum/post';
 import config from '@/config';
@@ -13,7 +14,7 @@ import config from '@/config';
 Page({
   data: {
     pathData: null as null | IPath,
-    postDetailsData: null as null | IPostClientDetails,
+    postInfoData: null as null | IPostNewInfo | IPostEditInfo,
     cacheKey: 'edit_post_page',
     tip: '抱歉，访问此资源遇到错误',
     showTip: false,
@@ -31,46 +32,56 @@ Page({
     placeholder: '然后分享点什么呢',
     formats: {},
     _editorContext: null as unknown as Record<string, any>,
+    form: {
+      name: '',
+      content: '',
+    } as {
+      name?: string;
+      content?: string;
+      sectionId?: number;
+    },
+    isLoadInsertImage: false,
+    isLoadSavePost: false,
   },
 
   async onLoad(query = {}) {
     const id = query.id;
-
     try {
       const cacheKey = `_${this.data.cacheKey}`;
       const cache = await memoryCache;
       const cacheData:
         | {
             pathData: IPath;
-            postDetailsData: IPostClientDetails;
+            postInfoData: IPostNewInfo | IPostEditInfo;
           }
         | undefined = await cache.get(cacheKey);
 
       let pathData: null | IPath = null;
-      let postDetailsData: null | IPostClientDetails = null;
+      let postInfoData: null | IPostNewInfo | IPostEditInfo = null;
       if (cacheData === undefined) {
         const pathReq = queryPath();
-        const clientQueryPostDetailsReq = clientQueryPostDetails({
-          id,
-        });
-        const postViewReq = postView({ id });
-        const responses = await Promise.all([
-          pathReq,
-          clientQueryPostDetailsReq,
-          postViewReq,
-        ]);
+        let queryPostInfoReq;
+        if (id) {
+          queryPostInfoReq = queryPostEditInfo({ id });
+        } else {
+          queryPostInfoReq = queryPostNewInfo();
+        }
+        const responses = await Promise.all([pathReq, queryPostInfoReq]);
         pathData = responses[0];
-        postDetailsData = responses[1];
-        await cache.set(cacheKey, { pathData, postDetailsData }, 30000);
+        postInfoData = responses[1];
+        await cache.set(cacheKey, { pathData, postInfoData }, 30000);
       } else {
         pathData = cacheData.pathData;
-        postDetailsData = cacheData.postDetailsData;
+        postInfoData = cacheData.postInfoData;
       }
 
-      await wx.setNavigationBarTitle({
-        title: postDetailsData.basic.name,
+      this.setData({ pathData, postInfoData, isLoading: false });
+      void wx.setNavigationBarTitle({
+        title:
+          (id
+            ? `${(postInfoData as IPostEditInfo).basic.name} - 编辑帖子 - `
+            : '新建帖子 - ') + pathData.user!.alias,
       });
-      this.setData({ pathData, postDetailsData, isLoading: false });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
@@ -101,9 +112,14 @@ Page({
     });
   },
 
-  bindTapSavePost() {},
+  async bindTapSavePost() {},
 
-  bindTextEditTitle() {},
+  bindTextEditTitle(e: any) {
+    const value = e.detail.value.trim();
+    this.setData({
+      'form.name': value,
+    });
+  },
 
   onEditorReady() {
     wx.createSelectorQuery()
@@ -132,16 +148,31 @@ Page({
     wx.chooseMedia({
       count: 1,
       mediaType: ['image'],
-      success: (res) => {
-        const mediaFile = res.tempFiles[0];
-        const tempFilePath = mediaFile.tempFilePath;
+      success: async (res) => {
+        this.setData({ isLoadInsertImage: true });
 
-        void uploadPostNewFile({
-          data: {
-            filePath: tempFilePath,
-          },
-        }).then((value) => {
-          const response = JSON.parse(value).data;
+        try {
+          const mediaFile = res.tempFiles[0];
+          const tempFilePath = mediaFile.tempFilePath;
+          const postInfoData = this.data.postInfoData;
+
+          let uploadFileReq;
+          if (postInfoData && 'basic' in postInfoData) {
+            uploadFileReq = uploadPostContent({
+              id: postInfoData.basic.id,
+              data: {
+                filePath: tempFilePath,
+              },
+            });
+          } else {
+            uploadFileReq = uploadPostNewFile({
+              data: {
+                filePath: tempFilePath,
+              },
+            });
+          }
+
+          const response = JSON.parse(await uploadFileReq).data;
           let src = response.urls.default;
           if (!isHttpOrHttps(src)) {
             src = config.APP_OSS_SERVER + src;
@@ -153,8 +184,15 @@ Page({
             fail: () => {
               void showToast({ title: '插入图片失败', icon: 'error' });
             },
+            complete: () => {
+              this.setData({ isLoadInsertImage: false });
+            },
           });
-        });
+        } catch (e) {
+          this.openTip(parseError(e).message);
+          this.closeTip(3000);
+          this.setData({ isLoadInsertImage: false });
+        }
       },
     });
   },

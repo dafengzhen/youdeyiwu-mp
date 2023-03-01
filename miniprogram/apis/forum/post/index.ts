@@ -3,7 +3,9 @@ import request from '@tools/request';
 import {
   type IPost,
   type IPostClientDetails,
+  type IPostEditInfo,
   type IPostFavourite,
+  type IPostNewInfo,
 } from '@interfaces/post';
 import uploadRequest from '@tools/uploadRequest';
 
@@ -86,4 +88,58 @@ export const uploadPostNewFile = async (
     name: 'file',
     filePath: params.data!.filePath,
   });
+};
+
+export const uploadPostContent = async (
+  params: TBody<{
+    filePath: string;
+  }>
+): Promise<string> => {
+  return await uploadRequest({
+    url: `/file/posts/${params.id as string}/content`,
+    name: 'file',
+    filePath: params.data!.filePath,
+  });
+};
+
+export const queryPostNewInfo = async (): Promise<IPostNewInfo> => {
+  return await request.get('/forum/posts/new');
+};
+
+export const queryPostEditInfo = async (
+  params: TParams
+): Promise<IPostEditInfo> => {
+  return await request.get(`/forum/posts/${params.id as string}/edit`);
+};
+
+export const updatePostNewInfo = async (
+  params: TBody<{
+    name: string;
+    content: string;
+    sectionId: number;
+    cover?: string;
+    overview?: string;
+    statement?: string;
+    customTags?: string[];
+    otherStatus?: string;
+    secret?: string;
+  }>
+): Promise<void> => {
+  await request.post('/forum/posts/new', params.data);
+};
+
+export const updatePostEditInfo = async (
+  params: TBody<{
+    sectionId?: number;
+    name?: string;
+    cover?: string;
+    overview?: string;
+    content?: string;
+    statement?: string;
+    customTags?: string[];
+    otherStatus?: string;
+    secret?: string;
+  }>
+): Promise<void> => {
+  await request.put(`/forum/posts/${params.id as string}/edit`);
 };
