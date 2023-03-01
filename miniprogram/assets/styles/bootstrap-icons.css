@@ -228,3 +228,7 @@
 .bi-unindent::before {
   content: '\F823';
 }
+
+.bi-question-circle::before {
+  content: '\F505';
+}

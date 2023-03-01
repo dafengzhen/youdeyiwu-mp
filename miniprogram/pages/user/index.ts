@@ -85,6 +85,7 @@ Page({
             const isMine =
               !!pathData.user && pathData.user.id === userData.user.id;
             this.setData({
+              cacheKey,
               userData,
               pathData,
               isLogin: isMine,

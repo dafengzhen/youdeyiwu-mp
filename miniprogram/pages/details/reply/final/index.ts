@@ -93,16 +93,17 @@ Page({
         pid = cacheData.pid;
       }
 
-      await wx.setNavigationBarTitle({
-        title: replyData.user.alias + ' - 评论回复',
-      });
       this.setData({
+        cacheKey,
         pathData,
         replyData,
         id,
         pid,
         placeholder: `回复 ${replyData.user.alias}`,
         isLoading: false,
+      });
+      void wx.setNavigationBarTitle({
+        title: replyData.user.alias + ' - 评论回复',
       });
     } catch (e) {
       this.openTip(parseError(e).message);
@@ -253,22 +254,24 @@ Page({
       return;
     }
 
-    if (!pathData.user || !!finalReplyApp.globalData._isQuickLogin) {
-      const result = await showModal({
-        title: '温馨提示',
-        content: '还未登录，是否进行登录?',
-        confirmText: '快捷登录',
-        confirmColor: '#07c160',
-      });
-      if (result.confirm) {
-        await this.onUnload();
-        await wx.navigateTo({
-          url: `/pages/login/index?u=${encodeURIComponent(
-            `/pages/details/post/index?id=${this.data.pid + ''}`
-          )}`,
+    if (!pathData.user) {
+      if (!finalReplyApp.globalData._isQuickLogin) {
+        const result = await showModal({
+          title: '温馨提示',
+          content: '还未登录，是否进行登录?',
+          confirmText: '快捷登录',
+          confirmColor: '#07c160',
         });
+        if (result.confirm) {
+          await this.onUnload();
+          await wx.navigateTo({
+            url: `/pages/login/index?u=${encodeURIComponent(
+              `/pages/details/post/index?id=${this.data.pid + ''}`
+            )}`,
+          });
+        }
+        return;
       }
-      return;
     }
 
     const content = e.detail.value.content?.trim();

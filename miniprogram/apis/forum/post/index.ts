@@ -8,6 +8,7 @@ import {
   type IPostNewInfo,
 } from '@interfaces/post';
 import uploadRequest from '@tools/uploadRequest';
+import { type AxiosResponse } from 'axios';
 
 export const clientQueryAllPost = async (
   params: TParams = {}
@@ -124,8 +125,8 @@ export const updatePostNewInfo = async (
     otherStatus?: string;
     secret?: string;
   }>
-): Promise<void> => {
-  await request.post('/forum/posts/new', params.data);
+): Promise<AxiosResponse<any>> => {
+  return await request.post('/forum/posts/new', params.data);
 };
 
 export const updatePostEditInfo = async (
@@ -141,5 +142,5 @@ export const updatePostEditInfo = async (
     secret?: string;
   }>
 ): Promise<void> => {
-  await request.put(`/forum/posts/${params.id as string}/edit`);
+  await request.put(`/forum/posts/${params.id as string}/edit`, params.data);
 };

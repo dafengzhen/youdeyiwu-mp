@@ -109,7 +109,10 @@ axios.interceptors.response.use(
       if (debug) {
         console.info('Response Output => ', response.data);
       }
-      return response.data;
+
+      return response.status === 201 && response.headers.Location
+        ? response
+        : response.data;
     } else {
       console.info('Skip Output => ~~~~~~');
       return response;

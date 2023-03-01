@@ -60,7 +60,6 @@ Page({
       let pathData: null | IPath = null;
       let sectionDetailsData: null | ISectionDetails = null;
       if (cacheData === undefined) {
-        console.log('xxxx');
         const pathReq = queryPath();
         const clientQuerySectionDetailsByIdReq = clientQuerySectionDetailsById({
           id,
@@ -76,15 +75,19 @@ Page({
 
         await cache.set(cacheKey, { pathData, sectionDetailsData }, 30000);
       } else {
-        console.log('xxxx2');
         pathData = cacheData.pathData;
         sectionDetailsData = cacheData.sectionDetailsData;
       }
 
-      await wx.setNavigationBarTitle({
+      this.setData({
+        cacheKey,
+        pathData,
+        sectionDetailsData,
+        isLoading: false,
+      });
+      void wx.setNavigationBarTitle({
         title: sectionDetailsData.basic.name,
       });
-      this.setData({ pathData, sectionDetailsData, isLoading: false });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
@@ -245,22 +248,24 @@ Page({
       return;
     }
 
-    if (!pathData.user || !!cardDetailsApp.globalData._isQuickLogin) {
-      const result = await showModal({
-        title: '温馨提示',
-        content: '还未登录，是否进行登录?',
-        confirmText: '快捷登录',
-        confirmColor: '#07c160',
-      });
-      if (result.confirm) {
-        await this.onUnload();
-        await wx.navigateTo({
-          url: `/pages/login/index?u=${encodeURIComponent(
-            `/pages/details/card/index?id=${sid + ''}`
-          )}`,
+    if (!pathData.user) {
+      if (!cardDetailsApp.globalData._isQuickLogin) {
+        const result = await showModal({
+          title: '温馨提示',
+          content: '还未登录，是否进行登录?',
+          confirmText: '快捷登录',
+          confirmColor: '#07c160',
         });
+        if (result.confirm) {
+          await this.onUnload();
+          await wx.navigateTo({
+            url: `/pages/login/index?u=${encodeURIComponent(
+              `/pages/details/card/index?id=${sid + ''}`
+            )}`,
+          });
+        }
+        return;
       }
-      return;
     }
 
     void wx.navigateTo({ url: `/pages/edit/index?sid=${sid + ''}` });

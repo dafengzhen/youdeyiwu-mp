@@ -68,14 +68,15 @@ Page({
         await cache.set(cacheKey, { userData, isMine }, 30000);
       }
 
-      void wx.setNavigationBarTitle({
-        title: `${isMine ? '我的' : '用户'}相关 - ${userData.user.alias}`,
-      });
-
       this.setData({
+        cacheKey,
         userData,
         isLoading: false,
         isMine,
+      });
+
+      void wx.setNavigationBarTitle({
+        title: `${isMine ? '我的' : '用户'}相关 - ${userData.user.alias}`,
       });
     } catch (e) {
       this.openTip(parseError(e).message);

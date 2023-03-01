@@ -93,16 +93,17 @@ Page({
         pid = cacheData.pid;
       }
 
-      await wx.setNavigationBarTitle({
-        title: replyData.user.alias + ' - 评论回复',
-      });
       this.setData({
+        cacheKey,
         pathData,
         replyData,
         id,
         pid,
         placeholder: `回复 ${replyData.user.alias}`,
         isLoading: false,
+      });
+      void wx.setNavigationBarTitle({
+        title: replyData.user.alias + ' - 评论回复',
       });
     } catch (e) {
       this.openTip(parseError(e).message);
@@ -253,7 +254,11 @@ Page({
       return;
     }
 
-    if (!pathData.user || !!childReplyApp.globalData._isQuickLogin) {
+    if (!pathData.user) {
+      if (!childReplyApp.globalData._isQuickLogin) {
+        return;
+      }
+
       const result = await showModal({
         title: '温馨提示',
         content: '还未登录，是否进行登录?',

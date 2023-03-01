@@ -1,15 +1,24 @@
 import { queryPath } from '@apis/path';
 import memoryCache from '@tools/cache';
-import { isHttpOrHttps, parseError, showToast } from '@/tools';
+import {
+  diffData,
+  isHttpOrHttps,
+  parseError,
+  showModal,
+  showToast,
+} from '@/tools';
 import { type IPath } from '@interfaces/path';
 import { type IPostEditInfo, type IPostNewInfo } from '@interfaces/post';
 import {
   queryPostEditInfo,
   queryPostNewInfo,
+  updatePostEditInfo,
+  updatePostNewInfo,
   uploadPostContent,
   uploadPostNewFile,
 } from '@apis/forum/post';
 import config from '@/config';
+import { type ISection } from '@interfaces/section';
 
 Page({
   data: {
@@ -42,12 +51,26 @@ Page({
     },
     isLoadInsertImage: false,
     isLoadSavePost: false,
+    loadQuery: {
+      id: null,
+      sid: null,
+    } as {
+      id?: any;
+      sid?: any;
+    },
+    sectionRange: [] as ISection[],
+    sectionRangeIndex: 0,
   },
 
   async onLoad(query = {}) {
     const id = query.id;
+    const sid = query.sid;
+    if (!sid) {
+      return;
+    }
+
     try {
-      const cacheKey = `_${this.data.cacheKey}`;
+      const cacheKey = `${id ? id + '' : 'new'}_${sid}_${this.data.cacheKey}`;
       const cache = await memoryCache;
       const cacheData:
         | {
@@ -75,7 +98,32 @@ Page({
         postInfoData = cacheData.postInfoData;
       }
 
-      this.setData({ pathData, postInfoData, isLoading: false });
+      let name = '';
+      let content = '';
+      let sectionId;
+      if (id) {
+        name = (postInfoData as IPostEditInfo).basic.name;
+        content = (postInfoData as IPostEditInfo).content;
+        sectionId = (postInfoData as IPostEditInfo).section.id;
+      } else {
+        sectionId = parseInt(sid);
+      }
+
+      this.setData({
+        cacheKey,
+        pathData,
+        postInfoData,
+        form: {
+          name,
+          content,
+          sectionId,
+        },
+        sectionRange: postInfoData.sections,
+        sectionRangeIndex: postInfoData.sections.findIndex(
+          (item) => item.id + '' === sid
+        ),
+        isLoading: false,
+      });
       void wx.setNavigationBarTitle({
         title:
           (id
@@ -87,6 +135,8 @@ Page({
       this.closeTip(3000);
       this.setData({ isLoading: false });
     }
+
+    this.setData({ loadQuery: query });
   },
 
   async onUnload() {
@@ -112,7 +162,93 @@ Page({
     });
   },
 
-  async bindTapSavePost() {},
+  async bindTapSavePost() {
+    if (this.data.isLoadSavePost) {
+      return;
+    }
+
+    try {
+      const postInfoData = this.data.postInfoData;
+      const content = await this.getContents();
+      const form = { ...this.data.form };
+      if (!form.name) {
+        await showToast({ title: '标题不能为空' });
+        return;
+      } else if (!content.text) {
+        await showToast({ title: '内容不能为空' });
+        return;
+      } else if (!form.sectionId) {
+        await showToast({ title: '未选择发布版块' });
+        return;
+      }
+
+      this.setData({ isLoadSavePost: true });
+
+      let id: string;
+      if (postInfoData && 'basic' in postInfoData) {
+        const diffObj = diffData(
+          {
+            name: postInfoData.basic.name,
+            content: postInfoData.content,
+            sectionId: postInfoData.section.id,
+          },
+          {
+            ...form,
+            content: content.html,
+          }
+        );
+
+        if (Object.keys(diffObj).length === 0) {
+          await showToast({ title: '保存完成', icon: 'success' });
+          return;
+        }
+
+        await updatePostEditInfo({
+          id: postInfoData.basic.id,
+          data: diffObj,
+        });
+
+        id = postInfoData.basic.id + '';
+      } else {
+        const response = await updatePostNewInfo({
+          data: {
+            name: form.name,
+            content: content.html,
+            sectionId: form.sectionId,
+          },
+        });
+
+        const split = response.headers.Location.split('/');
+        id = split[split.length - 1] as string;
+      }
+
+      await showToast({ title: '保存完成', icon: 'success', duration: 800 });
+      setTimeout(() => {
+        void showToast({
+          title: '即将跳转',
+          duration: 1000,
+        });
+      }, 1000);
+      setTimeout(() => {
+        void wx.navigateTo({ url: `/pages/details/post/index?id=${id}` });
+      }, 1500);
+
+      this.setData({ isLoadSavePost: false });
+    } catch (e) {
+      this.openTip(parseError(e).message);
+      this.closeTip(3000);
+      this.setData({ isLoadSavePost: false });
+    }
+  },
+
+  bindTapEditPostTip() {
+    void showModal({
+      title: '温馨提示',
+      content:
+        '1. 如果内容布局是比较复杂的话，建议使用 PC 端来新建或编辑\n2. 如果在小程序端编辑复杂内容布局，可能会使布局发生变化',
+      showCancel: false,
+    });
+  },
 
   bindTextEditTitle(e: any) {
     const value = e.detail.value.trim();
@@ -121,22 +257,68 @@ Page({
     });
   },
 
+  async bindChangeSection(e: any) {
+    const sectionRange = this.data.sectionRange;
+    const index = e.detail.value;
+    const find = sectionRange[index];
+    if (!find) {
+      await showToast({ title: '版块不存在', icon: 'error' });
+      return;
+    }
+
+    this.setData(
+      {
+        sectionRangeIndex: index,
+        'form.sectionId': find.id,
+      },
+      () => {
+        void showToast({ title: `已选择 ${find.name}` });
+      }
+    );
+  },
+
   onEditorReady() {
     wx.createSelectorQuery()
       .select('#editor')
       .context((res) => {
-        this.setData({
-          _editorContext: res.context,
+        const context = res.context;
+        context.setContents({
+          html: this.data.form.content,
+          fail: (e: any) => {
+            console.error(e);
+            void showToast({ title: '初始化内容失败', icon: 'error' });
+          },
+          complete: () => {
+            this.setData({
+              isLoadSavePost: false,
+            });
+          },
         });
-        console.log(res.context);
+        this.setData({
+          _editorContext: context,
+          isLoadSavePost: true,
+        });
       })
       .exec();
   },
 
   format(e: any) {
     const { name, value } = e.target.dataset;
-    console.log('format', name, value);
     this.data._editorContext.format(name, value);
+    this.data._editorContext.scrollIntoView();
+  },
+
+  async getContents(): Promise<{
+    html: string;
+    text: string;
+    delta: object;
+  }> {
+    return await new Promise((resolve, reject) => {
+      this.data._editorContext.getContents({
+        success: resolve,
+        fail: reject,
+      });
+    });
   },
 
   onStatusChange(e: any) {
@@ -145,6 +327,10 @@ Page({
   },
 
   insertImage() {
+    if (this.data.isLoadInsertImage) {
+      return;
+    }
+
     wx.chooseMedia({
       count: 1,
       mediaType: ['image'],

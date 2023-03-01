@@ -9,7 +9,7 @@
         </view>
     </view>
 </block>
-<block wx:elif="{{!pathData || !postInfoData}}">
+<block wx:elif="{{!pathData || !postInfoData || sectionRange.length === 0}}">
     <view class="w-full h-screen flex justify-center items-center">
         <image mode="aspectFill" class="rounded-lg m-auto" src="../../assets/images/nodata.png"></image>
     </view>
@@ -17,44 +17,27 @@
 <block wx:else>
     <view class="edit-box bg-white px-2">
         <view class="edit-box-title pt-4 mr-4">
-            <textarea style="padding: 0.5rem; width: 100%;" value="" bindblur="bindTextEditTitle" auto-height placeholder="请输入标题" />
+            <textarea style="padding: 0.5rem; width: 100%;" value="{{form.name}}" bindblur="bindTextEditTitle" auto-height placeholder="请输入标题" />
         </view>
         <view class="border-b border-slate-100 mx-2 mb-4"></view>
         <view class="edit-box-content py-4 px-2">
             <editor id="editor" show-img-size show-img-resize show-img-toolbar class="edit-box-content_editor text-base font-normal not-italic" placeholder="{{placeholder}}" bindstatuschange="onStatusChange" bindready="onEditorReady"></editor>
         </view>
-        <!-- <view class="edit-box-upload grid grid-cols-3 gap-4 py-4 px-2">
-            <view class="edit-box-upload-item rounded-lg flex items-center justify-center shadow gap-x-1">
-                <i class="bi bi-plus-lg"></i>
-                <i class="bi bi-image text-xl"></i>
-            </view>
-             <view class="edit-box-upload-item rounded-lg flex items-center justify-center shadow gap-x-1">
-                <i class="bi bi-plus-lg"></i>
-                <i class="bi bi-image text-xl"></i>
-            </view>
-             <view class="edit-box-upload-item rounded-lg flex items-center justify-center shadow gap-x-1">
-                <i class="bi bi-plus-lg"></i>
-                <i class="bi bi-image text-xl"></i>
-            </view>
-             <view class="edit-box-upload-item rounded-lg flex items-center justify-center shadow gap-x-1">
-                <i class="bi bi-plus-lg"></i>
-                <i class="bi bi-image text-xl"></i>
-            </view>
-            <view class="edit-box-upload-item rounded-lg flex items-center justify-center shadow gap-x-1">
-                <i class="bi bi-plus-lg"></i>
-                <i class="bi bi-image text-xl"></i>
-            </view>
-        </view> -->
     </view>
-    <!-- 占位符 -->
     <view class="h-2 safe-area"></view>
 </block>
 <view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
     {{tip}}
 </view>
+<view wx:if="{{pathData && postInfoData}}" class="edit-box fixed bottom-56 right-3 z-10 safe-area">
+    <button bindtap="bindTapEditPostTip" class="edit-btn rounded-full flex items-center justify-center" style="background: #eaecef !important;">
+        <i class="bi bi-question-circle text-lg"></i>
+    </button>
+</view>
 <view wx:if="{{pathData && postInfoData}}" class="edit-box fixed bottom-44 right-3 z-10 safe-area">
-    <button bindtap="bindTapSavePost" class="edit-btn rounded-full flex items-center justify-center">
-        <i class="bi bi-save2 text-lg"></i>
+    <button disabled="{{isLoadSavePost}}" bindtap="bindTapSavePost" class="edit-btn rounded-full flex items-center justify-center">
+        <i wx:if="{{isLoadSavePost}}" class="spinner-border spinner-border-sm"></i>
+        <i wx:else class="bi bi-save2 text-lg"></i>
     </button>
 </view>
 <view wx:if="{{pathData && postInfoData}}" class="safe-area w-full text-center fixed bottom-0 pb-4 bg-white rounded-t border-t border-slate-100" catchtouchend="format">
@@ -77,5 +60,8 @@
         <i class="bi bi-text-right text-2xl {{formats.align === 'right' ? 'text-active' : ''}}" data-name="align" data-value="right"></i>
         <i class="bi bi-indent text-2xl" data-name="indent" data-value="{{'+1'}}"></i>
         <i class="bi bi-unindent text-2xl" data-name="indent" data-value="{{'-1'}}"></i>
+        <picker bindchange="bindChangeSection" value="{{sectionRangeIndex}}" range="{{sectionRange}}" range-key="name">
+            <i class="bi bi-card-text text-2xl"></i>
+        </picker>
     </view>
 </view>

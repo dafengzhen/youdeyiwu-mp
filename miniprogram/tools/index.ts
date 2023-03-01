@@ -13,6 +13,7 @@ import zhCN from 'date-fns/locale/zh-CN';
 import { atob } from 'js-base64';
 import { format, formatDistanceStrict, isAfter } from 'date-fns';
 import { type IApp, type IPagination } from '@/interfaces';
+import diff from 'microdiff';
 
 export const showToast = async (
   options: ShowToastOption = { title: 'ok' }
@@ -126,8 +127,9 @@ export const parseError = (
   };
 
   if (e instanceof Error) {
+    const message = e.message;
     try {
-      const reason = JSON.parse(e.message);
+      const reason = JSON.parse(message);
       if ('data' in reason) {
         error = {
           ...error,
@@ -139,8 +141,10 @@ export const parseError = (
           ...reason,
         };
       }
-    } catch (e) {
-      error.message = 'Failed To Parse Wrong Instance => ' + e + '';
+    } catch (e: any) {
+      error.message =
+        message ||
+        (typeof e === 'object' ? e.message ?? '解析错误实例发生错误' : e);
     }
   } else if (typeof e === 'string') {
     error.message = e;
@@ -322,4 +326,23 @@ export const getBackgroundFetchData = async (
       ...options,
     });
   });
+};
+
+export const diffData = (
+  obj: Record<string, any> | any[],
+  newObj: Record<string, any> | any[],
+  options?: Partial<{ cyclesFix: boolean }>,
+  _stack?: Array<Record<string, any>>
+): Record<string, any> => {
+  return diff(obj, newObj, options, _stack)
+    .filter((item) => item.type === 'CREATE' || item.type === 'CHANGE')
+    .reduce<Record<string, any>>((previousValue, currentValue) => {
+      currentValue.path.forEach((value) => {
+        const _value = (currentValue as any).value;
+        if (hasText(_value)) {
+          previousValue[value] = (currentValue as any).value;
+        }
+      });
+      return previousValue;
+    }, {});
 };

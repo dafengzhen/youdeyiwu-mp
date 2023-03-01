@@ -97,3 +97,8 @@
 <view aria-role="alert" wx:if="{{showTip}}" class="weui-toptips weui-toptips_warn fadeIn {{hideTip ? 'fadeOut' : ''}}">
     {{tip}}
 </view>
+<view wx:if="{{pathData && postDetailsData}}" class="edit-box fixed bottom-44 right-3 z-10 safe-area">
+    <button bindtap="bindTapEditPost" class="edit-btn rounded-full bg-white flex items-center justify-center" data-id="{{postDetailsData.basic.id}}" data-sid="{{postDetailsData.section.id}}">
+        <i class="bi bi-pencil-square text-xl"></i>
+    </button>
+</view>

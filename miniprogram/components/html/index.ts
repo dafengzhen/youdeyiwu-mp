@@ -22,9 +22,14 @@ Component({
     nodes: [] as any[],
   },
 
-  lifetimes: {
-    attached() {
-      const rawHtml = this.data.rawHtml;
+  observers: {
+    rawHtml: function (rawHtml) {
+      this.initRawHtml(rawHtml);
+    },
+  },
+
+  methods: {
+    initRawHtml(rawHtml?: string) {
       if (!rawHtml) {
         return;
       }
@@ -44,9 +49,7 @@ Component({
       parser.write(rawHtml);
       parser.end();
     },
-  },
 
-  methods: {
     handleDomItem(item: ChildNode, index: number | string) {
       let templateType = 'rich';
       const id = generateRandomNum(10);

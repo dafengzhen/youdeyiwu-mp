@@ -40,6 +40,7 @@ Page({
       }
 
       this.setData({
+        cacheKey,
         favorites,
         isLoading: false,
       });

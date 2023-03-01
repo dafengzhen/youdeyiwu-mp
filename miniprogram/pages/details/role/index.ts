@@ -62,7 +62,7 @@ Page({
       await wx.setNavigationBarTitle({
         title: postDetailsData.user.alias + ' - 用户角色',
       });
-      this.setData({ pathData, postDetailsData, isLoading: false });
+      this.setData({ cacheKey, pathData, postDetailsData, isLoading: false });
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
