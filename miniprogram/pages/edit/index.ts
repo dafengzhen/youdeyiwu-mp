@@ -19,6 +19,7 @@ import {
 } from '@apis/forum/post';
 import config from '@/config';
 import { type ISection } from '@interfaces/section';
+import GetImageInfoSuccessCallbackResult = WechatMiniprogram.GetImageInfoSuccessCallbackResult;
 
 Page({
   data: {
@@ -384,9 +385,11 @@ Page({
             src = config.APP_OSS_SERVER + src;
           }
 
+          const imageInfo = await this.getImageInfo(src);
           this.data._editorContext.insertImage({
             src,
-            width: '100%',
+            width: imageInfo.width + 'px',
+            height: imageInfo.height + 'px',
             success: () => {
               if (!this.data.insertedImage.includes(src)) {
                 this.data.insertedImage.push(src);
@@ -405,6 +408,16 @@ Page({
           this.setData({ isLoadInsertImage: false });
         }
       },
+    });
+  },
+
+  async getImageInfo(src: string): Promise<GetImageInfoSuccessCallbackResult> {
+    return await new Promise((resolve, reject) => {
+      wx.getImageInfo({
+        src,
+        success: resolve,
+        fail: reject,
+      });
     });
   },
 });
