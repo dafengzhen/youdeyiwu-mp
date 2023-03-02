@@ -175,6 +175,25 @@ Page({
   },
 
   async bindTapSavePost() {
+    const postInfoData = this.data.postInfoData;
+    if (postInfoData && 'basic' in postInfoData) {
+      const result = await showModal({
+        title: '温馨提示',
+        content:
+          '您确定要保存修改吗？\nTip: 在小程序端修改编辑复杂内容布局，可能会使布局发生变化',
+        confirmText: '保存',
+        confirmColor: '#07c160',
+      });
+
+      if (result.confirm) {
+        await this.bindTapSavePostCore();
+      }
+    } else {
+      await this.bindTapSavePostCore();
+    }
+  },
+
+  async bindTapSavePostCore() {
     if (this.data.isLoadSavePost) {
       return;
     }

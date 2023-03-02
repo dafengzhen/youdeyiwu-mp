@@ -427,6 +427,7 @@ Page({
     const pathData = this.data.pathData;
     const id = e.currentTarget.dataset.id;
     const sid = e.currentTarget.dataset.sid;
+    const edit = e.currentTarget.dataset.edit;
     if (!pathData || !id || !sid) {
       return;
     }
@@ -451,8 +452,14 @@ Page({
       }
     }
 
-    void wx.navigateTo({
-      url: `/pages/edit/index?id=${id + ''}&sid=${sid + ''}`,
-    });
+    if (edit) {
+      void wx.navigateTo({
+        url: `/pages/edit/index?id=${id + ''}&sid=${sid + ''}`,
+      });
+    } else {
+      void wx.navigateTo({
+        url: `/pages/edit/index?sid=${sid + ''}`,
+      });
+    }
   },
 });

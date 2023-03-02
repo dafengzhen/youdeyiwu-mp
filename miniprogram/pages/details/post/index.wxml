@@ -98,7 +98,12 @@
     {{tip}}
 </view>
 <view wx:if="{{pathData && postDetailsData && pathData.user && pathData.user.id === postDetailsData.user.id }}" class="edit-box fixed bottom-44 right-3 z-10 safe-area">
-    <button bindtap="bindTapEditPost" class="edit-btn rounded-full bg-white flex items-center justify-center" data-id="{{postDetailsData.basic.id}}" data-sid="{{postDetailsData.section.id}}">
+    <button bindtap="bindTapEditPost" class="edit-btn rounded-full bg-white flex items-center justify-center" data-id="{{postDetailsData.basic.id}}" data-sid="{{postDetailsData.section.id}}" data-edit="{{true}}">
+        <i class="bi bi-pencil-square text-xl"></i>
+    </button>
+</view>
+<view wx:else class="edit-box fixed bottom-44 right-3 z-10 safe-area">
+    <button bindtap="bindTapEditPost" class="edit-btn rounded-full bg-white flex items-center justify-center" data-id="{{postDetailsData.basic.id}}" data-sid="{{postDetailsData.section.id}}" data-edit="{{false}}">
         <i class="bi bi-pencil-square text-xl"></i>
     </button>
 </view>
