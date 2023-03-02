@@ -102,10 +102,12 @@ Page({
       let name = '';
       let content = '';
       let sectionId;
+      let images: string[] = [];
       if (id) {
         name = (postInfoData as IPostEditInfo).basic.name;
         content = (postInfoData as IPostEditInfo).content;
         sectionId = (postInfoData as IPostEditInfo).section.id;
+        images = (postInfoData as IPostEditInfo).basic.images ?? [];
       } else {
         sectionId = parseInt(sid);
       }
@@ -123,6 +125,7 @@ Page({
         sectionRangeIndex: postInfoData.sections.findIndex(
           (item) => item.id + '' === sid
         ),
+        insertedImage: images,
         isLoading: false,
       });
 
@@ -288,6 +291,10 @@ Page({
         void showToast({ title: `已选择 ${find.name}` });
       }
     );
+  },
+
+  bindTapSection() {
+    this.data._editorContext.blur();
   },
 
   onEditorReady() {

@@ -60,7 +60,7 @@
         <i class="bi bi-text-right text-2xl {{formats.align === 'right' ? 'text-active' : ''}}" data-name="align" data-value="right"></i>
         <i class="bi bi-indent text-2xl" data-name="indent" data-value="{{'+1'}}"></i>
         <i class="bi bi-unindent text-2xl" data-name="indent" data-value="{{'-1'}}"></i>
-        <picker bindchange="bindChangeSection" value="{{sectionRangeIndex}}" range="{{sectionRange}}" range-key="name">
+        <picker bindchange="bindChangeSection" bindtap="bindTapSection" value="{{sectionRangeIndex}}" range="{{sectionRange}}" range-key="name">
             <i class="bi bi-card-text text-2xl"></i>
         </picker>
     </view>
