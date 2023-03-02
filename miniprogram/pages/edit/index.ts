@@ -60,6 +60,7 @@ Page({
     },
     sectionRange: [] as ISection[],
     sectionRangeIndex: 0,
+    insertedImage: [] as string[],
   },
 
   async onLoad(query = {}) {
@@ -124,12 +125,19 @@ Page({
         ),
         isLoading: false,
       });
-      void wx.setNavigationBarTitle({
-        title:
-          (id
-            ? `${(postInfoData as IPostEditInfo).basic.name} - 编辑帖子 - `
-            : '新建帖子 - ') + pathData.user!.alias,
-      });
+
+      if (id) {
+        void wx.setNavigationBarTitle({
+          title:
+            (postInfoData as IPostEditInfo).basic.name +
+            ' - 编辑帖子 - ' +
+            pathData.user!.alias,
+        });
+      } else {
+        void wx.setNavigationBarTitle({
+          title: '新建帖子 - ' + pathData.user!.alias,
+        });
+      }
     } catch (e) {
       this.openTip(parseError(e).message);
       this.closeTip(3000);
@@ -185,12 +193,16 @@ Page({
       this.setData({ isLoadSavePost: true });
 
       let id: string;
+      const images = this.data.insertedImage.filter((item) =>
+        content.html.includes(item)
+      );
       if (postInfoData && 'basic' in postInfoData) {
         const diffObj = diffData(
           {
             name: postInfoData.basic.name,
             content: postInfoData.content,
             sectionId: postInfoData.section.id,
+            images,
           },
           {
             ...form,
@@ -215,6 +227,7 @@ Page({
             name: form.name,
             content: content.html,
             sectionId: form.sectionId,
+            images,
           },
         });
 
@@ -367,6 +380,11 @@ Page({
           this.data._editorContext.insertImage({
             src,
             width: '100%',
+            success: () => {
+              if (!this.data.insertedImage.includes(src)) {
+                this.data.insertedImage.push(src);
+              }
+            },
             fail: () => {
               void showToast({ title: '插入图片失败', icon: 'error' });
             },

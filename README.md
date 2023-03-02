@@ -77,7 +77,7 @@ yarn build
 
 - **上传代码**
 
-上传项目生成的 dist 目录
+上传项目生成的 ```dist``` 目录
 
 - **设置程序（可选）**
 
@@ -89,11 +89,11 @@ yarn build
 
 (2) 启用数据周期性更新
 
-设置地址：```接口地址/weixin/mp/periodic/fetch```，示例：	www.example.com/api/weixin/mp/periodic/fetch
+设置地址：```接口地址/weixin/mp/periodic/fetch```，示例：    www.example.com/api/weixin/mp/periodic/fetch
 
 (3) 启用数据预拉取
 
-设置地址：```接口地址/weixin/mp/pre/fetch```，示例：	www.example.com/api/weixin/mp/pre/fetch
+设置地址：```接口地址/weixin/mp/pre/fetch```，示例：    www.example.com/api/weixin/mp/pre/fetch
 
 # 4. 更多
 

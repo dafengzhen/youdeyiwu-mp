@@ -124,6 +124,7 @@ export const updatePostNewInfo = async (
     customTags?: string[];
     otherStatus?: string;
     secret?: string;
+    images?: string[];
   }>
 ): Promise<AxiosResponse<any>> => {
   return await request.post('/forum/posts/new', params.data);
@@ -140,6 +141,7 @@ export const updatePostEditInfo = async (
     customTags?: string[];
     otherStatus?: string;
     secret?: string;
+    images?: string[];
   }>
 ): Promise<void> => {
   await request.put(`/forum/posts/${params.id as string}/edit`, params.data);
