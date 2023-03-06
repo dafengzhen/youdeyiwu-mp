@@ -31,7 +31,7 @@
                         </navigator>
                         <view class="text-center mx-auto post-title border-b mb-3 border-black"></view>
                         <view class="text-gray-500 text-justify">
-                            <rich-text>{{item.overview}}</rich-text>
+                            <rich-text>{{item.overview + '...'}}</rich-text>
                         </view>
                         <navigator class="w-24 rounded py-1 text-white flex items-center justify-center read-bg" url="/pages/details/post/index?id={{item.id}}" open-type="navigate">
                             阅读更多

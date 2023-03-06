@@ -346,3 +346,21 @@ export const diffData = (
       return previousValue;
     }, {});
 };
+
+export const dataChunk = (
+  array: any[] = [],
+  perChunk: number = 10
+): unknown[][] => {
+  return array.reduce<any>((previousValue, currentValue, currentIndex) => {
+    const index = Math.floor(currentIndex / perChunk);
+    previousValue[index] = [].concat(previousValue[index] || [], currentValue);
+    return previousValue;
+  }, []);
+};
+
+export const to1DArray = (array: any[][] = []): unknown[] => {
+  return array.reduce(
+    (previousValue, currentValue) => previousValue.concat(currentValue),
+    []
+  );
+};

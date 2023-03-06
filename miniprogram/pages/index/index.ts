@@ -39,17 +39,13 @@ Page({
     activeTab: 0,
     activeTabIndex: 0,
     indexBoxHeight: '100%',
-    queryParams: {
-      page: 0,
-    } as {
-      page: number;
-    },
     isLoadMore: false,
     tip: '抱歉，访问此资源遇到错误',
     showTip: false,
     hideTip: false,
     isPullDownRefresh: false,
     isLoading: true,
+    isHide: false,
   },
 
   async onLoad() {
@@ -147,6 +143,26 @@ Page({
 
   onReady() {
     emitter.on('ready_index_page', this.initIndexBoxHeight);
+  },
+
+  onShow() {
+    const hide = this.data.isHide;
+    if (hide) {
+      this.setData(
+        {
+          isHide: false,
+        },
+        () => {
+          emitter.emit('ready_index_page');
+        }
+      );
+    }
+  },
+
+  onHide() {
+    this.setData({
+      isHide: true,
+    });
   },
 
   async onPullDownRefresh() {
@@ -264,9 +280,7 @@ Page({
 
   bindTapLoadMore() {
     const activeTab = this.data.activeTab as any;
-    const queryParams = this.data.queryParams;
     const pageable = this.data.postData.pageable;
-    const content = this.data.postData.content;
     const isLoadMore = this.data.isLoadMore;
 
     if (isLoadMore || !pageable.next) {
@@ -275,25 +289,20 @@ Page({
 
     this.setData({ isLoadMore: true });
 
-    const query = {
-      page: Math.min(queryParams.page + 1, pageable.pages),
-    };
-
     if (activeTab === 'all') {
       void clientQueryAllPost({
-        query,
+        query: {
+          page: Math.min(pageable.page + 1, pageable.pages),
+        },
       }).then((response) => {
         const postData = {
-          content: [...content, ...response.content].map((item) =>
-            this.handlePostItem(item)
-          ),
+          content: response.content.map((item) => this.handlePostItem(item)),
           pageable: response.pageable,
         };
 
         this.setData(
           {
             postData,
-            queryParams: query,
             isLoadMore: false,
           },
           () => {
@@ -301,8 +310,8 @@ Page({
           }
         );
 
-        void memoryCache.then(async (cache) => {
-          await cache.set('all_postData_index_page', postData, 30000);
+        void memoryCache.then((cache) => {
+          void cache.set('all_postData_index_page', postData, 30000);
         });
       });
     } else {
@@ -314,16 +323,13 @@ Page({
           }
 
           const postData = {
-            content: [...content, ...data.content].map((item) =>
-              this.handlePostItem(item)
-            ),
+            content: data.content.map((item) => this.handlePostItem(item)),
             pageable: data.pageable,
           };
 
           this.setData(
             {
               postData,
-              queryParams: query,
               isLoadMore: false,
             },
             () => {
@@ -331,8 +337,8 @@ Page({
             }
           );
 
-          void memoryCache.then(async (cache) => {
-            await cache.set(
+          void memoryCache.then((cache) => {
+            void cache.set(
               `${activeTab as string}_postData_index_page`,
               postData,
               30000
@@ -440,9 +446,6 @@ Page({
     this.setData(
       {
         postData,
-        queryParams: {
-          page: postData.pageable.page,
-        },
       },
       () => {
         this.initIndexBoxHeight();
